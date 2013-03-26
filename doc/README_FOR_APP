@@ -1,0 +1,38 @@
+Mini HOWTO
+==========
+
+
+
+=== How-to: port AmbGest2 DB to AmbGest3
+
+For a yet-to-be-created production DB, do this:
+
+- rake db:setup RAILS_ENV=production
+- There's no need to run the migrations, since the schema is already
+  complete.
+- The above will also add the seed data from db/seeds.rb,
+  which contains the default app_parameter and user data (which is not
+  included in the git archive).
+- Do a mysql dump of the AmbGest2 DB, selecting just these entity tables:
+  appointments, patients, receipts, schedules, le_titles, le_cities.
+- Upload the dump into AmbGest3 production DB. That's all.
+
+
+
+=== How-to: make Netzke and ExtJS 4 work flawlessly with Rails 3 & its assets pipeline
+
+Simply put, they don't. Don't waste time trying to fix it or cache it in
+some other manner.
+
+The dynamic loading of ExtJS classes does not work with the assets pipeline,
+so the only way to optimize it, it's to keep the Netzke components precompiled
+inside the assets pipeline and the ExtJS library itself out of it, using the
+dedicated public/extjs subfolder.
+
+Netzke 0.7.7 expects precisely:
+- all fam-fam icons to be under public/images/icons
+- ExtJS library 4.1.1 to be under public/extjs
+
+...Otherwise most icons will be missing from the UI and/or some ExtJS classes
+will be unloadable.
+

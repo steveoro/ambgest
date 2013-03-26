@@ -1,0 +1,39 @@
+<!-- Main menu section: -->
+<%= render( :partial => AGEX_APP + '/main_menu') %>
+
+<h1><%= "#{t(:manage_patient, {:scope=>[:patient]})} '#{@patient_name}'" %></h1>
+
+<script type="text/javascript" >
+	Ext.onReady(
+		function() {
+			Ext.create( 'Ext.Container', {
+				renderTo: Ext.get('agex_top_actions'),
+				layout : {
+					type: 'hbox',
+					maxHeight: 30
+				},
+				items : [
+					<%= create_extjs_button_config( :back_to_patients_list, :patient, patients_path(), 'application_view_list.png' ) %>,
+					<%= create_extjs_button_config( :refresh, nil, request.fullpath(), 'arrow_refresh.png' ) %>
+				]
+			});
+		}		
+	);
+</script>
+
+<div id='agex_top_actions'></div>
+
+<%= netzke :patient_manage_panel, {
+    :class_name => "FilteredPatientManagePanel",
+    :title => "#{I18n.t(:details_for)} \'#{@patient_name}\'",
+    :record_id => @patient_id,
+	:filtering_date_start  => @filtering_date_start,
+	:filtering_date_end    => @filtering_date_end,
+
+    :min_width => 900,
+	:width => "98%",
+    :height => @max_view_height,
+	:view_config => {
+		:force_fit => true
+	}
+} %>

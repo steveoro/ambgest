@@ -1,0 +1,20 @@
+<!-- Main menu section: -->
+<%= render( :partial => AGEX_APP + '/main_menu') %>
+
+<h1><%= t(:app_parameters, {:scope=>[:agex_action]}) %></h1>
+
+<%= netzke :app_parameters_management_panel, {
+	:class_name => "EntityGrid",
+	:model => 'AppParameter',
+	:title => t(:app_parameters, {:scope=>[:agex_action]}),
+	:width => "98%",
+	:height => @max_view_height,
+	:border => true,
+	:view_config => {
+		:force_fit => true # force the columns to occupy all the available width
+	},
+
+	:prevent_header => true,
+	:add_form_window_config => { :width => 500, :title => "#{I18n.t(:add)} #{t(:app_parameters, {:scope=>[:agex_action]})}" },
+	:edit_form_window_config => { :width => 500, :title => "#{I18n.t(:edit)} #{t(:app_parameters, {:scope=>[:agex_action]})}" }
+} %>

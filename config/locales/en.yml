@@ -1,0 +1,966 @@
+en:
+  patient:
+    id: "ID"
+    name: Name
+    surname: Surname
+    address: Address
+    tax_code: Fiscal code
+    vat_registration: "VAT registr.#"
+    date_birth: Birth date
+    phone_home: "Phone (casa)"
+    phone_work: "Phone (uff.)"
+    phone_cell: "Phone (cell.)"
+    phone_fax: FAX
+    e_mail: e-mail
+    le_title__get_full_name: Title
+    le_city__get_full_name: "City"
+    notes: Notes
+    created_on: Created on
+    updated_on: Updated on
+
+    patient: "Patient"
+    default_invoice_price: "Default price (€)"
+    default_invoice_text: "Default Invoice text"
+    specify_neurologic_checkup: "Specify Neurologic check-up?"
+    appointment_freq: "Appoint.freq.(days)"
+    preferred_days: "Preferred days"
+    preferred_times: "Preferred times"
+    is_suspended: "Suspended?"
+    is_a_firm: "Is a Firm?"
+    is_fiscal: "Fiscal?"
+    add_patient: "Add Patient"
+    edit_patient: "Edit Patient"
+    patients_list: "Patients List"
+    back_to_patients_list: "Patients List"
+    back_to_patients_list_tooltip: "Back to the Patients List"
+    manage_patient: "Manage Patient"
+    manage_patient_tooltip: "Go to the specialized Patient's manage page, containing all Patient details regarding the currently selected Receipt, including the list of its Appointments"
+    appointments_list: "Appointment List"
+    manage_appointment: "Manage Appointment"
+    name_and_surname: "Name / Surname"
+    contact_info: "Contact information"
+    receipt_preferences: "Receipt preferences"
+    receipt_preferences_price: "Price (€)"
+    receipt_preferences_text: "Text/Subject"
+    appointment_preferences: "Appointment preferences"
+    status: Current status
+    occasional: "occasional"
+    weekly: "weekly"
+    twice_a_month: "15-day gap"
+    monthly: "monthly"
+
+
+  appointment:
+    id: "ID"
+    appointment: "Appointment"
+    appointments: "Appointments"
+    patient__get_full_name: "Patient"
+    add_appointment: "Add Appointment"
+    edit_appointment: "Edit Appointment"
+    void_appointment: "Void Appoint."
+    void_appointment_tooltip: "Void a cancelled Appointment"
+    appointments_cancelled: "Appointments cancelled"
+    date_schedule: "Appointment Date"
+    price: "Price (€)"
+    is_payed: "Payed?"
+    additional_notes: "Notes printed on Receipt"
+    receipt_code: "Receipt #"
+    is_receipt_issued: "Issued?"
+    receipt_id: "Receipt ID"
+    get_safe_receipt_id: "Receipt ID"
+    notes: Notes
+    is_receipt_delivered: "Delivered?"
+    add_schedule_appointment: "Add an Appointment at this hour"
+    edit_schedule_appointment: "Show or edit the Appointment for this hour"
+    issue_receipt: "Create Receipt"
+    issue_receipt_tooltip: "Generates a Receipt for this Appointment (this is an irreversible action)"
+    issue_multi_receipt_tooltip: "Generates a single Receipt for all the currently selected Appointments on the list (this is an irreversible action). The resulting Receipt will use the first found Patient of the list of selected Appointments as recipient of the Invoice."
+    printable_pdf: "Receipt PDF"
+    printable_pdf_tooltip: "Creates a printable PDF file for the Receipt of this Appointment"
+    printable_pdf_copy: "Receipt (copy)"
+    printable_pdf_copy_tooltip: "Creates a printable PDF file for the Receipt of this Appointment, printing also the 'Administrative Copy' watermark on each page"
+    printable_multi_pdf: "Receipt PDF"
+    printable_multi_pdf_tooltip: "Creates a single printable PDF file for all the Receipts found for the selected Appointments"
+    printable_multi_pdf_copy: "Receipt (copy)"
+    printable_multi_pdf_copy_tooltip: "Creates a single printable PDF file for all the Receipts found for the selected Appointments, printing also the 'Administrative Copy' watermark on each page"
+    export_txt: "Export TXT"
+    export_txt_tooltip: "Creates a single text file containing all the Receipts values and amounts found for the selected Appointments"
+    export_csv_full: "Export CSV"
+    export_csv_full_tooltip: "Creates a single CSV-formatted text file containing all the Receipts values and amounts found for the selected Appointments"
+    invalid_appointment_found_at: "There's an out-of-schedule Appointment in this week at "
+
+
+  receipt:
+    id: "ID"
+    receipt_id: "Receipt ID"
+    receipt: "Receipt"
+    receipts: "Receipts"
+    alt_receipt_title: "Invoice"
+    pdf_options: "PDF options"
+    alt_receipt_title_description: "Use 'Invoice' title instead of 'Receipt'"
+    get_receipt_code: "Receipt"
+    add_receipt: "Add Receipt"
+    edit_receipt: "Edit Receipt"
+    receipt_num: "Receipt Num."
+    date_receipt: "Date"
+    price: "Price (€)"
+    price_verbose: "Price (Euro)"
+    currency: "€"
+    currency_verbose: "Euro"
+    receipt_description: "Receipt Description"
+    patient_id: "Patient"
+    patient__get_full_name: "Patient"
+    is_receipt_delivered: "Delivered?"
+    is_payed: "Payed?"
+    additional_notes: "Notes printed on Receipt"
+    payed: "PAYED"
+    appointments_payed: "Payed Appointm."
+    invoiced_appointments: "Invoiced Appointm."
+    to_be_payed: "TO BE PAYED"
+    notes: Notes
+    receipts_list: "Receipts List"
+    new_receipt_issued: "New receipt issued."
+    no_selection_receipt_not_issued: "No appointments were selected. Receipt not issued."
+    title: "AmbGest3 receipt"
+    lock_version: "Lock"
+    created_on: "Created on"
+    updated_on: "Updated on"
+    customer_name: "Name"
+    customer_notes: "Notes"
+    customer_info: "Address"
+    customer_signature: "Signature"
+    customer_tax_code: "Tax Code"
+    customer_tax_code_label: "Tax Code"
+    qty: "Q.ty"
+    amount: "Amount"
+    amount_with_currency: "Amount (€)"
+    description: "Description"
+    percent: "(%)"
+    copy_watermark: "( Administrative usage COPY )"
+
+
+  schedule:
+    id: "ID"
+    schedule: "Planning Note"
+    add_schedule: "Add Planning Note"
+    edit_schedule: "Edit Planning Note"
+    date_schedule: "Date"
+    must_insert: "Must insert"
+    must_move: "Must move"
+    must_call: "Must call"
+    is_done: "Done?"
+    patient__get_full_name: "Patient"
+    notes: Notes
+    schedules_list: "Planning Notes List"
+
+
+  week_plan:
+    weekly_planner: "Week Planner"
+    week_fast_backward: "14 days ago"
+    week_fast_backward_tooltip: "Move backwards of a couple of weeks"
+    week_backward: "Prev. week"
+    week_backward_tooltip: "Move backwards to the previous week"
+    week_current: "This week"
+    week_current_tooltip: "Move to the current week"
+    week_forward: "Next week"
+    week_forward_tooltip: "Move forward to the next week"
+    week_fast_forward: "In 14 days"
+    week_fast_forward_tooltip: "Move forward to a couple of weeks"
+    schedule_note_add: "Add note"
+    schedule_note_add_tooltip: "Add a new Schedule note for the currently selected week"
+    schedule_notes_current: "View notes"
+    schedule_notes_current_tooltip: "View (or edit) all the Schedule notes for the currently selected week"
+    income_analysis: "Income Analysis"
+    income_analysis_tooltip: "View the Income Analysis for the currently selected week"
+
+
+  income_analysis:
+    base_amount: "Base Amount"
+    items_to_be_divested: "Items divested (-)"
+    net_taxable: "Net taxable"
+    entries_percentage: "Entries percentage"
+    tot_additional_charges: "Total additional charges (+)"
+    gross_amount: "Gross amount"
+    totals: "Totals"
+    subtotals: "Sub-totals"
+    receipts: "receipts"
+    receipts_list_during_period: "Receipt list emitted during"
+    receipts_list_file_name: "ReceiptList"
+    difference: Difference"
+    invoiced_appointments: "Appointm. on invoice"
+    appointments_summary: "Appointments summary"
+    total_amount: "Total amount"
+    receipt_issued: "Receipt issued?"
+    receipt_delivered: "Receipt delivered?"
+    appointments_in_date: "Appointm. considered"
+    receipts_summary: "Receipts summary"
+    receipt: "Receipt"
+    is_payed: "Payed?"
+    analysis_pdf: "Report on PDF"
+    analysis_pdf_tooltip: "Creates a PDF file containing the table data of this Analysis"
+    graph_data_filtered_from: "Graph data filtered from date"
+
+    
+  account_row:                                      # Scope used by Account manage & Account reporting
+    grouping_total_label: 'Grand Total'
+    grouping_totals_label: 'Type Totals'
+
+    report_pdf: "PDF file"
+    report_pdf_tooltip: "Create a report using the data currently available on the list, on a single PDF file"
+    report_odt: "OpenOffice file"
+    report_odt_tooltip: "Create a report using the data currently available on the list, on a single OpenOffice Writer file"
+    report_txt: "Text file (full layout)"
+    report_txt_tooltip: "Create a report using the data currently available on the list, on a single Text file, including the item type subtotals at the end"
+    report_txt_no_stats: "Text file (no item subtotals)"
+    report_txt_no_stats_tooltip: "Create a report using the data currently available on the list, on a single Text file, without item type subtotals"
+    export_csv: "CSV file (full layout)"
+    export_csv_tooltip: "Export the data currently available on the list, on a single Comma-separated file (.CSV), including the item type subtotals at the end"
+    export_csv_no_stats: "CSV file (no item subtotals)"
+    export_csv_no_stats_tooltip: "Export the data currently available on the list, on a single Comma-separated file (.CSV), without item type subtotals"
+    summary_stats: "Item type subtotals"
+    summary_stats_tooltip: "Displays the subtotals for each item type in a pop-up window"
+
+    add_gasoline_row: "New cost: 'gasoline'"
+    add_gasoline_row_tooltip: "Add a new 'gasoline' cost row with default values"
+    add_gasoline_row_desc: "gasoline"
+    add_library_row: "New cost: 'magazines/library'"
+    add_library_row_tooltip: "Add a new 'magazines/library' cost row with default values"
+    add_library_row_desc: "magazines"
+    add_cash_integration_row: "New income: 'cash integration'"
+    add_cash_integration_row_tooltip: "Add a new 'cash integration' income row with default values"
+    add_cash_integration_row_desc: "cash integration by owner"
+
+    add_invoice_payment_row: "New income: 'invoice payment'"
+    add_invoice_payment_row_tooltip: "Add a new 'invoice payment' profit row with default values"
+    add_invoice_payment_row_desc: "invoice payment"
+
+    add_grocery_coop_row: "New cost: 'grocery buy: Ipercoop'"
+    add_grocery_coop_row_tooltip: "Add a new 'grocery buy: Ipercoop' cost row with default values"
+    add_grocery_coop_row_desc: "grocery buy: Ipercoop"
+    add_grocery_bio_row: "New cost: 'grocery buy: bio-food'"
+    add_grocery_bio_row_tooltip: "Add a new 'grocery buy: bio-food' cost row with default values"
+    add_grocery_bio_row_desc: "grocery buy: bio-food"
+    add_adsl_service_row: "New cost: 'ADSL service fee'"
+    add_adsl_service_row_tooltip: "Add a new 'ADSL service fee' cost row with default values"
+    add_adsl_service_row_desc: "ADSL service fee"
+    add_telephone_row: "New cost: 'telephone bill'"
+    add_telephone_row_tooltip: "Add a new 'telephone bill' cost row with default values"
+    add_telephone_row_desc: "telephone bill"
+    add_electricity_service_row: "New cost: 'ENEL electricity service fee'"
+    add_electricity_service_row_tooltip: "Add a new 'ENEL electricity service fee' cost row with default values"
+    add_electricity_service_row_desc: "ENEL electricity service fee"
+    add_electricity_service2_row: "New cost: 'IREN electricity service fee'"
+    add_electricity_service2_row_tooltip: "Add a new 'IREN electricity service fee' cost row with default values"
+    add_electricity_service2_row_desc: "IREN electricity service fee"
+    add_dinner_out_row: "New cost: 'lunch/dinner out'"
+    add_dinner_out_row_tooltip: "Add a new 'lunch/dinner out' cost row with default values"
+    add_dinner_out_row_desc: "lunch/dinner out"
+    add_trash_disposal_row: "New cost: 'trash disposal service'"
+    add_trash_disposal_row_tooltip: "Add a new 'trash disposal service' cost row with default values"
+    add_trash_disposal_row_desc: "trash disposal service"
+    add_water_utility_row: "New cost: 'water utility service fee'"
+    add_water_utility_row_tooltip: "Add a new 'water utility service fee' cost row with default values"
+    add_water_utility_row_desc: "water utility service fee"
+    add_methane_utility_row: "New cost: 'methane utility service fee'"
+    add_methane_utility_row_tooltip: "Add a new 'methane utility service fee' cost row with default values"
+    add_methane_utility_row_desc: "methane utility service fee"
+    add_grocery_card_bill_row: "New cost: 'grocery card monthly bill'"
+    add_grocery_card_bill_row_tooltip: "Add a new 'grocery card monthly bill' cost row with default values"
+    add_grocery_card_bill_row_desc: "grocery card monthly bill"
+
+    date_entry: Date
+    entry_value: Entry
+    description: Item description
+    notes: Notes
+    parent_le_account_row_type: Parent type
+    parent_le_account_row_type__get_full_name: Parent type
+    get_firm_name: Recipient
+    recipient_firm: Recipient
+    recipient_firm__get_full_name: Recipient
+    le_account_row_type: Type
+    le_account_row_type__get_full_name: Type
+    le_account_payment_type: Payment
+    le_account_payment_type__get_full_name: Payment
+    check_number: "Check #"
+    starting_total: Starting total
+    report_created_on: "Report created on"
+    filtering_label: "Data filtered in between"
+    meta_info_subject: "AgeX5 economic account report"
+    meta_info_keywords: "agex, account, account_row, report"
+    grouping_total_label: "TOTAL"
+    grand_total: "GRAND TOTAL"
+    subtotal_names: "Items"
+    subtotal_values: "Subtotals"
+    currency_id: "Currency Id"
+    currency_name: "Currency"
+    unable_to_retrieve_account_row_data: "unable to retrieve AccountRow data!"
+    data_import_conflicting_account_row: "Conflicting Account row"
+    data_import_source_text_1: "Imported source text"
+
+
+  invoice_row:                                      # Scope used by Invoice manage & Invoice reporting
+    grouping_total_label: 'Invoiced total'
+    grouping_totals_label: 'Invoiced totals'
+
+    report_pdf: "PDF file"
+    report_pdf_tooltip: "Create a report using the data currently available on the list, on a single PDF file"
+    report_pdf_copy: "PDF file (copy)"
+    report_pdf_copy_tooltip: "Create a report using the data currently available on the list, on a single PDF file containing the stamp 'administrative copy'"
+    report_odt: "OpenOffice file"
+    report_odt_tooltip: "Create a report using the data currently available on the list, on a single OpenOffice Writer file"
+    report_odt_copy: "OpenOffice file (copy)"
+    report_odt_copy_tooltip: "Create a report using the data currently available on the list, on a single OpenOffice Writer file containing the stamp 'administrative copy'"
+    report_txt: "Text file"
+    report_txt_tooltip: "Create a report using the data currently available on the list, on a single Text file"
+    export_csv_full: "CSV file (full)"
+    export_csv_full_tooltip: "Export the data currently available on the list, on a single Comma-separated file (.CSV)"
+    export_csv_no_header: "CSV file (no header)"
+    export_csv_no_header_tooltip: "Export the data currently available on the list, on a single Comma-separated file (.CSV), just using the main invoice detail data (with no invoice header)"
+
+    yearly_invoicing_title: "Invoicing total / Year trend"
+    time_invoicing_title: "Invoicing Total trend"
+    daily_invoicing_title: "Invoicing total / Date trend"
+
+    subtotal: "Items subtotal"
+    sum_cost_x_qty: "Items subtotal"
+    total_tax: "Total Tax"
+    total: "Total"
+    total_taxable_amount: "Tot. taxable Amount"
+    grand_total: "Grand Total"
+    customer_phone_fax: "FAX"
+    company_full_address: "Address"
+    firm_id: "Firm"
+    le_invoice_row_unit: "unit"
+    round_quantity: "Q.ty"
+    company_vat_registration: "VAT Reg.#"
+    phone_main: "Phone"
+    customer: "Customer"
+    notes: "Notes"
+    net_tax: "Net Tax"
+    customer_e_mail: "e-mail"
+    company_phone_main: "Phone (main)"
+    e_mail: "e-mail"
+    unit_cost: "Cost"
+    invoice_id: "Invoice"
+    vat_tax_percent: "VAT(%)"
+    customer_name: "Customer"
+    notes_title: "Notes"
+    vat_registration: "VAT Reg.#"
+    header_object: "Subject"
+    net_amount: "Net Amount"
+    customer_tax_code: "Tax Code"
+    company_phone_hq: "Phone (HQ/alt.)"
+    le_invoice_row_unit_id: "Unit"
+    is_fully_payed: "Fully payed?"
+    updated_on: "Updated on"
+    discount_percent: "Disc.(%)"
+    customer_full_address: "Address"
+    copy_watermark: "( Administrative usage COPY )"
+    project_id: "Project"
+    le_currency_id: "Currency"
+    customer_vat_registration: "VAT Reg.#"
+    company_phone_fax: "Fax"
+    tax_code: "Tax Code"
+    phone_fax: "FAX"
+    discount: "Discount"
+    date_invoice: "Date"
+    total_expenses: "Tot. Expenses"
+    le_invoice_payment_type_id: "Payment type"
+    bank_cc: "C/C"
+    customer_phone_main: "Phone (main)"
+    report_title: "INVOICE"
+    banking_coordinates: "Banking Coordinates"
+    quantity: "Q.ty"
+    account_wage: "Account wage"
+    account_wage_amount: "Account wage"
+    taxable_amount: "Taxable Amount"
+    notes_text: "Notes"
+    company_e_mail: "e-mail"
+    date: "Date"
+    name: "Name"
+    created_on: "Created on"
+    social_security_cost: "Soc.Secur.Cost"
+    social_security_amount: "Soc.Secur.Cost"
+    recipient_firm_id: "Recipient Firm"
+    vat_tax: "VAT"
+    customer_phone_hq: "Phone (HQ/alt.)"
+    company_name: "Company Name"
+    id: "id"
+    lock_version: "lock version"
+    invoice_number: "Invoice #"
+    description: "Description"
+    bank_cin_abicab: "IBAN Code"
+    company_tax_code: "Tax Code"
+    currency_name: "Currency"
+    invoice_for: "Invoice for"
+    invoice_not_created: "Invoice not created"
+    recipient_partner: "Recipient = Partner"
+    recipient_committer: "Recipient = Committer"
+
+
+  project_row:                                      # Scope used by Project manage & Project reporting
+    id: Id
+    created_on: Created on
+    updated_on: Updated on
+    project_id: Parent prj.
+    human_resource_id: Resource
+    le_currency_id: Currency
+    project_milestone_id: Milestone achieved
+    date_entry: Date
+    notes: Notes
+    description: Description
+    lock_version: Lock
+    std_hours: "Std.(h)"
+    ext_hours: "Ext.(h)"
+    resource_displayable_name: 'Resource'
+    date_entry_displayable_name: 'Date'
+    std_hours_displayable_name: 'Standard'
+    ext_hours_displayable_name: 'Commute'
+    km_tot: "Mileage"
+    extra_expenses: "Expenses"
+    is_analysis: "Analysis"
+    is_development: "Develop"
+    is_deployment: "Deploy"
+    is_debug: "Debug"
+    is_setup: "Setup"
+    is_study: "Study"
+    name: Name
+    project_id: Parent Project
+    codename: Code name
+    firm_id: Developer
+    partner_firm_id: Partner
+    committer_firm_id: Committer
+    esteemed_price: Esteemed price
+    team_id: Team name
+    date_start: Started on
+    date_end: Ended on
+    has_gone_gold: "Gold?"
+    is_closed: "Closed?"
+    has_been_invoiced: "Invoiced?"
+    is_a_demo: "Demo?"
+    status: Current state
+    le_currency: Currency
+    human_resource: Resource
+    project_milestone: Milestone achieved
+    entry_type: Entry type
+    resource: Resource
+    cost_std_hour: "Std.(h) cost"
+    cost_ext_hour: "Ext.(h) cost"
+    cost_km: Mileage cost
+    charge_std_hour: "Std.(h)overch."
+    charge_ext_hour: "Ext.(h)overch."
+    fixed_weekly_wage: Weekly fixed wage
+    charge_weekly_wage: "Weekly wage overch."
+    percentage_of_invoice: "Invoice %"
+    study: Study
+    analysis: Analysis
+    setup: Setup
+    develop: Develop
+    debug: Debug
+    deploy: Deploy
+    meta_info_subject: 'Detail costs x resources, project'
+    meta_info_keywords: 'detail,costs,resources,project,agex,AgeX'
+    filtering_label: 'Data belongs to the range (from ... to)'
+    report_created_on: 'Report created on'
+    resource_summary_title: 'Costs x Resource'
+    activity_summary_title: 'Activities'
+    global_summary_title: 'Partial sums summary'
+    totals: Totals
+    code: Code
+    grouping_total_label: 'Total cost of the Project'
+    grouping_totals_label: 'Total cost of these Projects'
+    parent_project: Parent Project
+    firm: Developer
+    partner: Partner
+    committer: Committer
+    team_group: 'Team / Group'
+    date_range: 'Start ... End'
+
+    report_pdf: "PDF file"
+    report_pdf_tooltip: "Create a report using the data currently available on the list (filtered or not), on a single PDF file"
+    report_odt: "OpenOffice file"
+    report_odt_tooltip: "Create a report using the data currently available on the list (filtered or not), on a single OpenOffice Writer file"
+    report_txt: "Text file"
+    report_txt_tooltip: "Create a report using the data currently available on the list (filtered or not), on a single Text file"
+    export_csv_full: "CSV file (full)"
+    export_csv_full_tooltip: "Export the data currently available on the list (filtered or not), on a single Comma-separated file (.CSV), including all commentary sub-tables"
+    export_csv_no_header: "CSV file (no header)"
+    export_csv_no_header_tooltip: "Export the data currently available on the list (filtered or not), on a single Comma-separated file (.CSV), with no headers, just using the main project rows data"
+    add_halfday_std_devdebug: "+1/2 day of in-house dev. & debug"
+    add_halfday_std_devdebug_tooltip: "Add a row with an half day of in-house development & debugging using the current date"
+    add_fullday_std_devdebug: "+1 day of in-house dev. & debug"
+    add_fullday_std_devdebug_tooltip: "Add a row with a full day of in-house development & debugging using the current date"
+    add_next_halfday_std_devdebug: "+1/2 NEXT day of in-house dev. & debug"
+    add_next_halfday_std_devdebug_tooltip: "Add a row with an half day of in-house development & debugging using the day FOLLOWING the last inserted one (does not skip holidays)"
+    add_next_fullday_std_devdebug: "+1 NEXT day of in-house dev. & debug"
+    add_next_fullday_std_devdebug_tooltip: "Add a row with a full day of in-house development & debugging using the day FOLLOWING the last inserted one (does not skip holidays)"
+    add_fullday_ext_devdebug: "+1 day of commute dev. & debug"
+    add_fullday_ext_devdebug_tooltip: "Add a row with a full day of 'external' (in commute) development & debugging using the current date"
+    invoice_shown_rows: "Invoice displayed rows"
+    invoice_shown_rows_tooltip: "Create a new invoice for the project rows displayed, containing a different item for each type of unit cost (summarizing hours that have the same type and cost)"
+    invoice_all_rows: "Invoice whole Project"
+    invoice_all_rows_tooltip: "Create a new invoice for ALL the project rows (even the ones filtered out), containing a single row with the total cost as the invoiceable amount"
+    invoice_esteem_tot: "Invoice esteemed Project cost"
+    invoice_esteem_tot_tooltip: "Create a new invoice for the whole project, containing just a single row with the ESTEEMED total cost as the invoiceable amount"
+
+    dev_debug: "developm. & debug"
+    ext_dev_debug: "commute: developm. & debug"
+    analysis_dev_debug: "analysis, development and debug"
+    ext_analysis_dev_debug: 'analysis and development c/o external sites'
+    km_cost_for_trips: 'kilometric cost for long transfers'
+    forfait_amount_for_analysis_and_dev: 'forfait amount for analysis and development'
+    project_invoiced_successfully: "Project invoiced successfully."
+
+
+  agex_action:
+    main: Main
+    home: "Home"
+    home_tooltip: "Go to the Home page"
+    login: "Login"
+    logout: "Exit / Re-enter"
+    logout_tooltip: "Exit (Executes a new log-in)"
+    about: "About"
+    about_tooltip: "Go to the About page"
+    contact_us: "Contact Us"
+    contact_us_tooltip: "Go to the 'Contact us' page"
+    news_log: "News log"
+    news_log_tooltip: "Go to the 'News' archive"
+    sub_entities: "Sub-entities"
+    sub_entities_tooltip: "Go to the management page for the Sub-entities"
+    whos_online: "Who's on-line"
+    whos_online_tooltip: "Check out 'Who's on-line'"
+    contacts: "Contacts"
+    contacts_tooltip: "Manage Contacts"
+    firms: "Firms"
+    firms_tooltip: "Manage Firms"
+    human_resources: "Human Resources"
+    human_resources_tooltip: "Manage Human Resources"
+    teams: "Team/Groups"
+    teams_tooltip: "Manage Team/Groups"
+    accounts: "Accounting"
+    accounts_tooltip: "Manage Accounting"
+    projects: "Projects"
+    projects_tooltip: "Manage Projects"
+    invoices: "Invoices"
+    invoices_tooltip: "Manage Invoices"
+    data_filtered_from: "Data filtered from"
+    data_filtered_to: "to"
+
+    articles: "Blog Articles"
+    articles_tooltip: "Go to the management page for the Blog news Articles"
+    accounts_projects_and_invoices: "Accounts, Projects and Invoices"
+    firms_and_teams: "Firms and Teams"
+
+    invoice_analysis: Invoices Analysis
+    invoice_analysis_tooltip: "Shows the current Invoicing income and its trend during recent years"
+    invoice_analysis_title: Invoicing Income Analysis
+    account_data_import: Data Import Wizard
+    account_data_import_tooltip: "Allows to import the data files generated by the Banking accounts data exports into a selected Account"
+    account_data_import_title: Guided banking data import for Accounts
+
+    manage_system: "Manage System"
+    users: Users
+    users_tooltip: "Manage the User list"
+    edit_current_user: "Edit User profile"
+    edit_current_user_tooltip: "Edit your User profile or change the current password"
+    app_parameters: Application Parameters
+    app_parameters_tooltip: "Manage the internal Application Parameters list"
+
+    patients: "Patients"
+    patients_tooltip: "Go to the management page for the Patients"
+    appointments: "Appointments"
+    appointments_tooltip: "Go to the management page for the Appointments"
+    week_plan: "Week Planner"
+    week_plan_tooltip: "Go to the management page for the Week Planner"
+    schedules: "Planning Notes"
+    schedules_tooltip: "Go to the management page for the Notes associated with the Week Planner"
+    receipts: "Receipts"
+    receipts_tooltip: "Go to the management page for the invoiced Receipts"
+    patients_and_appointments: "Patients and Appointments"
+    go_to_date: 'Find date'
+
+
+  agex_management_module_desc: 'Ambulatory Management'
+  something_went_wrong: "Something went wrong, check the log file."
+  transaction_cancelled: "Transaction cancelled."
+  main: 'Main:'
+  home: Home
+  login: Login
+  logout: Logout
+  about: About
+  contact_us: Contact us
+  questions_about: Questions about
+  sections: 'Sections:'
+  setup: 'Setup:'
+  user: User
+  user_name: User name
+  password: Password
+  login_to_proceed: To proceed, a log-in is required.
+  login_tooltip: Log in
+  user_not_authenticated: 'User Not Yet Authenticated'
+  invalid_user: "Invalid User / Password combination!"
+  access_denied: "Access denied."
+  disconnected: Disconnected
+  welcome: "Welcome!"
+  hi: Hi
+  user_created: User successfully created.
+  user_deleted: User successfully deleted.
+  req_functionality_under_development: "The requested functionality is not currently available due to revisions or maintenance."
+
+  privacy_statement: "<b>Privacy notice</b> - According to the latest laws regarding Personal Privacy, we inform you that any personal data acquired before and during this business transaction will be kept and used only for our own fiscal administration purposes. You have the right to request directly to us, any time, the deletion or the update of the stored data itself."
+  footer_comments: "VAT non-applicable in receipts for medical services (art.10/1 #18 DPR 633/1972)"
+  footer_smallprint: "---"
+  legal_stamp: "LEGAL STAMP"
+  default_receipt_description: 'Specialistic medical examination'
+  alternate_receipt_description: 'Neurological medical examination'
+  firm_receipt_description: "Freelance medical examinations for your patients during the month of %s"
+
+  no_new_articles: No new articles
+  select_file: "Select a file"
+  commit_rows: "Commit"
+  commit_rows_tooltip: "Commit all enlisted data rows to their import destination"
+  existing_data_import_sessions: "Existing or in-progress data-import sessions"
+  last_phase: "Last phase"
+  data_rows: "Data rows"
+  data_format: "Data format"
+  select_create_session: "Select / Create session"
+  review_edit_data: "Review / Edit data"
+  continue_on_phase2: "Continue with Phase 2"
+  result_log: "Result Log"
+
+  patient__get_full_name: "Paziente"
+  date_schedule: "Data"
+
+  id: Id
+  name: Name
+  description: Description
+  tot: Tot.
+  sum: Sum
+  mean: 'Aver.'
+  notes: Notes
+  created_at: Created at
+  updated_at: Updated at
+  created_on: Created on
+  updated_on: Updated on
+  created_slash_updated_at: "Created/Updated at"
+  created_slash_updated_on: "Created/Updated on"
+  details_for: Details for
+  refresh: Refresh
+  refresh_tooltip: "Reload data for the current page"
+  click_on_the_grid: "(Click on the grid to count)"
+  tot_rows: "Tot. rows"
+  selected: Selected
+  grand_total: Grand total
+  subtotals: Subtotals
+  sums: Sums
+  costs: Costs
+  error: Error
+  undefined: "(undefined)"
+  in_conflict: "In conflict"
+
+  warning_no_data_to_send: "There aren't any data rows to process!"
+  drag_to_resize: "Drag to resize the area"
+  show_details_tooltip: "Show the row details in a small pop-up window"
+  add: Add
+  edit: Edit
+  manage_details: Manage details
+  manage_details_tooltip: "Manage the details of the selected record [also: SPACE or ENTER just after row selection]"
+  row_added: "Row successfully added."
+  some_rows_were_skipped_because_invoiced: "Some rows were skipped because they were already invoiced."
+  some_rows_were_skipped_because_not_invoiced: "Some rows were skipped because they had no invoice."
+
+  reporting: "Reporting"
+  data_export: "Data export"
+  invoicing: "Invoicing"
+  add_default_row: "Add 'default' rows"
+
+  user__name: User
+  authorization_level: "Authorization lev."
+  password_confirmation: Confirm Password
+  salt: "Salt code"
+  hashed_pwd: "Hashed Pwd."
+  password_missing: "Password missing"
+  session_deleted: "Session deleted."
+  unable_to_delete_session: "Unable to delete this Session."
+  upload_failed: "Upload failed!"
+  upload: "Upload"
+  keep_offline: "Keep off-line"
+  warning_no_import_data_session_found: "No import data session was found."
+  uploaded_files_still_present: "Uploaded Files still present"
+
+  le_user: User
+  le_city: City
+  le_currency: Currency
+  project_rows: Project rows
+
+  projects_list: Project list
+  back_to_projects_list: Project list
+  back_to_projects_list_tooltip: Back to Project list
+  project_milestones: Project Milestones
+  project_milestones_tooltip: Manage the current Project Milestones
+  project_activity_graph: Activity graph
+  project_activity_graph_tooltip: "Project Activity graph on a time scale"
+  manage_projects: Manage current Projects
+  manage_project: Manage Project
+  manage_project_tooltip: "Manage the currently selected Project [also: SPACE or ENTER just after row selection]"
+  add_project: Add Project
+  edit_project: Edit Project
+  add_project_row: Add Project row
+  edit_project_row: Edit Project row
+
+  back_to_manage_project:
+    manage_project: Manage Project
+    manage_project_tooltip: Go back to the Manage Project page
+
+  project_milestones_for: Project Milestones for
+  add_project_milestone: Add Project Milestone
+  edit_project_milestone: Edit Project Milestone
+  user__name: User
+  depends_on__name: Depends on
+  esteemed_days: "Esteem(days)"
+  date_esteemed: Esteemed date
+  projected_for_version: "Proj. for vers."
+  is_public: "Public?"
+  is_critical: "Critical?"
+  is_urgent: "Urgent?"
+  is_structural: "Structural?"
+  is_user_request: "User req.?"
+  module_names: Modules involved
+  implemented_in_version: "Implem. in vers."
+  date_implemented: "Implemented on"
+
+  project_activity_for: "Project activity for"
+
+
+  firm__get_full_name: Firm
+  project__codename: Parent Project
+  codename: Code name
+  developer_firm: Developer
+  partner_firm__get_full_name: Partner
+  committer_firm__get_full_name: Committer
+  esteemed_price: Esteemed price
+  team__name: Team name
+  date_start: Started
+  date_end: Ended
+  activity_start_end: Activity (start...end)
+  has_gone_gold: "Gold?"
+  is_closed: "Closed?"
+  has_been_invoiced: "Invoiced?"
+  is_a_demo: "Demo?"
+  status: Current state
+  le_currency__display_symbol: Currency
+  human_resource__get_full_name: Resource
+  project_milestone__name: Milestone achieved
+  development: Development
+  projects_total: Projects total
+  detailed_voices: Item details
+  qty: "Q.ty"
+
+  firms_list: Firms list
+  firms: Firms
+  contacts: Contacts
+  firm_details: Firm details
+  is_user: "User?"
+  is_committer: "Committer?"
+  is_partner: "Partner?"
+  is_vendor: "Vendor?"
+  is_out_of_business: "Out of Business?"
+  firm_type: "Firm type"
+  add_firm: Add Firm
+  edit_firm: Edit Firm
+  address: Address
+  tax_code: Tax or Legal code
+  vat_registration: "VAT Registr. #"
+  phone_main: Phone (main)
+  phone_hq: "Phone (HQ/alt.)"
+  phone_fax: FAX
+  e_mail: "e-mail"
+  bank_name: Bank Name
+  bank_abicab: "IBAN (w/o account)"
+  bank_cc: "Account n."
+  bank_notes: Notes (Bank)
+  logo_image_big: Logo image (big)
+  logo_image_short: Logo image (short)
+  le_invoice_payment_type: "Typical Payment"
+
+  contacts_list: Contacts list
+  contacts: Contacts
+  contacts_x_firm: Contacts for this Firm
+  add_contact_row: Add a new Contact
+  edit_contact_row: Edit Contact
+  le_title: Title
+  le_title__get_full_name: Title
+  le_contact_type: Type
+  le_contact_type__get_full_name: Type
+  le_city__get_full_name: City
+  surname: Surname
+  is_suspended: "Not avail.?"
+  date_birth: Date of Birth
+  phone_home: "Phone (home)"
+  phone_work: "Phone (work)"
+  phone_cell: "Phone (cell)"
+  date_last_met: "Last met on"
+  personal_notes: "Personal notes"
+  family_notes: "Family notes"
+
+  human_resources_list: Human Resources list
+  human_resources: Human Resources
+  human_resource: Resource
+  add_human_resource_row: Add a new Human Resource
+  edit_human_resource_row: Edit Human Resource
+  contact: Contact
+  contact__get_full_name: Contact
+  le_resource_type: Type
+  le_resource_type__get_full_name: Type
+  is_no_more_available: "Not avail.?"
+  cost_std_hour: "Std.(h) cost"
+  cost_ext_hour: "Ext.(h) cost"
+  cost_km: Mileage cost
+  charge_std_hour: "Std.(h)overch."
+  charge_ext_hour: "Ext.(h)overch."
+  fixed_weekly_wage: Weekly fixed wage
+  charge_weekly_wage: "Weekly wage overch."
+  percentage_of_invoice: "Invoice %"
+
+  teams_list: Teams list
+  teams: Teams
+  team_rows: Team elements
+  add_team_row: Add a Team element
+  edit_team_row: Change Team element
+  owner_firm: Owner
+
+  accounts_list: Accounts list
+  manage_account: Manage Account
+  manage_account_tooltip: Manage the details of this Account
+  add_account: Add an Account
+  edit_account: Edit Account
+  add_account_row: Add an Account row
+  edit_account_row: Edit Account row
+  back_to_accounts_list: "Back to the Account listing"
+  back_to_accounts_list_tooltip: "Back to the Account listing"
+
+  invoices_list: Invoices list
+  manage_invoice: Manage Invoice
+  back_to_invoices_list: Back to the Invoice listing
+  back_to_invoices_list_tooltip: Back to the Invoice listing
+  manage_invoice_tooltip: Manage the details of this Invoice
+  add_invoice: Add an Invoice
+  edit_invoice: Edit Invoice
+  add_invoice_row: Add an Invoice row
+  edit_invoice_row: Edit Invoice row
+
+  recipient_firm__get_full_name: Recipient
+  invoice_number: "Invoice #"
+  date_invoice: Date
+  header_object: Subject
+  is_fully_payed: "Fully payed?"
+  social_security_cost: "Soc.sec. cost"
+  vat_tax: "VAT tax"
+  account_wage: Account wage
+  total_expenses: "Tot. expenses"
+  le_invoice_payment_type__get_full_name: Payment type
+  project__get_full_name: Project
+  quantity: "Q.ty"
+  le_invoice_row_unit__get_full_name: Unit
+  unit_cost: Cost
+  discount: Discount
+
+
+  user_firm: Employer
+  enable_blog: "Blogger?"
+  enable_edit: "Can modify?"
+  enable_delete: "Can delete?"
+  enable_setup: "Can set-up?"
+  authorization_level: "Author.lev."
+
+  edit_inline: Edit in-line
+  edit_in_form: Edit in form
+  show_details: Show details
+  details: Row details
+  search: Search
+
+  articles_list: Articles list
+  articles: Articles
+  title: Title
+  entry_text: Text
+  is_sticky: "Sticky?"
+  le_user__name: User
+
+  sub_entities_management: Sub-entities Management
+
+  enable_blog_tooltip: "Toggles on/off the possibility to post blog entries for this user"
+  enable_edit_tooltip: "Enables/disables row editing permission for this user"
+  enable_delete_tooltip: "Enables/disables row deleting permission for this user"
+  enable_setup_tooltip: "Enables/disables secondary (look-up) entity management permission for this user"
+
+  cities: Cities
+  users: Users
+  contact_types: Contact Types
+  account_payment_type: Account Payment Type
+  account_row_type: Account Row Type
+  currency_exchange: Currency Exchange
+  currency: Currency
+  invoice_payment_type: Invoice Payment Type
+  invoice_row_unit: Row meas. unit
+  resource_type: Resource Type
+  titles: Titles
+  code: Code
+  zip: ZIP
+  area: Area
+  country: Country
+  country_code: Country Code
+  display_symbol: Symbol
+  is_a_parent: "Macrotype?"
+  value_format: Format
+  source_currency: Source
+  destination_currency: Destination
+  date_exchange: Exchange Date
+  factor: Factor
+  comment: Comment
+
+
+  activerecord:
+    models:
+      le_user: User
+      le_city: City
+      le_contact_type: Contact Type
+      le_account_payment_type: Account Payment Type
+      le_account_row_type: Account Row Type
+      le_currency: Currency
+      le_currency_exchange: Currency Exchange
+      le_invoice_payment_type: Invoice Payment Type
+      le_invoice_row_unit: Row meas. unit
+      le_resource_type: Resource Type
+      le_title: Title
+      article: Article
+      contact: Contact
+      firm: Firm
+      human_resource: Human Resource
+      account: Account
+      account_row: Account Row
+      invoce: Invoice
+      invoice_row: Invoice Row
+      project: Project
+      project_milestone: Project Milestone
+      project_row: Project Row
+      team: Team
+      team_row: Team row
+    attributes:
+      le_user:
+        created_on: Created on
+        updated_on: Updated on
+        name: Name
+        hashed_pwd: Hashed password
+        password_confirmation: Confirm Password
+        description: "Description/Full name"
+        enable_blog: "Blogger?"
+        enable_edit: "Can edit?"
+        enable_delete: "Can delete?"
+        enable_setup: Enable set-up
+        authorization_level: "Author.lev."
+        firm__name: Works for
+      account_row:
+        account_id: Account ID
+        description: Description
+        date_entry: Date
+        entry_value: Value

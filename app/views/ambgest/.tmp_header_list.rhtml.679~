@@ -1,0 +1,49 @@
+<h1 id="header_list">
+<% if defined?(@parent_record) %>
+  <%= @parent_record.to_label.upcase %>
+<% else %>
+  <%= I18n.t( params[:scaffold_name].to_s ).upcase %>
+<% end %>
+</h1>
+
+<!-- Tab section (for multi-tabbed pages; each page links to a specific controller): -->
+<div class='clear'>
+    <% subsections_hash().each do | section_key, section_name | %>
+        <%= link_to_unless( section_key.to_sym == controller_name().to_sym, content_tag( :span, section_name ),
+              {:params => {:controller => section_key, :action => 'manage_list', :id => params[:id]}},
+              {:class => 'button'}
+          ) { |link_name| "<a class=\"button selected\" href=\"#\">#{link_name}</a>" }
+        %>
+    <% end -%>
+</div>
+
+<!-- Parent-Detail header commands section (with 'parent entity'-related actions): -->
+<!-- TODO / WIP: parent-header actions must be configured externally -->
+
+<!-- Parent-Detail header show view section: -->
+<% if ( params[:id] ) %>
+  <!-- FIXME / WIP: USARE @parent_record.class.name.tableize FALLISCE PER CONTROLLER CON NOMI IRREGOLARI!
+       E NON E' DETTO CHE SETTI IL CONTESTO CORRETTAMENTE
+  -->
+  <%= render( :partial => AGEX_APP + '/parent_detail_header', :controller => @parent_record.class.name.tableize, :constraints => {:id => params[:id]} ) -%>
+<% end %>
+
+  <!-- Filtering section (actions and status) for the sublist: -->
+  <%= render( :partial => AGEX_APP + '/filter_actions',  :locals => {:filters => filters} ) unless filters.empty? %>
+
+  <!-- Custom actions for the sublist: -->
+  <div id="div_update_custom_actions">
+  <%= render(
+        :partial => AGEX_APP + '/custom_actions',
+        :locals => {:action_group_definitions => @action_group_definitions}
+    ) unless @action_group_definitions.empty?
+  -%>
+  </div>
+
+  <!-- Data Sublist (detail list view) section: -->
+  <div id="div_update_sublist">
+  	<%= render( :partial => AGEX_APP + '/sublist' ) %>
+  </div>
+
+<div id="div_update_header_list">
+</div>

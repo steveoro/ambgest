@@ -1,0 +1,10 @@
+<!-- Main Menu section: -->
+<div id="main_menu_section">
+	<%= netzke :main_command_panel, { :class_name => "CommandPanel", :border => false } %>
+</div>
+
+<% if flash[:notice] %>
+    <div id="notice">
+      <p style="color: green"><%= flash[:notice] %></p>
+    </div>
+<% end %>

@@ -1,0 +1,20 @@
+<!-- Main menu section: -->
+<%= render( :partial => AGEX_APP + '/main_menu') %>
+
+<h1><%= t(:weekly_planner, {:scope=>[:week_plan]}) %></h1>
+
+<div id='agex_top_actions'></div>
+
+
+<%= netzke :weekly_planner_panel, {
+	:class_name => "WeekPlannerPanel",
+	:width => "98%",
+	:height => 1763
+} %>
+
+
+<div id="divIssueReceiptDataContainer" hidden="true">
+	<%= form_tag( issue_receipt_appointments_path(), :id => 'frmPostIssueReceipt' ) do -%>
+		<%= hidden_field_tag( :data ) %>
+	<% end %>
+</div>

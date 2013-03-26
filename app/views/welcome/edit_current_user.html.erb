@@ -1,0 +1,23 @@
+<!-- Main menu section: -->
+<%= render( :partial => AGEX_APP + '/main_menu') %>
+
+<div align="center" style="padding-top: 3em; padding-bottom: 10em;">
+	<h1><%= "#{I18n.t(:edit)} #{I18n.t(:user)} '#{Netzke::Core.current_user.name}'" %></h1>
+
+	<%= netzke :current_user_management_panel, {
+		:class_name => "UserDetails",
+		:title => "#{t(:user)} '#{Netzke::Core.current_user.name}'",
+		:model => 'LeUser',
+		:width => 500,
+		:border => true,
+
+		:prohibit_add => true,
+		:prohibit_delete => true,
+		:scope => { :user_id => Netzke::Core.current_user.id },
+      	:record_id => Netzke::Core.current_user.id,
+
+		:view_config => {
+			:force_fit => true # force the columns to occupy all the available width
+		}
+	} %>
+</div>

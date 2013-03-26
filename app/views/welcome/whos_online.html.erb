@@ -1,0 +1,28 @@
+<!-- Main menu section: -->
+<%= render( :partial => AGEX_APP + '/main_menu') %>
+
+<div style="padding-top: 3em; padding-bottom: 15em; padding-right: 2em;">
+	<h1><%= I18n.t(:whos_online, :scope => [:agex_action]) + ':' %></h1>
+	<div>
+		<p>
+			<ul>
+				<% @online_users.each do |key, name| %>
+				<li>
+					<%= "- #{name}" %> &nbsp;
+					<%= link_to(
+							I18n.t(:del, :scope => [:netzke,:basepack,:grid_panel,:actions]),
+							kill_session_path( :id => key ),
+							:method => :delete,
+							:confirm => I18n.t(:are_you_sure, :scope => [:netzke,:basepack,:grid_panel])
+				 		) %>
+				</li>
+				<% end %>
+			</ul>
+		</p>
+		<hr />
+		<br />
+		<p>
+			<%= "#{I18n.t(:tot)}: #{@online_users.size}" %>
+		</p>
+	</div>
+</div>

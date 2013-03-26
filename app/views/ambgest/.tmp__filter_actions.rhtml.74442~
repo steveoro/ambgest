@@ -1,0 +1,95 @@
+<% content_for("page_scripts") do %>
+  function filtersUpdateLoading() {
+    $('btn-update-filter').disabled = true;
+    Element.show('filters_upd_loading_msg');
+    Element.show('filters_upd_loading_msg');
+  }
+
+  function filtersUpdateDone() {
+    Element.hide('filters_upd_loading_msg');
+    $('btn-update-filter').disabled = false;
+  }
+<% end -%>
+
+
+<!--Filter form display/hide link: -->
+<div class="filter-panel-top">
+  <a <%= "onclick=\"Effect.toggle('filter_commands', 'appear');\"" %>>
+    <%= I18n.t('Hide') + " / " + I18n.t('Show') + " " + I18n.t('filtering commands') %>
+  </a>
+</div>
+
+
+<!--Filters form: -->
+<div id='filter_commands' class="filter-panel">
+  <% filter_hash = FilterTerm.group_to_hash( filters ) %>
+	<% form_remote_tag(
+          :id => "frm_filters", :post => false,
+          :url => { :controller => params[:controller], :action => params[:action] },
+	        :loading => 'filtersUpdateLoading()', :complete => 'filtersUpdateDone()'
+     ) do %>
+
+    <ol>
+		<% filter_hash[:group_order].each do |group_key| %>
+      <% group = filter_hash[group_key] %>
+      <li>
+        <dl>
+			    <dt><%= "#{group[0].label}&nbsp;:" %></dt>
+
+          <% group.each_with_index do |filter, idx| %>
+            <%= content_tag( :dd, '&nbsp;...&nbsp;') if idx > 0 %>
+
+            <dd>
+              <% tag_id = filter.key.to_s %>
+
+              <!-- Date filter controls: -->
+              <% if filter.is_a_date? %>
+                <%= text_field_tag( "#{tag_id}", filter.value, {:size => 10, :maxlength => 10} ) %>
+                <%= image_tag( 'calendar.png', :id => "btn_#{tag_id}" ) %>
+                <%= javascript_tag( "Calendar.setup({ inputField: '#{tag_id}', button: 'btn_#{tag_id}', ifFormat: '%Y-%m-%d' });" ) %>
+
+              <!-- Generic dual-state boolean filtering widget: (any value: filter on that (but the checkbox is assumed to be checked only when !nil) | nil: don't filter) -->
+              <!-- (The hidden tag is needed to POST un-toggled boolean filters, since unchecked checkboxes are not sent as parameters by HTTP) -->
+              <% elsif filter.is_a_bool? %>
+                <%= check_box_tag( "chk_#{tag_id}", filter.value, (! filter.value.nil?), :onclick => "$('#{tag_id}').value=$F('chk_#{tag_id}')" ) %>
+                <%= hidden_field_tag( tag_id, filter.value ) %>
+
+              <!-- Generic text filtering widget: (any value: filter on that | nil: don't filter) -->
+              <% elsif filter.is_a_text? %>
+                <%= text_field_tag( tag_id, filter.value ) %>
+
+              <!-- [Future Dev.] Add here support for possibly more filtering widgets -->
+              <% end %>
+            </dd>
+          <% end %>
+        </dl>
+      </li>
+		<% end %>
+    </ol>
+
+    <!-- Show 'update filter' + 'reset' button: -->
+		<% if (filters.size > 0) || !(session["search_#{controller_name}".to_sym].blank?) || !(session["filters_#{controller_name}".to_sym].blank?) %>
+			<%= submit_tag( I18n.t("Update filter"), :id => 'btn-update-filter' ) %>
+      &nbsp;
+      <%= show_custom_action(
+              :url => { :controller => controller_name, :action => 'reset_filters' },
+              :alt => I18n.t("Reset"),
+              :update => controller_name,
+              :confirm => I18n.t('Are you sure?'),
+              :tooltip_text => I18n.t('Erases the saved search parameters without clearing the filtering form fields'),
+              :tooltip_width => 150
+      ) -%>
+      &nbsp;
+		<% end %>
+
+    <!-- Filters'update loading message: -->
+    <span id="filters_upd_loading_msg" class="filter-status" style="display:none" >
+      &nbsp;&nbsp;<%= I18n.t("Searching...") %><%= image_tag("indicator.gif", {:alt => "indicator", :id => "filters_upd_loading_indicator"}) %>&nbsp;&nbsp;
+    </span>
+
+    <!-- Filtering & search status display: -->
+    <span id="span_update_filter_status" class="filter-status">
+      <%= render( :partial => AGEX_APP + '/filter_status', :locals => {:filters => filters} ) %>
+    </span>
+	<% end -%>
+</div>

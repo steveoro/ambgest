@@ -1,0 +1,45 @@
+<!-- Main menu section: -->
+<%= render( :partial => AGEX_APP + '/main_menu') %>
+
+<h1><%= t(:welcome) %></h1>
+
+<script type="text/javascript" >
+	function toggleDiv( divId ) {
+		var el = Ext.get(divId);
+		if ( el.isVisible() ) {
+			el.dom.style.display = 'none';
+		}
+	  	else {
+			el.slideIn('t');
+	  	}
+	  	return true;
+	}
+</script>
+
+<% for a in @articles -%>
+  <div>
+  	<a href="#" class="news_title"
+       onclick="toggleDiv('div_article_<%= "#{a.id}" %>');" >
+  		<%= h( a.title ) %>
+		<%= show_tag( a.is_sticky, "asterisk_orange.png" ) %>
+  	</a>
+  	<div class="news_user">
+  		<%= h( a.user_name ) %>, <%= Format.a_datetime( a.updated_on ) %>
+  	</div>
+  </div>
+
+  <div class="news_text" id="<%= "div_article_#{a.id}" %>" style="display: none">
+  	<div><%= h( a.entry_text ) %></div>
+  </div>
+
+  <div>
+  	<div class="news_separator">* * *</div>
+  </div>
+<% end -%>
+
+<% if (@articles.length == 0) -%>
+<p style="text-align: center">
+  <i><%= t(:no_new_articles) %></i>
+</p>
+<% end -%>
+<p/>

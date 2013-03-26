@@ -1,0 +1,36 @@
+<!-- Main menu section: -->
+<%= render( :partial => AGEX_APP + '/main_menu') %>
+
+<h1><%= t(:receipts_list, {:scope=>[:receipt]}) %></h1>
+
+<script type="text/javascript" >
+	Ext.onReady(
+		function() {
+			Ext.create( 'Ext.Container', {
+				renderTo: Ext.get('agex_top_actions'),
+				layout : {
+					type: 'hbox',
+					maxHeight: 30
+				},
+				items : [
+					<%= create_extjs_button_config( :refresh, nil, request.fullpath(), 'arrow_refresh.png' ) %>
+				]
+			});
+		}		
+	);
+</script>
+
+<div id='agex_top_actions'></div>
+
+
+<%= netzke :receipts_list_panel, {
+	:class_name => "FilteredReceiptsList",
+	:filtering_date_start  => @filtering_date_start,
+	:filtering_date_end    => @filtering_date_end,
+	:width => "98%",
+	:height => @max_view_height,
+	:border => true,
+	:view_config => {
+		:force_fit => true # force the columns to occupy all the available width
+	}
+} %>

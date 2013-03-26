@@ -1,0 +1,66 @@
+// Place all the styles related to the week_plan controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+/* ------------------ Income Anaysis Table/List view styles --------------------- */
+.income-analysis table {
+  border-collapse: separate;
+}
+
+.income-analysis th {
+  background-color: #555555;
+  color: #ffffff;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  font:bold 11px arial,sans-serif;
+  text-align: center;
+}
+
+.income-analysis td {
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  color: #333333;
+  font-family: Verdana,sans-serif;
+  font-size: 12px;
+}
+
+.analysis-summary {
+  background: #b9dcff;
+  color: #333333;
+  font-family: Verdana,sans-serif;
+  font-style: italic;
+  font-size: 12px;
+}
+
+.even {
+  background: #e6f2ff;
+}
+.odd {
+  background: #ffffff;
+}
+
+
+.analysis-subsummary {
+  background: #b9dcf0;
+  color: #333333;
+  font-family: Verdana,sans-serif;
+  font-style: italic;
+  font-size: 9px;
+}
+
+.even-smaller {
+  background: #e6f2f0;
+  font-size: 9px;
+}
+.odd-smaller {
+  background: #fffff0;
+  font-size: 9px;
+}
+
+
+.summary-grouping-total {
+  font: bold 12px arial,sans-serif;
+}

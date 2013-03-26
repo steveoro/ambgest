@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= AGEX_APP_NAME %></title>
+  	<%= netzke_init %>
+
+	<%= stylesheet_link_tag    "application" %>
+	<%= javascript_include_tag "application" %>
+	<%= csrf_meta_tags %>
+</head>
+
+<body id="container">
+    <!-- Banner section: -->
+    <div id="banner">
+		<%= image_tag( AGEX_APP_LOGO, { :align => 'top', :alt => AGEX_APP_NAME } ) %>
+		<%= t( :agex_management_module_desc ) %>
+    </div>
+
+    <!-- Central section: -->
+    <div id="container_main">
+        <%= yield  %>
+	</div>
+
+    <!-- Footer section: -->
+    <%= render( :partial => AGEX_APP + '/footer_section') %>
+</body>
+</html>

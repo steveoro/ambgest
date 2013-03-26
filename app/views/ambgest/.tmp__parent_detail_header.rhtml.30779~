@@ -1,0 +1,30 @@
+  <div class="std-form">
+
+    <dl>
+    <% parent_entity = active_scaffold_config.model.parent_entity() %>
+    <% as_config = active_scaffold_config_for( parent_entity ) %>
+    <% parent_entity.detail_view_header_symbols().each do |field_sym| %>
+        <dt class="header-label"><%= I18n.t( parent_entity.get_label(field_sym) ) -%></dt>
+        <dd <%= get_css_class_for( field_sym ) %>>
+          <%= @parent_record.send(field_sym) -%> &nbsp;
+        </dd>
+    <% end -%>
+    </dl>
+
+
+    <% as_config.list.columns.each{ |column| %>
+      <% unless ( column.is_a? ActiveScaffold::DataStructures::ActionColumns ) ||
+                ( column_renders_as(column) == :hidden ) ||
+                ( column_renders_as(column) == :subform ) ||
+                ( [:id, :updated_on, :updated_at, :created_on, :created_at].include?(column.name.to_sym) ) ||
+                (column.name.to_s =~ /_id/)
+      -%>
+        <dt class="header-label"><%= I18n.t( column.label ) -%></dt>
+        <dd <%= get_css_class_for( column.name ) %>>
+          <%= show_column_value(@parent_record, column) -%> &nbsp;
+        </dd>
+      <% end -%>
+    <% } -%>
+
+
+  </div>

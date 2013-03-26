@@ -1,0 +1,8 @@
+<!-- Rendering of the list of currently active filters: -->
+<% if defined?( filters ) && filters != nil && filters.size > 0 %>
+	  &nbsp;<%= FilterTerm.group_to_s( filters ) %>
+<% end %>
+<!-- Latest search status: -->
+<% unless session["search_#{controller_name}".to_sym].blank? %>
+    &nbsp;-&nbsp;<%= I18n.t("Latest search:") %>&nbsp;<b><%= h( session["search_#{controller_name}".to_sym] ) %></b>
+<% end %>

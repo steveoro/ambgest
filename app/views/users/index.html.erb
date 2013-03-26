@@ -1,0 +1,15 @@
+<!-- Main menu section: -->
+<%= render( :partial => AGEX_APP + '/main_menu') %>
+
+<h1><%= t(:users) %></h1>
+
+<%= netzke :user_management_panel, {
+	:class_name => "UsersList",
+	:title => t(:users),
+	:width => "98%",
+	:height => 400,
+	:border => true,
+	:view_config => {
+		:force_fit => true # force the columns to occupy all the available width
+	}
+} %>

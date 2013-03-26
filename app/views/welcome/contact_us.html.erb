@@ -1,0 +1,15 @@
+<!-- Main menu section: -->
+<%= render( :partial => AGEX_APP + '/main_menu') %>
+
+<div style="padding-top: 5em; padding-bottom: 30em;">
+	<h1><%= I18n.t(:contact_us) + ':' %></h1>
+	
+	<p>Main Developer, Author:
+	<%= mail_to( "stefano.alloro@libero.it" , "Steve A." ,
+	             :subject => I18n.t(:questions_about) + ' ' + AGEX_APP_NAME,
+	             :encode => "javascript" ) %> - 
+	<%= mail_to( "fasar.software@libero.it" , "FASAR Software" ,
+	             :subject => I18n.t(:questions_about) + ' ' + AGEX_APP_NAME,
+	             :encode => "javascript" ) %>
+	</p>
+</div>

@@ -1,0 +1,23 @@
+    <div id="footer">
+        <%= AGEX_APP_NAME %> &nbsp; | &nbsp;
+        <% if session[:le_user_id] and user = LeUser.find_by_id( session[:le_user_id] ) %>
+	        <%= "#{I18n.t(:user)} #{user.name} (#{user.description}) : " %>
+	        <%= link_to I18n.t("logout"), :controller => 'login', :action => 'logout' %>
+        <% else %>
+            <%= t(:user_not_authenticated) %>
+        <% end %>
+
+        <!-- Certified Browsers links: -->
+        &nbsp; | &nbsp;
+        <a href="http://getfirefox.com/" title="Get Firefox - The Browser, Reloaded.">
+  			<%= image_tag( 'firefox_80x15.png', :align => :top, :width => 80, :height => 15, :border => 0, :alt => 'Get Firefox' ) %>
+        </a>
+        &nbsp; | &nbsp;
+        <a href="http://www.opera.com/download/" title="Get Opera - Rediscover the Web.">
+  			<%= image_tag( 'opera80x15.gif', :align => :top, :width => 80, :height => 15, :border => 0, :alt => 'Get Opera' ) %>
+        </a>
+        &nbsp; | &nbsp;
+        <a href="https://www.google.com/chrome" title="Get Chrome">
+  			<%= image_tag( 'custom_chrome_logo.png', :align => :top, :width => 80, :height => 15, :border => 0, :alt => 'Get Chrome' ) %>
+        </a>
+    </div>

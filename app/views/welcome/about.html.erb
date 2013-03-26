@@ -1,0 +1,96 @@
+<!-- Main menu section: -->
+<%= render( :partial => AGEX_APP + '/main_menu') %>
+
+<div id="about_container">
+  <div id="about_main_area">
+
+	<%= image_tag( AGEX_APP_LOGO, :alt => AGEX_APP_NAME ) %>
+
+    <table border="0" cellspacing="16" cellpadding="5">
+    <tr>
+      <td>
+        <%= image_tag( @default_firm_logo, {:width => "200px"} ) unless @default_firm_logo.nil? %>
+      </td>
+    </tr>
+    <tr>
+      <td><br/><h3>Versioning:</h3></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td width="20em;">Application Framework version:</td>
+      <td><b><%= h( AGEX_FRAMEWORK_VERSION ) if defined? AGEX_FRAMEWORK_VERSION %></b></td>
+    </tr>
+    <tr>
+      <td><%= AGEX_APP_NAME %> application, version:</td>
+      <td><b><%= h @versioning.send(AppParameter::PARAM_APP_NAME_FIELD) %></b> <%= show_tag( @versioning.a_bool, "time.png" ) %></td>
+    </tr>
+    <tr>
+      <td><%= AGEX_APP_NAME %> database framework, vers.:</td>
+      <td><%= h @versioning.send(AppParameter::PARAM_DB_VERSION_FIELD) %></td>
+    </tr>
+    <tr>
+      <td>Build date:</td>
+      <td><%= h Format.a_datetime( @versioning.updated_on ) %></td>
+    </tr>
+    <tr>
+      <td>Running environment:</td>
+      <td><i><b><%= h( "Rack: #{ENV['RACK_ENV']}" ) if defined? ENV %></b></i></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><i><b><%= h( "Rails: #{ENV['RAILS_ENV']}" ) if defined? ENV %></b></i></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><i><b><%= h( "#{ENV['HOSTNAME']} (#{ENV['CPU']}, #{ENV['MACHTYPE']})" ) if defined? ENV %></b></i></td>
+    </tr>
+    </table>
+    <br/>
+
+    <table border="0" cellspacing="16" cellpadding="5">
+    <tr>
+      <td>
+        <%= image_tag 'rails.png', :alt => 'Rails Logo' %>
+      </td>
+  
+      <td>
+        <p>
+          &nbsp; Developed by Stefano Alloro, using <a href="http://www.rubyonrails.org/">Ruby On Rails</a><%= '(vers. ' + h( RAILS_GEM_VERSION ) + ')' if defined? RAILS_GEM_VERSION %>.
+        </p>
+        <p>
+          &nbsp; AgeX Framework structure (p) 2006-2012, <%= image_tag 'fasar_logo_1.png', { :alt => 'FASAR Software', :align => 'top', :height => "16px" } %>
+        </p>
+      </td>
+    </tr>
+    </table>
+    <br/>
+
+    <h3>Core extensions:</h3>
+    <p>
+      <ul>
+          <li>
+          	<a href="http://rubyreports.org/">
+          	<%= image_tag 'ruport.png', { :alt => 'Ruport', :align => 'top', :height => "24px" } %>
+          	</a> - RubyReports, a ruby gem library for easy(er) reporting.
+          </li>
+          <li>
+          	<a href="http://netzke.org">Netzke</a> an ExtJS component-oriented plugin for Rails.
+          </li>
+      </ul>
+    </p>
+  </div>
+
+
+  <div id="about_right_info">
+    <h3>Installed Gems:</h3>
+    <p>
+		<ul>
+		<% @gem_info.each do |row| %>
+			<li><%= row %></li>
+		<% end %>
+		</ul>
+    </p>
+  </div>
+
+  <div id="about_terminator"></div>
+</div>

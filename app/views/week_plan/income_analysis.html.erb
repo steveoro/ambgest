@@ -1,0 +1,201 @@
+<!-- Main menu section: -->
+<%= render( :partial => AGEX_APP + '/main_menu') %>
+
+<h1><%= t(:income_analysis, {:scope=>[:week_plan]}) %></h1>
+
+<script type="text/javascript" >
+	Ext.onReady(
+		function() {
+			Ext.create( 'Ext.Container', {
+				renderTo: Ext.get('agex_top_actions'),
+				layout : {
+					type: 'hbox',
+					maxHeight: 30
+				},
+				items : [
+					<%= create_extjs_button_config(
+						:analysis_pdf,
+						:income_analysis,
+						analysis_pdf_path( :date_schedule => @date_schedule ),
+						'page_white_acrobat.png'
+					) %>
+				]
+			});
+		}		
+	);
+</script>
+
+
+<p/>
+<br/>
+<p/>
+
+<h2><%= "#{I18n.t(:time_invoicing_title, :scope =>[:invoice_row])}" %></h2>
+
+<%= netzke :invoice_analysis_filter_panel, {
+    :class_name => "InvoicesAnalysisFilteringPanel",
+	:filtering_date_start => @filtering_date_start,
+	:filtering_date_end   => @filtering_date_end,
+	:override_filtering	  => @override_filtering,
+	:show_current_user_firm => true,
+	:view_config => {
+		:force_fit => true # force the columns to occupy all the available width
+	}
+} %>
+<br/>
+
+<div id='div_invocing_by_week_chart'></div>
+
+<p/>
+<br/>
+<br/>
+<p/>
+
+
+<h2><%= I18n.t(:receipts_list_during_period, {:scope=>[:income_analysis]}) %>:&nbsp;<%= h( @filters_status ) %></h2>
+
+<div id='agex_top_actions'></div>
+
+<!-- Receipts / income summary: -->
+<table class="income-analysis">
+  <tbody>
+
+  <tr>
+    <th><%= I18n.t(:receipt, 				{:scope=>[:income_analysis]}) %></th>
+    <th><%= I18n.t(:base_amount, 			{:scope=>[:income_analysis]}) %> (€)</th>
+    <th><%= I18n.t(:items_to_be_divested, 	{:scope=>[:income_analysis]}) %></th>
+    <th><%= I18n.t(:net_taxable, 			{:scope=>[:income_analysis]}) %> (€)</th>
+    <th><%= I18n.t(:entries_percentage,		{:scope=>[:income_analysis]}) %> (€)</th>
+    <th><%= I18n.t(:tot_additional_charges, {:scope=>[:income_analysis]}) %></th>
+    <th><%= I18n.t(:gross_amount, 			{:scope=>[:income_analysis]}) %> (€)</th>
+    <th><%= I18n.t(:receipt_delivered,		{:scope=>[:income_analysis]}) %></th>
+    <th><%= I18n.t(:is_payed, 				{:scope=>[:income_analysis]}) %></th>
+  </tr>
+
+  <% grand_total = tot_to_be_payed = tot_base_price = tot_minus_costs = tot_plus_costs = tot_percentages = tot_net_price = tot_payed = 0.0 %>
+  <% tot_is_delivered = tot_is_payed = 0 %>
+
+
+  <% for receipt in @receipts_per_week %>
+    <tr class="<%= cycle('odd', 'even') %>">
+      <% costs = receipt.get_additional_cost_totals %>
+      <% net_price = receipt.net_price %>
+      <% percentage_amount = receipt.account_percentage_amount %>
+
+      <% tot_base_price += receipt.price %>
+      <% tot_minus_costs += costs[:negative] %>
+      <% tot_plus_costs += costs[:positive] %>
+      <% tot_percentages += percentage_amount %>
+      <% tot_net_price += net_price %>
+      <% amount = net_price + percentage_amount + costs[:positive] - costs[:negative] %>
+      <% receipt.is_payed? ? tot_payed += receipt.price.to_f : tot_to_be_payed += receipt.price.to_f %>
+      <% tot_is_delivered += 1 if receipt.is_receipt_delivered? %>
+      <% tot_is_payed     += 1 if receipt.is_payed? %>
+
+      <td align="left">
+      	<% if receipt.is_payed? %>
+      		<b><%= h(receipt.get_receipt_header) %></b>
+      	<% else %>
+     		<%= h(receipt.get_receipt_header) %>
+      	<% end %>
+      </td>
+      <td align="right"><%= h( "%6.2f" % receipt.price.to_s ) %></td>
+      <td align="right"><%= h( "%6.2f" % costs[:negative].to_s ) %></td>
+      <td align="right"><%= h( "%6.2f" % net_price.to_s ) %></td>
+      <td align="right"><%= h( "%6.2f" % percentage_amount.to_s ) %></td>
+      <td align="right"><%= h( "%6.2f" % costs[:positive].to_s ) %></td>
+      <td align="right">
+      	<% if receipt.is_payed? %>
+	      	<b><%= h( "%6.2f" % amount.to_s ) %></b>
+      	<% else %>
+	      	<%= h( "%6.2f" % amount.to_s ) %>
+      	<% end %>
+      </td>
+      <td align="center"><%= show_chkbox( receipt.is_receipt_delivered? ) %></td>
+      <td align="center"><%= show_chkbox( receipt.is_payed? ) %></td>
+    </tr>
+
+
+	<!-- Appointments sub-table: -->
+	<% unless ( @appointments_per_receipt[ receipt.id ].nil? || @appointments_per_receipt[ receipt.id ].size < 1 ) %>
+		<tr class="<%= cycle('odd-smaller', 'even-smaller') %>">
+			<td></td>
+			<td align="center"><i><%= I18n.t(:invoiced_appointments, 	{:scope=>[:income_analysis]}) %>:</i></td>
+			<td></td>
+			<td></td>
+			<td align="center"><i><%= I18n.t(:patient__get_full_name, 	{:scope=>[:appointment]}) %></i></td>
+			<td align="center"><i><%= I18n.t(:appointment, 	{:scope=>[:appointment]}) %></i></td>
+			<td align="center"><i><%= I18n.t(:price, 	{:scope=>[:appointment]}) %></i></td>
+			<td></td>
+			<td align="center"><i><%= I18n.t(:is_payed, 	{:scope=>[:appointment]}) %></i></td>
+		</tr>
+		<% tot_count = 0 %>
+		<% tot_appointments_payed = tot_appointments_amount = 0.0 %>
+		<% for appointment in @appointments_per_receipt[ receipt.id ] %>
+			<tr class="<%= cycle('odd-smaller', 'even-smaller') %>">
+				<% tot_count += 1 %>
+				<% tot_appointments_amount += appointment.price.to_f %>
+				<% tot_appointments_payed += appointment.price.to_f if appointment.is_payed? %>
+				<% appointment_verbose = appointment.get_verbose_name.split(' @ ') %>
+
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td align="center"><%= h( appointment_verbose[0] ) %></td>
+				<td align="center"><%= h( appointment_verbose[1] ) %></td>
+				<td align="right"><%= h( "%6.2f" % appointment.price ) %></td>
+				<td></td>
+				<td align="center"><%= show_chkbox( appointment.is_payed? ) %></td>
+			</tr>
+		<% end %>
+		<tr class="analysis-subsummary">
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+    		<td align="center"><%= I18n.t(:subtotals, {:scope=>[:income_analysis]}) %>:</td>
+			<td align="right"><%= h( "%6.2f" % tot_appointments_amount ) %></td>
+			<td align="right"><%= I18n.t(:to_be_payed, {:scope=>[:receipt]}) %>:<br/><%= h( "%6.2f" % (tot_appointments_amount - tot_appointments_payed) ) %> €</td>
+			<td align="right"<b><%= I18n.t(:payed, {:scope=>[:receipt]}) %>:<br/><%= h( "%6.2f" % tot_appointments_payed ) %> €</b></td>
+		</tr>
+	  <% end %>
+
+	  <tr class="analysis-subsummary">
+	    <td colspan="9"><hr/></td>
+	  </tr>
+  <% end %>
+
+
+  <% grand_total = tot_net_price + tot_percentages + tot_plus_costs - tot_minus_costs %>
+  <tr class="analysis-summary">
+    <td align="center"><%= I18n.t(:totals, {:scope=>[:income_analysis]}) %>: (<%= "#{@receipts_per_week.count} " << I18n.t(:receipts, {:scope=>[:income_analysis]}) %>)</td>
+    <td align="right"><%= h( "%6.2f" % tot_base_price.to_s ) %></td>
+    <td align="right"><%= h( "%6.2f" % tot_minus_costs.to_s ) %></td>
+    <td align="right"><%= h( "%6.2f" % tot_net_price.to_s ) %></td>
+    <td align="right"><%= h( "%6.2f" % tot_percentages.to_s ) %></td>
+    <td align="right"><%= h( "%6.2f" % tot_plus_costs.to_s ) %></td>
+    <td align="right"><b><%= h( "%6.2f" % grand_total.to_s ) %></b></td>
+    <td align="center"><%= h( "%3d" % tot_is_delivered ) %> / <%= h( "%3d" % @receipts_per_week.count ) %></td>
+    <td align="center"><%= h( "%3d" % tot_is_payed ) %> / <%= h( "%3d" % @receipts_per_week.count ) %></td>
+  </tr>
+  <tr class="analysis-summary">
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td align="right"><%= I18n.t(:to_be_payed, {:scope=>[:receipt]}) %>:<br/><%= h( "%6.2f" % tot_to_be_payed ) %> €</td>
+	<td align="right"<b><%= I18n.t(:payed, {:scope=>[:receipt]}) %>:<br/><%= h( "%6.2f" % tot_payed ) %> €</b></td>
+  </tr>
+  <tr class="analysis-summary">
+    <td colspan="9"><hr/></td>
+  </tr>
+
+  </tbody>
+</table>
+
+<br/>

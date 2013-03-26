@@ -1,0 +1,17 @@
+  <div class="std-form">
+    <dl>
+    <% parent_entity = active_scaffold_config.model.parent_entity() %>
+    <% as_config = active_scaffold_config_for( parent_entity ) %>
+
+    <% parent_entity.detail_view_header_symbols().each do |field_sym| %>
+        <dt class="header-label"><%= I18n.t( parent_entity.get_label(field_sym) ) -%></dt>
+        <dd <%= get_css_class_for( field_sym ) %>>
+          <% if as_config.list.columns.include?( field_sym ) %>
+            <%= show_column_value(@parent_record, as_config.columns[field_sym]) -%> &nbsp;
+          <% else -%>
+            <%= @parent_record.send(field_sym) -%> &nbsp;
+          <% end -%>
+        </dd>
+    <% end -%>
+    </dl>
+  </div>

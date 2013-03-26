@@ -1,0 +1,1238 @@
+it:
+  patient:
+    id: "ID"
+    name: Nome
+    surname: Cognome
+    address: Indirizzo
+    tax_code: Cod.Fisc.
+    vat_registration: Part.IVA
+    date_birth: Data di Nascita
+    phone_home: "Tel. (casa)"
+    phone_work: "Tel. (uff.)"
+    phone_cell: "Tel. (cell.)"
+    phone_fax: FAX
+    e_mail: e-mail
+    le_title__get_full_name: Titolo
+    le_city__get_full_name: "Citta'"
+    notes: Note
+    created_on: Creato il
+    updated_on: Modificato il
+
+    patient: "Paziente"
+    default_invoice_price: "Prezzo standard (€)"
+    default_invoice_text: "Testo standard Ricevuta"
+    specify_neurologic_checkup: "Checkup neurologico?"
+    appointment_freq: "Freq. appuntam.(gg)"
+    preferred_days: "Giorni preferiti"
+    preferred_times: "Orari preferiti"
+    is_suspended: "Sospeso?"
+    is_a_firm: "E' una ditta?"
+    is_fiscal: "Fiscale?"
+    add_patient: "Aggiungi Paziente"
+    edit_patient: "Modifica Paziente"
+    patients_list: "Elenco Pazienti"
+    back_to_patients_list: "Elenco Pazienti"
+    back_to_patients_list_tooltip: "Torna alla lista Pazienti"
+    manage_patient: "Gestione Paziente"
+    manage_patient_tooltip: "Vai alla pagina specializzata che mostra i dettagli del Paziente e tutti i suoi appuntamenti"
+    appointments_list: "Elenco Appuntamenti"
+    manage_appointment: "Gestione Appuntamento"
+    name_and_surname: "Nome / Cognome"
+    contact_info: "Informazioni per il contatto"
+    receipt_preferences: "Preferenze per la Ricevuta"
+    receipt_preferences_price: "Prezzo (€)"
+    receipt_preferences_text: "Testo/Dicitura"
+    appointment_preferences: "Preferenze per l'Appuntamento"
+    status: Stato corrente
+    occasional: "occasionale"
+    weekly: "settimanale"
+    twice_a_month: "bisettimanale"
+    monthly: "mensile"
+
+
+  appointment:
+    id: "ID"
+    appointment: "Appuntamento"
+    appointments: "Appuntamenti"
+    patient__get_full_name: "Paziente"
+    add_appointment: "Aggiungi Appuntamento"
+    edit_appointment: "Modifica Appuntamento"
+    void_appointment: "Annulla Appunt."
+    void_appointment_tooltip: "Annulla un Appuntamento che e' stato cancellato"
+    appointments_cancelled: "Appuntamenti annullati"
+    date_schedule: "Data Appuntamento"
+    price: "Prezzo (€)"
+    is_payed: "Pagato?"
+    additional_notes: "Note da stampare su Ricevuta"
+    receipt_code: "Num. Ricevuta"
+    is_receipt_issued: "Emessa?"
+    receipt_id: "ID Ricevuta"
+    get_safe_receipt_id: "ID Ricevuta"
+    notes: Note
+    is_receipt_delivered: "Consegnata?"
+    add_schedule_appointment: "Aggiungi un Appuntamento a questa ora"
+    edit_schedule_appointment: "Mostra o modifica l'Appuntamento a questo orario"
+    issue_receipt: "Emetti Ricevuta"
+    issue_receipt_tooltip: "Emette una Ricevuta per questo Appuntamento (e' un operazione irreversibile)."
+    issue_multi_receipt_tooltip: "Emette una singola Ricevuta complessiva per tutti gli Appuntamenti selezionati dalla lista mostrato (e' un operazione irreversibile). La ricevuta sara' intestata al primo Paziente trovato nella lista degli Appuntamenti selezionati."
+    printable_pdf: "PDF Ricevuta orig."
+    printable_pdf_tooltip: "Crea un file PDF stampabile della Ricevuta di questo Appuntamento"
+    printable_pdf_copy: "PDF Copia Ric."
+    printable_pdf_copy_tooltip: "Crea un singolo file PDF stampabile della Ricevuta di questo Appuntamento con la dicitura 'COPIA ad uso Amministrativo'"
+    printable_multi_pdf: "PDF Ricevuta orig."
+    printable_multi_pdf_tooltip: "Crea un singolo file PDF stampabile per tutte le Ricevute selezionate e presenti nell'elenco"
+    printable_multi_pdf_copy: "PDF Copia Ric."
+    printable_multi_pdf_copy_tooltip: "Crea un singolo file PDF stampabile per tutte le Ricevute selezionate e presenti nell'elenco con la dicitura 'COPIA ad uso Amministrativo'"
+    export_txt: "File di testo"
+    export_txt_tooltip: "Crea un un singolo file di testo contentente gli importi e il testo delle Ricevute selezionate in lista"
+    export_csv_full: "File CSV"
+    export_csv_full_tooltip: "Crea un un singolo file di testo in formato CSV, contentente gli importi e il testo delle Ricevute selezionate in lista"
+    invalid_appointment_found_at: "C'e' un appuntamento fuori orario in questa settimana in data "
+
+
+  receipt:
+    id: "ID"
+    receipt_id: "ID Ricevuta"
+    receipt: "Ricevuta"
+    receipts: "Ricevute"
+    alt_receipt_title: "Fattura"
+    pdf_options: "Opzioni PDF"
+    alt_receipt_title_description: "Usa dicitura 'Fattura' al posto di 'Ricevuta'"
+    get_receipt_code: "Ricevuta"
+    add_receipt: "Aggiungi Ricevuta"
+    edit_receipt: "Modifica Ricevuta"
+    receipt_num: "Num. Ricevuta"
+    date_receipt: "Data"
+    price: "Prezzo (€)"
+    price_verbose: "Prezzo (Euro)"
+    currency: "€"
+    currency_verbose: "Euro"
+    receipt_description: "Descrizione ricevuta"
+    patient_id: "ID Paziente"
+    patient__get_full_name: "Paziente"
+    is_receipt_delivered: "Consegnata?"
+    is_payed: "Pagata?"
+    additional_notes: "Note da stampare su Ricevuta"
+    payed: "PAGATO"
+    appointments_payed: "Appunt.pagati"
+    invoiced_appointments: "Per visite del"
+    to_be_payed: "DA PAGARE"
+    notes: Note
+    customer_signature: "Firma Cliente"
+    receipts_list: "Elenco Ricevute"
+    new_receipt_issued: "Nuova Ricevuta emessa."
+    no_selection_receipt_not_issued: "La Ricevuta NON e' stata emessa perche' non sono stati selezionati appuntamenti validi."
+    title: "AmbGest3 receipt"
+    lock_version: "Lock"
+    created_on: "Creato il"
+    updated_on: "Aggiornato il"
+    customer_name: "Nome"
+    customer_notes: "Note"
+    customer_info: "Indirizzo"
+    customer_signature: "Firma"
+    customer_tax_code: "C.F."
+    customer_tax_code_label: "Cod.Fisc."
+    qty: "Q.ta'"
+    amount: "Importo"
+    amount_with_currency: "Importo (€)"
+    description: "Descrizione"
+    percent: "(%)"
+    copy_watermark: "( COPIA ad uso Amministrativo )"
+
+
+  schedule:
+    id: "ID"
+    schedule: "Nota di Planning"
+    add_schedule: "Aggiungi Nota di Planning"
+    edit_schedule: "Modifica Nota di Planning"
+    date_schedule: "Data"
+    must_insert: "Inserire"
+    must_move: "Spostare"
+    must_call: "Chiamare"
+    is_done: "Fatto?"
+    patient__get_full_name: "Paziente"
+    notes: Note
+    schedules_list: "Elenco Note di Planning"
+
+
+  week_plan:
+    weekly_planner: "Planning Settimanale"
+    week_fast_backward: "14 gg fa"
+    week_fast_backward_tooltip: "Vai indietro di 2 settimane"
+    week_backward: "Sett.prec."
+    week_backward_tooltip: "Vai alla settimana precedente"
+    week_current: "Adesso"
+    week_current_tooltip: "Vai alla settimana corrente"
+    week_forward: "Sett.succ."
+    week_forward_tooltip: "Vai alla prossima settimana"
+    week_fast_forward: "Fra 14 gg"
+    week_fast_forward_tooltip: "Vai avanti di 2 settimane"
+    schedule_note_add: "Nuova nota"
+    schedule_note_add_tooltip: "Aggiungi una Nota di Scheduling visibile nella settimana corrente"
+    schedule_notes_current: "Mostra note"
+    schedule_notes_current_tooltip: "Mostra (o modifica) le note di Scheduling per la settimana corrente"
+    income_analysis: "Analisi Fatturato"
+    income_analysis_tooltip: "Mostra l'Analisi del Fatturato per la settimana corrente"
+
+
+  income_analysis:
+    base_amount: "Imponibile base"
+    items_to_be_divested: "Voci scorporo (-)"
+    net_taxable: "Netto imponibile"
+    entries_percentage: "Voci percentuali"
+    tot_additional_charges: "Somma costi aggiuntivi (+)"
+    gross_amount: "Lordo"
+    totals: "Totali"
+    subtotals: "Sub-totali"
+    receipts: "Ricevute"
+    receipts_list_during_period: "Elenco Ricevute emesse nel periodo"
+    receipts_list_file_name: "ElencoRicevute"
+    difference: "Differenza"
+    invoiced_appointments: "Appunt. in fattura"
+    appointments_summary: "Riassunto Appuntamenti"
+    total_amount: "Importo totale"
+    receipt_issued: "Ricevuta emessa?"
+    receipt_delivered: "Ricevuta consegnata?"
+    appointments_in_date: "Visite del"
+    receipts_summary: "Riassunto Ricevute emesse"
+    receipt: "Ricevuta"
+    is_payed: "Pagato?"
+    analysis_pdf: "Report su PDF"
+    analysis_pdf_tooltip: "Crea un file PDF contenente la tabella analitica di questa Analisi"
+    graph_data_filtered_from: "Dati del grafico filtrati a partire dal"
+
+    
+  account_row:                                      # Scope used by Account manage & Account reporting
+    grouping_total_label: 'Tot. complessivo'
+    grouping_totals_label: 'Totali per tipologie'
+
+    report_pdf: "File PDF"
+    report_pdf_tooltip: "Crea un report usando i dati correnti in lista, su di un singolo file PDF"
+    report_odt: "File OpenOffice"
+    report_odt_tooltip: "Crea un report usando i dati correnti in lista, su di un singolo file OpenOffice Writer (.ODT)"
+    report_txt: "File di testo (layout completo)"
+    report_txt_tooltip: "Crea un report usando i dati correnti in lista, su di un singolo file di testo, includendo i totali per tipologia alla fine"
+    report_txt_no_stats: "File di testo (senza subtotali)"
+    report_txt_no_stats_tooltip: "Crea un report usando i dati correnti in lista, su di un singolo file di testo, senza i totali per tipologia alla fine"
+    export_csv: "File CSV (layout completo)"
+    export_csv_tooltip: "Esporta i dati correnti in lista, su di un singolo file CSV, includendo i totali per tipologia alla fine"
+    export_csv_no_stats: "File CSV (senza subtotali)"
+    export_csv_no_stats_tooltip: "Esporta i dati correnti in lista, su di un singolo file CSV, senza i totali per tipologia alla fine"
+    summary_stats: "Subtotali per tipologia"
+    summary_stats_tooltip: "Mostra i subtotali per tipologia in una finestra pop-up"
+
+    add_gasoline_row: "Costo: 'benzina'"
+    add_gasoline_row_tooltip: "Crea una nuova riga di costi 'benzina' con valori di default"
+    add_gasoline_row_desc: "benzina"
+    add_library_row: "Costo: 'acquisto riviste di settore'"
+    add_library_row_tooltip: "Crea una nuova riga di costi per 'acquisto riviste di settore' con valori di default"
+    add_library_row_desc: "acquisto riviste di settore"
+    add_cash_integration_row: "Entrate: 'anticipo del titolare per conto cassa'"
+    add_cash_integration_row_tooltip: "Crea una nuova riga di entrate 'anticipo del titolare per conto cassa' con valori di default"
+    add_cash_integration_row_desc: "anticipo del titolare per conto cassa"
+
+    add_invoice_payment_row: "Profitti: 'pagamento fattura'"
+    add_invoice_payment_row_tooltip: "Crea una nuova riga di entrate per 'pagamento fattura' con valori di default"
+    add_invoice_payment_row_desc: "pagamento fattura"
+
+    add_grocery_coop_row: "Costo: 'spese alimentari/varie: Ipercoop'"
+    add_grocery_coop_row_tooltip: "Crea una nuova riga di costi per 'spese alimentari/varie: Ipercoop' con valori di default"
+    add_grocery_coop_row_desc: "spese alimentari/varie: Ipercoop"
+    add_grocery_bio_row: "Costo: 'spese alimentari: bio'"
+    add_grocery_bio_row_tooltip: "Crea una nuova riga di costi per 'spese alimentari: bio' con valori di default"
+    add_grocery_bio_row_desc: "spese alimentari: bio"
+    add_adsl_service_row: "Costo: 'utenza ADSL Wind-Infostrada'"
+    add_adsl_service_row_tooltip: "Crea una nuova riga di costi per 'utenza ADSL Wind-Infostrada' con valori di default"
+    add_adsl_service_row_desc: "utenza ADSL Wind-Infostrada"
+    add_telephone_row: "Costo: 'utenza Telecom Italia'"
+    add_telephone_row_tooltip: "Crea una nuova riga di costi per 'utenza Telecom Italia' con valori di default"
+    add_telephone_row_desc: "utenza Telecom Italia"
+    add_electricity_service_row: "Costo: 'utenza ENEL luce'"
+    add_electricity_service_row_tooltip: "Crea una nuova riga di costi per 'utenza ENEL luce' con valori di default"
+    add_electricity_service_row_desc: "utenza ENEL luce"
+    add_electricity_service2_row: "Costo: 'utenza IREN servizio elettrico'"
+    add_electricity_service2_row_tooltip: "Crea una nuova riga di costi per 'utenza IREN servizio elettrico' con valori di default"
+    add_electricity_service2_row_desc: "utenza IREN servizio elettrico"
+    add_dinner_out_row: "Costo: 'pranzo/cena fuori'"
+    add_dinner_out_row_tooltip: "Crea una nuova riga di costi per 'pranzo/cena fuori' con valori di default"
+    add_dinner_out_row_desc: "pranzo/cena fuori"
+    add_trash_disposal_row: "Costo: 'utenza IREN servizio rifiuti'"
+    add_trash_disposal_row_tooltip: "Crea una nuova riga di costi per 'utenza IREN servizio rifiuti' con valori di default"
+    add_trash_disposal_row_desc: "utenza IREN servizio rifiuti"
+    add_water_utility_row: "Costo: 'utenza IREN servizio idrico'"
+    add_water_utility_row_tooltip: "Crea una nuova riga di costi per 'utenza IREN servizio idrico' con valori di default"
+    add_water_utility_row_desc: "utenza IREN servizio idrico"
+    add_methane_utility_row: "Costo: 'utenza IREN servizio gas'"
+    add_methane_utility_row_tooltip: "Crea una nuova riga di costi per 'utenza IREN servizio gas' con valori di default"
+    add_methane_utility_row_desc: "utenza IREN servizio gas"
+    add_grocery_card_bill_row: "Costo: 'spese alimentari su ConadCard a fine mese'"
+    add_grocery_card_bill_row_tooltip: "Crea una nuova riga di costi per 'spese alimentari su ConadCard a fine mese' con valori di default"
+    add_grocery_card_bill_row_desc: "spese alimentari su ConadCard a fine mese"
+
+    date_entry: Data
+    entry_value: Valore
+    description: Descrizione voce
+    notes: Note
+    parent_le_account_row_type: Macrotipo
+    parent_le_account_row_type__get_full_name: Macrotipo
+    get_firm_name: Destinatario
+    recipient_firm: Destinatario
+    recipient_firm__get_full_name: Destinatario
+    le_account_row_type: Tipo
+    le_account_row_type__get_full_name: Tipo
+    le_account_payment_type: Pagamento
+    le_account_payment_type__get_full_name: Pagamento
+    check_number: "Assegno #"
+    starting_total: Estratto conto iniziale
+    report_created_on: "Report creato il"
+    filtering_label: "Dati filtrati sul periodo"
+    meta_info_subject: "AgeX5 conti contabili report"
+    meta_info_keywords: "agex, conti contabili, account, account_row, report"
+    grouping_total_label: "TOTALE COMPLESSIVO"
+    grand_total: "TOTALE COMPLESSIVO"
+    subtotal_names: "Voci"
+    subtotal_values: "Subtotali"
+    currency_id: "Cod. valuta"
+    currency_name: "Valuta"
+    unable_to_retrieve_account_row_data: "impossibile recuperare la riga di AccountRow!"
+    data_import_conflicting_account_row: "Riga Conto Contabile in conflitto"
+    data_import_source_text_1: "Testo originale importato"
+
+
+  invoice_row:                                      # Scope used by Invoice manage & Invoice reporting
+    grouping_total_label: 'Tot. fattura'
+    grouping_totals_label: 'Tot. fatture'
+
+    report_pdf: "File PDF"
+    report_pdf_tooltip: "Crea un report usando i dati correnti in lista, su di un singolo file PDF"
+    report_pdf_copy: "File PDF (copia)"
+    report_pdf_copy_tooltip: "Crea un report usando i dati correnti in lista, su di un singolo file PDF contenente la dicitura 'copia ad uso amministrativo'"
+    report_odt: "File OpenOffice"
+    report_odt_tooltip: "Crea un report usando i dati correnti in lista, su di un singolo file OpenOffice Writer (.ODT)"
+    report_odt_copy: "File OpenOffice (copia)"
+    report_odt_copy_tooltip: "Crea un report usando i dati correnti in lista, su di un singolo file OpenOffice Writer (.ODT) contenente la dicitura 'copia ad uso amministrativo'"
+    report_txt: "File di testo"
+    report_txt_tooltip: "Crea un report usando i dati correnti in lista, su di un singolo file di testo"
+    export_csv_full: "File CSV (completo)"
+    export_csv_full_tooltip: "Esporta i dati correnti in lista, su di un singolo file CSV, inclusa l'instazione di fattura"
+    export_csv_no_header: "File CSV (no intestaz.)"
+    export_csv_no_header_tooltip: "Esporta i dati correnti in lista, su di un singolo file CSV, senza l'instazione di fattura"
+
+    yearly_invoicing_title: "Andamento Fatturato totale / Anno"
+    time_invoicing_title: "Andamento Fatturato totale"
+    daily_invoicing_title: "Andamento Fatturato totale / Giorno"
+
+    subtotal: "Totale voci"
+    sum_cost_x_qty: "Totale voci"
+    total_tax: "Totale Imposta"
+    total: "Totale"
+    grand_total: "Totale complessivo"
+    total_taxable_amount: "Totale Imponibile"
+    customer_phone_fax: "FAX"
+    company_full_address: "Indirizzo"
+    firm_id: "Ditta"
+    le_invoice_row_unit: "Unita'"
+    round_quantity: "Q.ta'"
+    company_vat_registration: "Part. IVA"
+    phone_main: "Tel."
+    customer: "Cliente"
+    notes: "Note"
+    net_tax: "Imposta al Netto"
+    customer_e_mail: "e-mail"
+    company_phone_main: "Tel. (princ.)"
+    e_mail: "e-mail"
+    unit_cost: "Costo unitario"
+    invoice_id: "Fattura"
+    vat_tax_percent: "IVA (%)"
+    customer_name: "Cliente"
+    notes_title: "Note"
+    vat_registration: "Part. IVA"
+    header_object: "Oggetto"
+    net_amount: "Netto Imponibile"
+    customer_tax_code: "Cod. Fiscale"
+    company_phone_hq: "Tel. (alt.)"
+    le_invoice_row_unit_id: "U.m."
+    is_fully_payed: "Saldata?"
+    updated_on: "Aggiornato il"
+    discount_percent: "Sconti (%)"
+    customer_full_address: "Indirizzo"
+    copy_watermark: "( COPIA ad uso amministrativo interno )"
+    project_id: "Progetto"
+    le_currency_id: "Valuta"
+    customer_vat_registration: "Part. IVA"
+    company_phone_fax: "FAX"
+    tax_code: "Cod. Fiscale"
+    phone_fax: "FAX"
+    discount: "Sconto"
+    date_invoice: "Data"
+    total_expenses: "Spese tot. forfettarie"
+    le_invoice_payment_type_id: "Tipo pagamento"
+    bank_cc: "C/C"
+    customer_phone_main: "Tel.(princ.)"
+    report_title: "FATTURA"
+    banking_coordinates: "Coordinate Bancarie"
+    quantity: "Q.ta'"
+    account_wage: "Ritenuta d'acconto"
+    account_wage_amount: "Ritenuta d'acconto"
+    taxable_amount: "Imponibile"
+    notes_text: "Note"
+    company_e_mail: "e-mail"
+    date: "Data"
+    name: "Nome"
+    created_on: "Creato il"
+    social_security_cost: "Rivalsa contrib. previdenz."
+    social_security_amount: "Rivalsa contrib. previdenz."
+    recipient_firm_id: "Destinatario"
+    vat_tax: "IVA"
+    customer_phone_hq: "Tel.(alt.)"
+    company_name: "Nome ditta"
+    id: "id"
+    lock_version: "lock version"
+    invoice_number: "Fattura #"
+    description: "Descrizione"
+    bank_cin_abicab: "Cod. IBAN"
+    company_tax_code: "Cod. Fisc."
+    currency_name: "Valuta"
+    invoice_for: "Fattura per"
+    invoice_not_created: "Fattura NON creata"
+    recipient_partner: "Destinatario = Partner"
+    recipient_committer: "Destinatario = Committente"
+
+
+  project_row:                                      # Scope used by Project manage & Project reporting
+    id: Id
+    created_on: Creato il
+    updated_on: Modificato il
+    project_id: Progetto orig.
+    human_resource_id: Risorsa
+    le_currency_id: Valuta
+    project_milestone_id: Milestone
+    date_entry: Data
+    notes: Note
+    description: Descrizione
+    lock_version: Lock
+    std_hours: "Std.(h)"
+    ext_hours: "Trasf.(h)"
+    resource_displayable_name: 'Risorsa'
+    date_entry_displayable_name: 'Data'
+    std_hours_displayable_name: 'Standard'
+    ext_hours_displayable_name: 'Trasferta'
+    km_tot: "Km tot."
+    extra_expenses: "Spese"
+    is_analysis: "Analisi"
+    is_development: "Develop"
+    is_deployment: "Deploy"
+    is_debug: "Debug"
+    is_setup: "Setup"
+    is_study: "Studio"
+    name: Nome
+    project_id: Progetto genitore
+    codename: Nome in codice
+    firm_id: Sviluppatore
+    partner_firm_id: Partner
+    committer_firm_id: Committente
+    esteemed_price: Costo stimato
+    team_id: Team
+    date_start: Iniziato il
+    date_end: Finito il
+    has_gone_gold: "Gold?"
+    is_closed: "Chiuso?"
+    has_been_invoiced: "Fatt.?"
+    is_a_demo: "Demo?"
+    status: Stato corrente
+    le_currency: Valuta
+    human_resource: Risorsa
+    project_milestone: Milestone
+    entry_type: "Tipo attivita'"
+    resource: Risorsa
+    cost_std_hour: "Costo(h)std."
+    cost_ext_hour: "Costo(h)ext."
+    cost_km: "Costo(Km)"
+    charge_std_hour: "Ricar.(h)std."
+    charge_ext_hour: "Ricar.(h)ext."
+    fixed_weekly_wage: "Paga fissa sett."
+    charge_weekly_wage: "Ricar. settiman."
+    percentage_of_invoice: "% su Fatturaz."
+    study: Studio
+    analysis: Analisi
+    setup: Setup
+    develop: Sviluppo
+    debug: Debug
+    deploy: Deploy
+    meta_info_subject: 'Costo dettagliato x Risorse, Progetti'
+    meta_info_keywords: 'dettaglio,costi,risorse,progetti,agex,AgeX'
+    filtering_label: 'Dati appartenenti al periodo (da ... a)'
+    report_created_on: 'Report creato il'
+    resource_summary_title: 'Costi x Risorsa'
+    activity_summary_title: "Attivita'"
+    global_summary_title: 'Somme parziali'
+    totals: Totali
+    code: Codice
+    grouping_total_label: 'Costo totale del Progetto'
+    grouping_totals_label: 'Costo totale dei Progetti'
+    parent_project: 'Progeto Genitore'
+    firm: Sviluppatore
+    partner: Partner
+    committer: Committente
+    team_group: 'Team / Gruppo'
+    date_range: 'Inizio ... Fine'
+
+    report_pdf: "File PDF"
+    report_pdf_tooltip: "Crea un report usando i dati correnti in lista (filtrati o meno), su di un singolo file PDF"
+    report_odt: "File OpenOffice"
+    report_odt_tooltip: "Crea un report usando i dati correnti in lista (filtrati o meno), su di un singolo file OpenOffice Writer (.ODT)"
+    report_txt: "File di testo"
+    report_txt_tooltip: "Crea un report usando i dati correnti in lista (filtrati o meno), su di un singolo file di testo"
+    export_csv_full: "File CSV (completo)"
+    export_csv_full_tooltip: "Esporta i dati correnti in lista (filtrati o meno), su di un singolo file CSV, incluse tutte le instazioni e le sotto-tabelle"
+    export_csv_no_header: "File CSV (no intestaz.)"
+    export_csv_no_header_tooltip: "Esporta i dati correnti in lista (filtrati o meno), su di un singolo file CSV, senza instazioni, solo coi dati principali"
+    add_halfday_std_devdebug: "+1/2 gg. di dev. & debug in studio"
+    add_halfday_std_devdebug_tooltip: "Aggiunge una riga con una mezza giornata di sviluppo & debug, in studio, usando la data corrente"
+    add_fullday_std_devdebug: "+1 gg. di dev. & debug in studio"
+    add_fullday_std_devdebug_tooltip: "Aggiunge una riga con una giornata piena di sviluppo & debug, in studio, usando la data corrente"
+    add_next_halfday_std_devdebug: "+1/2 gg. SUCC. di dev. & debug in studio"
+    add_next_halfday_std_devdebug_tooltip: "Aggiunge una riga con una mezza giornata di sviluppo & debug, in studio, usando la data SUCCESSIVA all'ultima inserita"
+    add_next_fullday_std_devdebug: "+1 gg. SUCC. di dev. & debug in studio"
+    add_next_fullday_std_devdebug_tooltip: "Aggiunge una riga con una giornata piena di sviluppo & debug, in studio, usando la data SUCCESSIVA all'ultima inserita"
+    add_fullday_ext_devdebug: "+1 gg. di dev. & debug in trasferta"
+    add_fullday_ext_devdebug_tooltip: "Aggiunge una riga con una giornata piena di sviluppo & debug, in trasferta, usando la data corrente"
+    invoice_shown_rows: "Fattura righe in elenco"
+    invoice_shown_rows_tooltip: "Crea una nuova fattura per le righe progetto mostrate, contenente voci differenziate per tipologie di costo (raggruppando costi uguali e dello stesso tipo)"
+    invoice_all_rows: "Fattura tutto il progetto"
+    invoice_all_rows_tooltip: "Crea una nuova fattura per TUTTE le righe del progetto (anche quelle eventualemente filtrate), contenente una singola voce col costo totale come imponibile"
+    invoice_esteem_tot: "Fattura forfettaria (su costo stimato)"
+    invoice_esteem_tot_tooltip: "Crea una nuova fattura per il progetto, contenente una singola voce col costo stimato come imponibile (per retribuzione forfettaria)"
+
+    dev_debug: "sviluppo e debug"
+    ext_dev_debug: "trasferta: sviluppo e debug"
+    analysis_dev_debug: "analisi, sviluppo e debug"
+    ext_analysis_dev_debug: 'trasferta: analisi, sviluppo e debug'
+    km_cost_for_trips: 'costo chilometrico per trasferte lunghe'
+    forfait_amount_for_analysis_and_dev: 'importo forfettario per analisi e sviluppo'
+    project_invoiced_successfully: "Progetto fatturato con successo."
+
+
+  agex_action:
+    main: Principale
+    home: "Home"
+    home_tooltip: "Vai alla pagina principale"
+    login: "Login"
+    logout: "Esci / Rientra"
+    logout_tooltip: "Esci (effettua il Log-out richiedendo un nuovo log-in)"
+    about: "Informazioni"
+    about_tooltip: "Vai alla pagina Informazioni"
+    contact_us: "Contattaci"
+    contact_us_tooltip: "Vai alla pagina 'Contattaci'"
+    news_log: "Archivio news"
+    news_log_tooltip: "Vai alla pagina 'Archivio news'"
+    sub_entities: "Sotto-entita'"
+    sub_entities_tooltip: "Vai alla pagina di gestione Sotto-entita'"
+    whos_online: "Chi e' on-line"
+    whos_online_tooltip: "Vai alla pagina 'Chi e' on-line'"
+    contacts: "Contatti"
+    contacts_tooltip: "Vai alla pagina gestione Contatti"
+    firms: "Ditte"
+    firms_tooltip: "Vai alla pagina gestione Ditte"
+    human_resources: "Risorse umane"
+    human_resources_tooltip: "Vai alla pagina gestione Risorse umane"
+    teams: "Team/Gruppi"
+    teams_tooltip: "Vai alla pagina gestione Team/Gruppi"
+    accounts: "Conti contabili"
+    accounts_tooltip: "Vai alla pagina gestione Conti contabili"
+    projects: "Progetti"
+    projects_tooltip: "Vai alla pagina gestione Progetti"
+    invoices: "Fatture"
+    invoices_tooltip: "Vai alla pagina gestione Fatture"
+    data_filtered_from: "Dati filtrati a partire dal"
+    data_filtered_to: "al"
+
+    articles: "Articoli Blog"
+    articles_tooltip: "Vai alla pagina di gestione degli Articoli del Blog interno"
+    accounts_projects_and_invoices: "Conti, Progetti e Fatture"
+    firms_and_teams: "Ditte e Team"
+
+    invoice_analysis: Analisi Fatturato
+    invoice_analysis_tooltip: "Visualizza il Fatturato corrente e l'andamento negli ultimi anni"
+    invoice_analysis_title: Analisi del Fatturato
+    account_data_import: "Wizard Importazione Dati per Conti Contabili"
+    account_data_import_tooltip: "Permette di importare i file di scambio generati dall'esportazione c/c bancario nei Conti Contabili"
+    account_data_import_title: Importazione file dati bancari su Conti Contabili
+
+    manage_system: "Gestione Sistema"
+    users: Utenti
+    users_tooltip: "Gestisci la lista degli Utenti"
+    edit_current_user: "Modifica profilo Utente"
+    edit_current_user_tooltip: "Modifica il tuo profilo Utente o cambia la password utilizzata"
+    app_parameters: Parametri Applicazione
+    app_parameters_tooltip: "Gestisci la lista dei Parametri interni dell'Applicazione"
+
+    patients: "Pazienti"
+    patients_tooltip: "Vai alla pagina di gestione dei Pazienti"
+    appointments: "Appuntamenti"
+    appointments_tooltip: "Vai alla pagina di gestione degli Appuntamenti"
+    week_plan: "Planning Settimanale"
+    week_plan_tooltip: "Vai alla pagina di gestione del Planning Settimanale"
+    schedules: "Note di Planning"
+    schedules_tooltip: "Vai alla pagina di gestione delle Note associate al Planning Settimanale"
+    receipts: "Ricevute"
+    receipts_tooltip: "Vai alla pagina di gestione delle Ricevute emesse"
+    patients_and_appointments: "Pazienti ed Appuntamenti"
+    go_to_date: 'Trova la data'
+
+
+  agex_management_module_desc: 'Gestione Ambulatorio'
+  something_went_wrong: "Qualcosa e' andato storto, controllare il file di log."
+  transaction_cancelled: "Transazione annullata."
+  main: 'Principale:'
+  home: Home
+  login: Login
+  logout: Disconnetti
+  about: Informazioni
+  contact_us: Contattaci
+  questions_about: Domande riguardanti
+  sections: 'Sezioni:'
+  setup: 'Setup:'
+  user: Utente
+  user_name: Nome utente
+  login_to_proceed: "Per continuare e' necessario fare Log-in." 
+  login_tooltip: Accedi
+  password: Password
+  user_not_authenticated: 'Utente non registrato'
+  invalid_user: "Utente / Password non corretti!"
+  access_denied: "Accesso negato."
+  disconnected: Disconnesso
+  welcome: "Benvenuti!"
+  hi: Ciao
+  user_created: Utente creato con successo.
+  user_deleted: Utente eliminato con successo.
+  req_functionality_under_development: "La funzionalita' richiesta non e' attualmente disponibile perche' e' stata sottoposta a revisione o ci sono lavori di manutenzione in corso."
+
+  no_new_articles: Nessun nuovo articolo
+  select_file: "Scegli un file"
+  commit_rows: "Concludi"
+  commit_rows_tooltip: "Conclude l'importazione dati, salvando tutte le righe elencate nella loro destinazione"
+  existing_data_import_sessions: "Sessioni di importazione dati esistenti o in progresso"
+  last_phase: "Ultima fase"
+  data_rows: "Righe dati"
+  data_format: "Formato"
+  select_create_session: "Seleziona / Crea sessione"
+  review_edit_data: "Rivedi / Modifica dati"
+  continue_on_phase2: "Continua con Fase 2"
+  result_log: "Log risultato"
+
+  patient__get_full_name: "Paziente"
+  date_schedule: "Date"
+
+  id: Id
+  name: Nome
+  description: Descrizione
+  tot: Tot.
+  sum: 'Somma'
+  mean: 'Media'
+  notes: Note
+  created_at: Creato il
+  updated_at: Modificato il
+  created_on: Creato il
+  updated_on: Modificato il
+  created_slash_updated_at: "Creato/Aggiorn. il"
+  created_slash_updated_on: "Creato/Aggiorn. il"
+  details_for: Dettagli per
+  refresh: Aggiorna
+  refresh_tooltip: "Ricarica i dati per la pagina corrente"
+  click_on_the_grid: "(Clicca sulla griglia per contare)"
+  tot_rows: "Righe tot."
+  selected: Selezionate
+  grand_total: Totale Complessivo
+  subtotals: Subtotali
+  sums: Somme
+  costs: Costi
+  error: Errore
+  undefined: "(non definito)"
+  in_conflict: "In conflitto"
+
+  warning_no_data_to_send: "Non ci sono righe dati da elaborare!"
+  drag_to_resize: "Trascina per ridimensionare le aree"
+  show_details_tooltip: "Mostra i dettagli della riga selezionata in una finestra pop-up"
+  add: Aggiungi
+  edit: Modifica
+  user: Utente
+  manage_details: Gestisci dettagli
+  manage_details_tooltip: "Gestisci nei dettagli l'elemento selezionato [anche: SPAZIO o INVIO dopo aver selezionato la riga]"
+  row_added: "Riga aggiunta con successo."
+  some_rows_were_skipped_because_invoiced: "Alcune righe sono state escluse perche' erano gia' state fatturate."
+  some_rows_were_skipped_because_not_invoiced: "Alcune righe sono state escluse perche' non avevano ricevuta."
+
+  reporting: "Report"
+  data_export: "Esportazioni"
+  invoicing: "Fatturazione"
+  add_default_row: "Aggiungi righe 'default'"
+
+  user__name: Utente
+  authorization_level: "Livello Autorizz."
+  password_confirmation: Conferma password
+  password_missing: "Password mancante"
+  salt: "Cod. salt"
+  hashed_pwd: "Hashed Pwd."
+  session_deleted: "Sessione eliminata."
+  unable_to_delete_session: "Impossibile eliminare la sessione."
+  upload_failed: "Upload fallito!"
+  upload: "Upload"
+  keep_offline: "Mantieni off-line"
+  warning_no_import_data_session_found: "Non e' stata trovata nessuna sessione di importazione dati."
+  uploaded_files_still_present: "Files caricati e ancora presenti"
+
+  projects_list: Elenco Progetti
+  project_rows: Righe progetto
+  back_to_projects_list: Elenco Progetti
+  back_to_projects_list_tooltip: Torna a Elenco Progetti
+  project_milestones: Milestone di Progetto
+  project_milestones_tooltip: Va alla pagina di gestione dei Milestone di Progetto
+  project_activity_graph: "Grafico attività"
+  project_activity_graph_tooltip: "Grafico temporale delle attività di Progetto"
+  projects_list: Elenco Progetti
+  manage_projects: Gestione Progetti correnti
+  manage_project: Gestione Progetto
+  manage_project_tooltip: "Gestisci il progetto selezionato [anche: SPAZIO o INVIO dopo aver selezionato la riga]"
+  add_project: Aggiungi Progetto
+  edit_project: Modifica Progetto
+  add_project_row: Aggiungi una riga Progetto
+  edit_project_row: Modifica riga Progetto
+
+  back_to_manage_project:
+    manage_project: Gestione Progetto
+    manage_project_tooltip: Torna alla pagina di Gestione Progetto
+
+  project_milestones_for: Milestone di Progetto per
+  add_project_milestone: Aggiungi una Milestone di Progetto
+  edit_project_milestone: Modifica Milestone di Progetto
+  user__name: Utente
+  depends_on__name: Dipende da
+  esteemed_days: "Stima(gg.)"
+  date_esteemed: Stima Data
+  projected_for_version: "Previsto x vers."
+  is_public: "Pubblica?"
+  is_critical: "Critica?"
+  is_urgent: "Urgente?"
+  is_structural: "Strutturale?"
+  is_user_request: "Richiesta utente?"
+  module_names: Moduli coinvolti
+  implemented_in_version: "Implem. in vers."
+  date_implemented: "Impl. in data"
+
+  project_activity_for: "Attivita' di Progetto per"
+
+
+  firm__get_full_name: Ditta
+  project__codename: Progetto genitore
+  codename: Nome in codice
+  developer_firm: Sviluppatore
+  partner_firm__get_full_name: Partner
+  committer_firm__get_full_name: Committente
+  esteemed_price: Costo stimato
+  team__name: Team
+  date_start: Iniziato il
+  date_end: Finito il
+  activity_start_end: "Attivita' (inizio...fine)"
+  has_gone_gold: "Gold?"
+  is_closed: "Chiuso?"
+  has_been_invoiced: "Fatt.?"
+  is_a_demo: "Demo?"
+  status: Stato corrente
+  le_currency__display_symbol: Valuta
+  human_resource__get_full_name: Risorsa
+  project_milestone__name: Milestone
+  development: Sviluppo
+  projects_total: Totale Progetti
+  detailed_voices: Dettaglio voci
+  qty: "Q.ta'"
+
+  firms_list: Elenco Ditte
+  firms: Ditte
+  contacts: Contatti per ditta
+  firm_details: Dettagli ditta
+  is_user: "Utente?"
+  is_committer: "Committente?"
+  is_partner: "Partner?"
+  is_vendor: "Fornitore?"
+  is_out_of_business: "Non disponibile?"
+  firm_type: "Tipo ditta"
+  add_firm: Aggiungi Ditta
+  edit_firm: Modifica Ditta
+  address: Indirizzo
+  tax_code: Cod.Fisc.
+  vat_registration: Part.IVA
+  phone_main: Tel. (princ.)
+  phone_hq: "Tel. (alt.)"
+  phone_fax: FAX
+  e_mail: e-mail
+  bank_name: Nome Banca
+  bank_abicab: "IBAN (senza conto)"
+  bank_cc: "Conto n."
+  bank_notes: Note (Banca)
+  logo_image_big: Immagine Logo (grossa)
+  logo_image_short: Immagine Logo (piccola)
+  le_invoice_payment_type: Pagamento usuale
+
+  contacts_list: Elenco Contatti
+  contacts: Contatti
+  contacts_x_firm: Contatti x questa Ditta
+  add_contact_row: Aggiungi un nuovo Contatto
+  edit_contact_row: Modifica Contatto
+  le_title: Titolo
+  le_title__get_full_name: Titolo
+  le_contact_type: Tipo
+  le_contact_type__get_full_name: Tipo
+  le_city__get_full_name: "Citta'"
+  surname: Cognome
+  is_suspended: "Non disp.?"
+  date_birth: Data di Nascita
+  phone_home: "Tel. (casa)"
+  phone_work: "Tel. (uff.)"
+  phone_cell: "Tel. (cell.)"
+  date_last_met: "Incontrato il"
+  personal_notes: "Note personali"
+  family_notes: "Note sulla famiglia"
+
+  human_resources_list: Elenco Risorse Umane
+  human_resources: Risorse Umane
+  human_resource: Risorsa
+  add_human_resource_row: Aggiungi un nuova Risorsa Umana
+  edit_human_resource_row: Modifica Risorsa Umana
+  contact: Contatto
+  contact__get_full_name: Contatto
+  le_resource_type: Tipo Risorsa
+  le_resource_type__get_full_name: Tipo Risorsa
+  is_no_more_available: "Non disp.?"
+  cost_std_hour: "Costo(h)std."
+  cost_ext_hour: "Costo(h)ext."
+  cost_km: "Costo(Km)"
+  charge_std_hour: "Ricar.(h)std."
+  charge_ext_hour: "Ricar.(h)ext."
+  fixed_weekly_wage: "Paga fissa sett."
+  charge_weekly_wage: "Ricar. settiman."
+  percentage_of_invoice: "% su Fatturaz."
+
+  teams_list: "Elenco Team/Gruppi"
+  teams: "Team/Gruppi"
+  team_rows: Elementi del Team
+  add_team_row: Aggiungi un elemento al Team
+  edit_team_row: Modifica elemento Team
+  owner_firm: Titolare
+
+  accounts_list: Elenco Conti Contabili
+  manage_account: Gestisci Conto
+  manage_account_tooltip: Gestisci i dettagli di questo Conto
+  add_account: Aggiungi un Conto
+  edit_account: Modifica Conto
+  add_account_row: Aggiungi una riga contabile
+  edit_account_row: Modifica riga contabile
+  back_to_accounts_list: "Torna alla lista Conti Contabili"
+  back_to_accounts_list_tooltip: "Torna alla lista Conti Contabili"
+
+  invoices_list: Elenco Fatture
+  manage_invoice: Gestisci Fattura
+  back_to_invoices_list: "Torna alla lista fatture"
+  back_to_invoices_list_tooltip: "Torna alla lista fatture"
+  manage_invoice_tooltip: Gestisci i dettagli di questa Fattura
+  add_invoice: Aggiungi una Fattura
+  edit_invoice: Modifica Fattura
+  add_invoice_row: Aggiungi riga fattura
+  edit_invoice_row: Modifica riga fattura
+
+  recipient_firm__get_full_name: Destinatario
+  invoice_number: "Fattura #"
+  date_invoice: Data
+  header_object: Oggetto
+  is_fully_payed: "Saldata?"
+  social_security_cost: "Contrib. previd."
+  vat_tax: "IVA"
+  account_wage: "Rit. d'acconto"
+  total_expenses: "Tot. spese"
+  le_invoice_payment_type__get_full_name: Tipo pagamento
+  project__get_full_name: Progetto
+  quantity: "Q.ta'"
+  le_invoice_row_unit__get_full_name: "U.mis."
+  unit_cost: Costo
+  discount: Sconto
+
+
+  user_firm: Datore di lavoro
+  enable_blog: "Blogger?"
+  enable_edit: "Puo'modif.?"
+  enable_delete: "Puo'canc.?"
+  enable_setup: "Setup abil.?"
+  authorization_level: "Liv.Autorizz."
+
+  edit_inline: Modifica su griglia
+  edit_in_form: Modifica in finestra
+  show_details: Mostra dettagli
+  details: Dettagli di riga
+  search: Cerca
+
+  articles_list: Elenco Articoli
+  articles: Articoli
+  title: Titolo
+  entry_text: Testo
+  is_sticky: "Perman.?"
+  le_user__name: Utente
+
+  sub_entities_management: "Gestione sotto-entita'"
+
+  enable_blog_tooltip: "Abilita/disabilita il permesso di creare articoli di Blog per questo utente"
+  enable_edit_tooltip: "Abilita/disabilita il permesso di modificare righe dati (entita' principali) per questo utente"
+  enable_delete_tooltip: "Abilita/disabilita il permesso di eliminare righe dati (entita' principali) per questo utente"
+  enable_setup_tooltip: "Abilita/disabilita il permesso gestione entita' secondarie (di look-up) per questo utente"
+
+  cities: "Citta'"
+  users: Utenti
+  contact_types: Tipologie Contatti
+  account_payment_types: Tipi di Pagam. Conto Contab.
+  account_row_types: Tipi riga Conto Contab.
+  currency_exchanges: Cambi di valuta
+  currencies: Valute
+  invoice_payment_types: Tipi di Pagam. Fattura
+  invoice_row_units: "Tipi di Unita' righe Fattura"
+  resource_types: Tipologie Risorse umane
+  titles: Titoli personali
+  code: Cod.
+  zip: CAP
+  area: Provincia
+  country: "Paese / Nazione"
+  country_code: Sigla Nazione
+  display_symbol: Simbolo
+  is_a_parent: "Macrotipo?"
+  value_format: Formato
+  source_currency: Origine
+  destination_currency: Destinazione
+  date_exchange: Data Cambio
+  factor: Fattore
+  comment: Commento
+
+  welcome: 'Benvenuti !'
+  
+  privacy_statement: "<b>Informativa sintetica sulla Privacy</b> - Nel rispetto delle ultime versioni della normativa sulla tutela dei dati personali, vi informiamo che gli eventuali dati in nostro possesso, acquisiti durante il corso dei rapporti di collaborazione o consulenza appena compiuti, saranno conservati e utilizzati esclusivamente a fine amministrativo e fiscale. In qualsiasi momento potete richiederne l'eliminazione o la rettifica rivolgendovi direttamente al titolare del nostro studio."
+  footer_comments: "La ricevuta rilasciata per prestazioni sanitarie e' esente da IVA ai sensi\ndell'art. 10, comma 1, n.18 del D.P.R. 633/1972 e successive modificazioni,\ne soggetta alla vigente imposta di bollo; la ricevuta rilasciata in caso di\nprestazione di altro genere o di cessione di beni e' soggetta ad IVA."
+  footer_smallprint: "In caso di prestazioni ad imprese il sostituto d'imposta e' obbligato ad operare il prelievo \ned il relativo versamento della ritenuta di acconto sul lavoro autonomo."
+  legal_stamp: "MARCA DA BOLLO"
+  default_receipt_description: 'Visita specialistica'
+  alternate_receipt_description: 'Visita medica neurologica'
+  firm_receipt_description: "Prestazioni libero-professionali per visite effettuate a Vs. pazienti nel mese di %s"
+
+
+  netzke:
+    basepack:
+      grid_panel:
+        actions:
+          add: Aggiungi
+          edit: Modifica
+          del: Elimina
+          apply: Applica
+          add_in_form: Aggiungi su form
+          edit_in_form: Modifica su form
+          search: Cerca
+
+        deleted_n_records: "%{n} record eliminati"
+        cannot_delete: "Non hai l'autorizzazione per eliminare dati"
+        confirmation: Conferma
+        are_you_sure: Siamo sicuri di voler continuare?
+
+        record_form_window:
+          actions:
+            ok: OK
+            cancel: Annulla
+
+      search_window:
+        title: Ricerca estesa
+        actions:
+          search: Cerca
+          cancel: Annulla
+        action:
+          search: Cerca
+          cancel: Annulla
+
+      form_panel:
+        actions:
+          edit: Modifica
+          edit_tooltip: Modifica
+          cancel: Annulla
+          cancel_tooltip: Annulla le modifiche
+          apply: Applica
+          apply_tooltip: Applica le modifiche
+
+      search_panel:
+        presets: Valori predefiniti
+        equals: Uguale
+        greater_than: Maggiore di
+        less_than: Minore di
+        contains: Contiene
+        matches: Uguale
+        date_equals: "esattamente il"
+        before: Prima
+        after: Dopo
+
+      paging_form_panel:
+        actions:
+          search: Ricerca
+          search_tooltip: Ricerca estesa
+
+      query_builder:
+        presets: Preset
+        preset_saved: Preset salvato
+        preset_deleted: Preset cancellato
+        overwrite_confirm: "Sicuri di voler sovrascrivere il preset '{0}'?"
+        overwrite_confirm_title: "Sovrascrittura preset"
+        delete_confirm: "Sicuri di voler eliminare il preset '{0}'?"
+        delete_confirm_title: "Eliminazione preset"
+        actions:
+          clear_all: Ripulisci
+          clear_all_tooltip: Ripulisci tutte le condizioni
+          reset: Reset
+          reset_tooltip: "Reset di tutte le condizioni"
+          save_preset: Salva preset
+          save_preset_tooltip: Salva preset
+          delete_preset: Elimina preset
+          delete_preset_tooltip: Elimina preset
+          apply: Applica
+          apply_tooltip: Applica le condizioni aggiornate
+
+    formats:
+      date: Y-m-d
+      datetime: Y-m-d H:i:s
+      time: H:i:s
+
+
+  date:
+    formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
+      default: "%d-%m-%Y"
+      short: "%b %d"
+      long: "%B %d, %Y"
+
+    day_names: [Domenica, Lunedì, Martedì, Mercoledì, Giovedì, Venerdì, Sabato]
+    abbr_day_names: [Dom, Lun, Mar, Mer, Gio, Ven, Sab]
+
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names: [~, Gennaio, Febbraio, Marzo, Aprile, Maggio, Giugno, Luglio, Agosto, Settembre, Ottobre, Novembre, Dicembre]
+    abbr_month_names: [~, Gen, Feb, Mar, Apr, Mag, Giu, Lug, Ago, Sett, Ott, Nov, Dic]
+    # Used in date_select and datime_select.
+    order: [ :year, :month, :day ]
+
+  time:
+    formats:
+      default: "%a %d-%m-%Y %H:%M:%S %z"
+      short: "%d-%m %H:%M"
+      long: "%B %d, %Y %H:%M"
+    am: "AM"
+    pm: "PM"
+
+# Used in array.to_sentence.
+  support:
+    array:
+      words_connector: ", "
+      two_words_connector: " e "
+      last_word_connector: ", e "
+
+
+  activerecord:
+    models:
+      le_user: Utente
+      le_city: "Citta'"
+      le_contact_type: Tipo Contatto
+      le_account_payment_type: Tipo Pagamento Conto
+      le_account_row_type: Tipo Riga Conto
+      le_currency: Valuta
+      le_currency_exchange: Cambio Valuta
+      le_invoice_payment_type: Tipo Pagamento Fattura
+      le_invoice_row_unit: "Unita' di Misura"
+      le_resource_type: Tipo Risorsa
+      le_title: Titolo
+      article: Articolo
+      contact: Contatto
+      firm: Ditta
+      human_resource: Risorsa Umana
+      account: Conto Contabile
+      account_row: Riga Conto
+      invoce: Fattura
+      invoice_row: Riga Fattura
+      project: Progetto
+      project_milestone: Milestone di Progetto
+      project_row: Riga Progetto
+      team: Team
+      team_row: Riga Team
+
+      patient: Paziente
+      appointment: Appuntamento
+      receipt: Ricevuta
+      schedule: Nota Planning
+
+    attributes:
+      le_user:
+        created_on: Creato il
+        updated_on: Ultima modifica
+        name: Nome
+        hashed_pwd: Password codificata
+        password_confirmation: Conferma password
+        description: "Descrizione / nome completo"
+        enable_blog: "Blogger?"
+        enable_edit: "Puo' modificare?"
+        enable_delete: "Puo' eliminare?"
+        enable_setup: Abilita set-up
+        authorization_level: Liv. autorizz.
+        firm__name: Lavora presso
+      account:
+        name: Nome
+        description: Descrizione
+        date_entry: Data
+        firm_id: Ditta Titolare
+      account_row:
+        account_id: ID conto
+        description: Descrizione
+        date_entry: Data
+        entry_value: Valore
+      article:
+        le_user: Nome utente
+        title: Titolo
+        entry_text: Testo
+      invoice:
+        name: Nome
+        description: Descrizione
+        invoice_number: Numero Fattura
+        firm_id: Ditta Titolare
+        recipient_firm_id: Destinatario
+        invoice_number: "Fattura #"
+        date_invoice: Data
+        header_object: Oggetto
+        social_security_cost: "Contrib. previd."
+        vat_tax: "IVA"
+        account_wage: "Rit. d'acconto"
+        total_expenses: "Tot. spese"
+        le_invoice_payment_type_id: Tipo pagamento
+      project:
+        codename: Nome in codice
+        name: Nome
+        esteemed_price: Costo stimato
+        date_start: Data Inizio
+
+      patient:
+        name: Nome
+        surname: Cognome
+      appointment:
+        date_schedule: "Data appuntam."
+        patient_id: Paziente
+        price: Prezzo
+      receipt:
+        date_receipt: Data Ricevuta
+        patient_id: Paziente
+        receipt_num: "Num. Ricevuta"
+        price: Prezzo
+      schedule:
+        date_schedule: Data della Nota
+
+    errors:
+      models:
+        account:
+          attributes:
+            name:
+              too_long: "troppo lungo (max. 20 caratteri)"
+              too_short: troppo corto
+              blank: "non puo' essere vuoto (minimo 1 carattere)"
+            description:
+              too_long: "troppo lunga (max. 80 caratteri)"
+            firm_id:
+              blank: "non puo' essere vuoto (va scelta dall'elenco)"
+        account_row:
+          attributes:
+            description:
+              too_long: "troppo lunga (max. 255 caratteri)"
+              too_short: troppo corta
+              blank: "non puo' essere vuota (minimo 1 carattere)"
+            date_entry:
+              blank: "non puo' essere vuota (minimo 1 carattere)"
+            entry_value:
+              blank: "non puo' essere vuoto (minimo 1 carattere)"
+              not_a_number: "deve essere un numero"
+            check_number:
+              too_long: "troppo lungo (max. 80 caratteri)"
+        article:
+          attributes:
+            le_user:
+              invalid: "non valido"
+              blank: "non puo' essere vuoto (va scelto dall'elenco)"
+            title:
+              too_long: "troppo lungo (max. 80 caratteri)"
+              too_short: troppo corto
+              blank: "non puo' essere vuoto (minimo 1 carattere)"
+            entry_text:
+              blank: "non puo' essere vuoto (minimo 1 carattere)"
+        invoice:
+          attributes:
+            name:
+              too_short: troppo corto
+              blank: "non puo' essere vuoto (minimo 1 carattere)"
+              too_long: "troppo lungo (max. 40 caratteri)"
+            invoice_number:
+              not_a_number: "deve essere un numero"
+            description:
+              too_long: "troppo lunga (max. 80 caratteri)"
+            header_object:
+              too_short: troppo corto
+              too_long: "troppo lungo (max. 255 caratteri)"
+              blank: "non puo' essere vuoto (minimo 1 carattere)"
+            firm_id:
+              blank: "non puo' essere vuoto (va scelta dall'elenco)"
+            recipient_firm_id:
+              blank: "non puo' essere vuoto (va scelto dall'elenco)"
+            social_security_cost:
+              not_a_number: "deve essere un numero"
+            vat_tax:
+              not_a_number: "deve essere un numero"
+            account_wage:
+              not_a_number: "deve essere un numero"
+            total_expenses:
+              not_a_number: "deve essere un numero"
+        project:
+          attributes:
+            codename:
+              too_long: "troppo lungo (max. 20 caratteri)"
+              too_short: troppo corto
+              blank: "non puo' essere vuoto (minimo 1 carattere)"
+            name:
+              too_long: "troppo lungo (max. 40 caratteri)"
+              too_short: troppo corto
+              blank: "non puo' essere vuoto (minimo 1 carattere)"
+            esteemed_price:
+              not_a_number: "deve essere un numero"
+            date_start:
+              blank: "non puo' essere vuota (minimo 1 carattere)"
+
+        patient:
+          attributes:
+            name:
+              blank: "non puo' essere vuoto (minimo 1 carattere)"
+            surname:
+              blank: "non puo' essere vuoto (minimo 1 carattere)"
+        appointment:
+          attributes:
+            date_schedule:
+              blank: "non e' stata impostata"
+            patient_id:
+              blank: "non e' stato impostato"
+            price:
+              not_a_number: "non e' un numero"
+        receipt:
+          attributes:
+            date_receipt:
+              blank: "non e' stata impostata"
+            patient_id:
+              blank: "non e' stato impostato"
+            receipt_num:
+              greater_than: "deve essere maggiore di 0"
+            price:
+              not_a_number: "non e' un numero"
+        schedule:
+          attributes:
+            date_schedule:
+              blank: "non e' stata impostata"
