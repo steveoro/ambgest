@@ -19,8 +19,6 @@ Ambgest3::Application.configure do
   # Use this to disable delivery errors, and bad email addresses will be ignored:
   config.action_mailer.raise_delivery_errors = false
 
-  AGEX_DEVELOPMENT_EMAILS = 'steve@wks-7.fasar'
-
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
 

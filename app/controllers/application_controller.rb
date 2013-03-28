@@ -51,10 +51,10 @@ class ApplicationController < ActionController::Base
       logger.error( error_description )
                                                     # Send a message to the developers anyway:
       begin
-        AgexMailer.exception_mail( AGEX_DEVELOPMENT_EMAILS, user, error_description, error_trace ).deliver
-        logger.info("[*I*]- e-mail sent to #{AGEX_DEVELOPMENT_EMAILS}.")
+        AgexMailer.exception_mail( user, error_description, error_trace ).deliver
+        logger.info("[*I*]- error report e-mail allegedly sent.")
       rescue
-        logger.warn( '[W!]-- Unable to send out e-mail messages, Mailer not responding or not configured properly yet.' )
+        logger.warn( '[W!]-- Unable to send out error report e-mail message, Mailer not responding or not configured properly yet.' )
       end
                                                     # If the verbose trace is enabled, log it:
       if verbose_trace
@@ -74,8 +74,8 @@ class ApplicationController < ActionController::Base
     logger.info("[*I*]- ACTION: '#{action_performed}' by #{user}: #{action_description}.")
                                                   # Send a message to the developers anyway:
     begin
-      AgexMailer.action_notify_mail( AGEX_DEVELOPMENT_EMAILS, user, action_performed, action_description ).deliver
-      logger.info("[*I*]- action-notify mail sent to #{AGEX_DEVELOPMENT_EMAILS}.")
+      AgexMailer.action_notify_mail( user, action_performed, action_description ).deliver
+      logger.info("[*I*]- action-notify e-mail allegedly sent.")
     rescue
       logger.warn( '[W!]-- Unable to send out action-notify mail message, Mailer not responding or not configured properly yet.' )
     end

@@ -2,7 +2,7 @@
   
 = AgexMailer
 
-  - version:  3.02.36.20130308
+  - version:  3.03.06.20130328
   - author:   Steve A.
 
   Mailer base custom class for the Agex framework.
@@ -18,13 +18,13 @@ class AgexMailer < ActionMailer::Base
 
   # "Exception intercepted" message.
   #
-  def exception_mail( developer_email, user_name, error_description, error_backtrace )
+  def exception_mail( user_name, error_description, error_backtrace )
     @description = error_description
     @backtrace   = error_backtrace
     @user_name   = user_name
 
     mail(
-      :to => developer_email,
+      :to => AGEX_ADMIN_EMAIL,
       :subject => "[#{AGEX_APP_NAME}@#{ENV['HOSTNAME']}] AgexMailer EXCEPTION: '#{error_description}'.",
       :date => Time.now
     )
@@ -34,13 +34,13 @@ class AgexMailer < ActionMailer::Base
 
   # Action notify message.
   #
-  def action_notify_mail( developer_email, user_name, action_name, action_description )
+  def action_notify_mail( user_name, action_name, action_description )
     @name = action_name
     @description = action_description
     @user_name = user_name
 
     mail(
-      :to => developer_email,
+      :to => AGEX_ADMIN_EMAIL,
       :subject => "[#{AGEX_APP_NAME}@#{ENV['HOSTNAME']}] AgexMailer action '#{action_name}'",
       :date => Time.now
     )
