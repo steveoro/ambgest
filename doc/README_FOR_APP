@@ -2,7 +2,6 @@ Mini HOWTO
 ==========
 
 
-
 === How-to: port AmbGest2 DB to AmbGest3
 
 For a yet-to-be-created production DB, do this:
@@ -36,3 +35,27 @@ Netzke 0.7.7 expects precisely:
 ...Otherwise most icons will be missing from the UI and/or some ExtJS classes
 will be unloadable.
 
+
+
+=== How-to: AmbGest3 first-time deployment
+
+Issue: Assets precompilation depends on the DB, but the DB does not
+exist yet for a fresh install.
+
+Solution: Using deploy.rb recipe vers. ~> 3.03.20130329 and assuming example
+server 'vm1' with no DB created yet:
+
+- cap -v vm1 deploy:update
+  (to copy just the code)
+- cap -v vm1 deploy:upload \
+  FILES=db/seed*
+  (to load the seed data on vm1)
+- cap -v vm1 remote:rake
+  => -v RAILS_ENV=production db:setup
+  (to load the schema and the seed data; use db:reset if the DB already exists)
+- cap -v with_assets vm1 deploy
+  (to actually deploy the app)
+
+For each subsequent source update do either a deploy or a deploy:update :
+- cap -v with_assets vm1 deploy
+  (don't forget the 'with_assets' task)
