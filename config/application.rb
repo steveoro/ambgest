@@ -13,7 +13,7 @@ end
 # -- AgeX-specific stuff: --
 
 # [Steve, 20080414] ** DO NOT CHANGE THE FOLLOWING UNLESS YOU KNOW WHAT YOU'RE DOING!! **
-AGEX_FRAMEWORK_VERSION  = '3.03.06.20130328' unless defined? AGEX_FRAMEWORK_VERSION
+AGEX_FRAMEWORK_VERSION  = '3.03.06.20130329' unless defined? AGEX_FRAMEWORK_VERSION
 AGEX_APP                = 'ambgest' unless defined? AGEX_APP
 AGEX_APP_NAME           = 'AmbGest 3' unless defined? AGEX_APP_NAME
 AGEX_APP_LOGO           = 'ambgest_logo_h43.png' unless defined? AGEX_APP_LOGO
