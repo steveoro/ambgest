@@ -3,6 +3,26 @@
 
 <h1><%= t(:sub_entities_management) %></h1>
 
+<script type="text/javascript" >
+	Ext.onReady(
+		function() {
+			Ext.create( 'Ext.Container', {
+				renderTo: Ext.get('agex_top_actions'),
+				layout : {
+					type: 'hbox',
+					maxHeight: 30
+				},
+				items : [
+					<%= create_extjs_button_config( :refresh, nil, request.fullpath(), 'arrow_refresh.png' ) %>
+				]
+			});
+		}		
+	);
+</script>
+
+<div id='agex_top_actions'></div>
+
+
 <%= netzke :setup_management_panel, {
 	:class_name => "Netzke::Basepack::TabPanel",
 	:width => "98%",

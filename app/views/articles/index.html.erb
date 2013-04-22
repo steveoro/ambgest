@@ -3,23 +3,28 @@
 
 <h1><%= t(:articles_list) %></h1>
 
+<script type="text/javascript" >
+	Ext.onReady(
+		function() {
+			Ext.create( 'Ext.Container', {
+				renderTo: Ext.get('agex_top_actions'),
+				layout : {
+					type: 'hbox',
+					maxHeight: 30
+				},
+				items : [
+					<%= create_extjs_button_config( :refresh, nil, request.fullpath(), 'arrow_refresh.png' ) %>
+				]
+			});
+		}		
+	);
+</script>
+
+<div id='agex_top_actions'></div>
+
+
 <%= netzke :article_list_panel, {
-	:class_name => "EntityGrid",
-	:model => "Article",
-	:prevent_header => true,
-	:add_form_window_config => { :width => 650, :title => "#{I18n.t(:add)} #{I18n.t(:article, {:scope=>[:activerecord, :models]})}" },
-	:edit_form_window_config => { :width => 650, :title => "#{I18n.t(:edit)} #{I18n.t(:article, {:scope=>[:activerecord, :models]})}" },
-	:columns => [
-        { :name => :created_on, :label => I18n.t(:created_on), :width => 80, :read_only => true,
-          :format => 'Y-m-d', :summary_type => :count },
-        { :name => :updated_on, :label => I18n.t(:updated_on), :width => 80, :read_only => true,
-          :format => 'Y-m-d' },
-	    { :name => :title, :label => t(:title) },
-	    { :name => :entry_text, :label => t(:entry_text), :flex => 1 },
-	    { :name => :le_user__name, :label => t(:user), :width => 70, :sorting_scope => :sort_article_by_user,
-    	  :default_value => Netzke::Core.current_user.id },
-	    { :name => :is_sticky, :label => t(:is_sticky) }
-	],
+	:class_name => "ArticlesList",
 	:width => "98%",
 	:height => @max_view_height,
 	:border => true,

@@ -101,11 +101,11 @@ class LeUser < ActiveRecord::Base
     row = AppParameter.where( "code >= #{AppParameter::PARAM_BLACKLIST_ACCESS_START} and code <= #{AppParameter::PARAM_BLACKLIST_ACCESS_END} and controller_name='#{ctrl_name}' and action_name='#{action_name}'" ).first
     if ( row )
 # DEBUG
-#      puts "=> [#{self.name}] can_perform( #{ctrl_name}, #{action_name} )? #{(self.authorization_level >= row.a_integer)}."
+#      puts "=> [#{self.name}] can_perform( #{ctrl_name}, #{action_name} )? #{(self.authorization_level >= row.a_integer)}.\r\n"
       return ( self.authorization_level >= row.a_integer )
     else
 # DEBUG
-#      puts "=> [#{self.name}] can_perform( #{ctrl_name}, #{action_name} )? No restrictions found."
+#      puts "=> [#{self.name}] can_perform( #{ctrl_name}, #{action_name} )? No restrictions found.\r\n"
       return true
     end
   end
@@ -123,14 +123,14 @@ class LeUser < ActiveRecord::Base
   #
   def can_do( ctrl_name, action_name = 'index' )
 # DEBUG
-#    puts "=> [#{self.name}] can_do( #{ctrl_name}, #{action_name} )?"
+#    puts "\r\n=> [#{self.name}] can_do( #{ctrl_name}, #{action_name} )?"
     if can_access( ctrl_name.to_s )
 # DEBUG
-#      puts "\r\n -- can_access: ok. Checking performing restrictions..."
+#      puts "-- can_access: ok. Checking performing restrictions..."
       return can_perform( ctrl_name.to_s, action_name.to_s )
     else                                            # Controller access refused!
 # DEBUG
-#      puts "\r\n -- access denied!"
+#      puts "-- access denied!"
       false
     end
   end

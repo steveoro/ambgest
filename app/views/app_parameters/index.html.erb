@@ -3,6 +3,26 @@
 
 <h1><%= t(:app_parameters, {:scope=>[:agex_action]}) %></h1>
 
+<script type="text/javascript" >
+	Ext.onReady(
+		function() {
+			Ext.create( 'Ext.Container', {
+				renderTo: Ext.get('agex_top_actions'),
+				layout : {
+					type: 'hbox',
+					maxHeight: 30
+				},
+				items : [
+					<%= create_extjs_button_config( :refresh, nil, request.fullpath(), 'arrow_refresh.png' ) %>
+				]
+			});
+		}		
+	);
+</script>
+
+<div id='agex_top_actions'></div>
+
+
 <%= netzke :app_parameters_management_panel, {
 	:class_name => "EntityGrid",
 	:model => 'AppParameter',

@@ -18,13 +18,12 @@ class Appointment <  ActiveRecord::Base
   validates_length_of :notes, :maximum => 255, :allow_nil => true
   validates_length_of :additional_notes, :maximum => 255, :allow_nil => true
 
-#  validates_format_of :is_payed_before_type_cast, :with => /[01]/, :message => as_("Must be 1 or 0")
+  #--
   # Note: boolean validation via a typical...
   #
-  #   validates_format_of :is_analysis_before_type_cast, :with => /[01]/, :message => as_("Must be 1 or 0")
+  #   validates_format_of :is_payed_before_type_cast, :with => /[01]/, :message=> :must_be_0_or_1
   #
-  # ...must *not* be used together with inline_edit = true, because ActiveScaffold has an internal conversion
-  # mechanism which acts differently
+  # ...must *not* be used since the ExtJS grids convert internally the values from string/JSON text.
 
 
   after_save :update_associated_receipts

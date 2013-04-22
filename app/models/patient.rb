@@ -35,17 +35,16 @@ class Patient < ActiveRecord::Base
   validates_length_of :preferred_days, :maximum => 255, :allow_nil => true
   validates_length_of :preferred_times, :maximum => 255, :allow_nil => true
 
-#  validates_format_of :specify_neurologic_checkup_before_type_cast, :with => /[01]/, :message => as_('must be 0 or 1')
-#  validates_format_of :is_suspended_before_type_cast, :with => /[01]/, :message => as_('must be 0 or 1')
-#  validates_format_of :is_a_firm_before_type_cast, :with => /[01]/, :message => as_('must be 0 or 1')
-#  validates_format_of :is_fiscal_before_type_cast, :with => /[01]/, :message => as_('must be 0 or 1')
+#  validates_format_of :specify_neurologic_checkup_before_type_cast, :with => /[01]/, :message=> :must_be_0_or_1
+#  validates_format_of :is_suspended_before_type_cast, :with => /[01]/, :message=> :must_be_0_or_1
+#  validates_format_of :is_a_firm_before_type_cast, :with => /[01]/, :message=> :must_be_0_or_1
+#  validates_format_of :is_fiscal_before_type_cast, :with => /[01]/, :message=> :must_be_0_or_1
   # ---------------------------------------------------------------------------
   # Note: boolean validation via a typical...
   #
-  #   validates_format_of :is_analysis_before_type_cast, :with => /[01]/, :message => as_("Must be 1 or 0")
+  #   validates_format_of :specify_neurologic_checkup_before_type_cast, :with => /[01]/, :message=> :must_be_0_or_1
   #
-  # ...must *not* be used together with inline_edit = true, because ActiveScaffold has an internal conversion
-  # mechanism which acts differently.
+  # ...must *not* be used since the ExtJS grids convert internally the values from string/JSON text.
 
 
   # [20121121] About pre-defined scopes in Model class and Drop-down Combo-boxes:

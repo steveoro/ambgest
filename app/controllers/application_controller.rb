@@ -156,22 +156,25 @@ class ApplicationController < ActionController::Base
     wd = FileUtils.pwd()
     all_filenames = ['/public/output/*'].collect!{|e| Dir.glob(wd + e)}.flatten.compact
 # DEBUG
-#    puts "\r\n=== Cleaning old output files:"
-#    puts "Found #{all_filenames.size} files (either new or old). Checking last access times..."
+#    logger.debug "\r\n=== Cleaning old output files:"
+#    logger.debug "Found #{all_filenames.size} files (either new or old). Checking last access times..."
 
     all_filenames.each { |filename|                 # For each filename found, check if it is old enough to be removed:
       last_access_time = File.open(filename).atime
       dt = DateTime.new( last_access_time.year, last_access_time.month, last_access_time.day, last_access_time.hour, last_access_time.min, last_access_time.sec )
       diff = DateTime.now - dt
-      hrs, min, sec, millis = Date.day_fraction_to_time(diff)
+      min = (diff.to_f * 24 * 60)                   # Convert the difference from nanoseconds to minutes
+      if ( min > 2 )                                # (Streaming files in output/* should take less than 2 mins)
 # DEBUG
-#      puts "'#{filename}': #{hrs}h #{min}m #{sec}s"
-      if ( min > 2 )                                # (Streaming should take less than 2 mins)
+#        logger.debug "'#{filename}': is #{min} minutes older, adding to the list of deletable files."
         deletable_filenames << filename
+      else
+# DEBUG
+#        logger.debug "'#{filename}': is just #{min} minutes older, skipping."
       end
     }
 # DEBUG
-#    puts "Found #{deletable_filenames.size} old files. Erasing them..."
+#    logger.debug "Found #{deletable_filenames.size} old files. Erasing them..."
                                                     # Kill'em all:
     FileUtils.rm_f( deletable_filenames )
   end

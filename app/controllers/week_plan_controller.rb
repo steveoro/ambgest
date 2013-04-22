@@ -134,7 +134,6 @@ class WeekPlanController < ApplicationController
       :label_hash           => label_hash,
       :data_table           => report_data_hash[:data_table],
       :summary_rows         => report_data_hash[:summary_rows],
-      :column_names         => column_names,
       :grouping_total       => report_data_hash[:grouping_total]
     }
                                                     # == Render layout & send data:

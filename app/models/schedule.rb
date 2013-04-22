@@ -16,13 +16,12 @@ class Schedule < ActiveRecord::Base
 #  validates_format_of :must_move_before_type_cast, :with => /[01]/, :message => I18n.t("Must be 1 or 0")
 #  validates_format_of :must_call_before_type_cast, :with => /[01]/, :message => I18n.t("Must be 1 or 0")
 #  validates_format_of :is_done_before_type_cast, :with => /[01]/, :message => I18n.t("Must be 1 or 0")
+  #--
   # Note: boolean validation via a typical...
   #
-  #   validates_format_of :is_analysis_before_type_cast, :with => /[01]/, :message => I18n.t("Must be 1 or 0")
+  #   validates_format_of :must_insert_before_type_cast, :with => /[01]/, :message=> :must_be_0_or_1
   #
-  # ...must *not* be used together with inline_edit = true, because ActiveScaffold has an internal conversion
-  # mechanism which acts differently.
-  #--
+  # ...must *not* be used since the ExtJS grids convert internally the values from string/JSON text.
 
 
   SQL_DATETIME_FORMAT = "%Y-%m-%d %H:%M"

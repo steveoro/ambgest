@@ -54,7 +54,6 @@ gem 'ruport', :git => 'https://github.com/ruport/ruport.git', :branch => 'ruby19
 gem 'acts_as_reportable'
 gem 'prawn'
 
-gem 'ftools'
 gem 'generator'
 
 # To use uploads:

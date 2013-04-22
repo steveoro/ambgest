@@ -4,7 +4,7 @@
 
 == ReceiptLayout
 
-- version:  3.03.02.20130322
+- version:  3.03.03.20130409
 - author:   Steve A.
 
 =end
@@ -33,6 +33,8 @@ class ReceiptLayout
   #
   # - <tt>:detail_data<\tt> (required) =>
   #   an instance of a Ruport::Data::Table (compiled from detail data rows) that has to be processed.
+  #
+  # - <tt>:is_internal_copy</tt> => when greater than 0, the output is considered as an "internal copy" (not original).
   #
   def self.render( options = { :header_data => [{}], :detail_data => [] } )
                                                     # Check the (complex) option parameters:

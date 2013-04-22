@@ -4,7 +4,7 @@ require 'find'
 require 'fileutils'
 
 require 'rails/all'
-require File.join( Rails.root.to_s, 'config/application' )
+require File.join( Rails.root.to_s, 'config/environment' )
 
 
 # ###################################
@@ -16,7 +16,7 @@ require File.join( Rails.root.to_s, 'config/application' )
 
 
 # Script revision number
-SCRIPT_VERSION = '3.03.03.20130325'
+SCRIPT_VERSION = '3.03.15.20130422'
 
 # Default Text prefix to be searched during SQL script scanning inside the DB scripts directory
 DEFAULT_SEARCH_TXT = '*update*'

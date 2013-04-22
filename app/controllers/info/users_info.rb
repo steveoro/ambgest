@@ -21,16 +21,21 @@ module Info::UsersInfo
     result_hash = {}
 
     all_sessions.each do |one_session|
-      user = LeUser.find_by_id( one_session.data['le_user_id'] ) if one_session.data['le_user_id']
-      if user
-        result_hash[one_session.id] = include_description ? "#{user.name}" : "#{user.get_full_name}"
-      else
-        puts("\r\n[W] - Unable to find user data in session!")
-        puts("Session data: #{one_session.data.inspect}")
+# DEBUG
+#      logger.debug("\r\n--- Session.data..............: #{one_session.data.inspect}")
+#      logger.debug("--- Session.data['le_user_id']: #{one_session.data['le_user_id'].inspect}")
+#      logger.debug("--- Session...................: #{one_session.inspect}")
+      if ( one_session.data['le_user_id'] )
+        user = LeUser.find_by_id( one_session.data['le_user_id'] )
+        if user
+          result_hash[ one_session.id ] = include_description ? "#{user.name}" : "#{user.get_full_name}"
+        else
+          logger.debug("\r\n[W] - Unable to find user data in session!")
+          logger.debug("Session data: #{one_session.data.inspect}")
+        end
       end
     end
     result_hash
   end
-  #-----------------------------------------------------------------------------
-  #++
+  # ---------------------------------------------------------------------------
 end
