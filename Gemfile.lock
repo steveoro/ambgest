@@ -59,7 +59,6 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    ftools (0.0.0)
     generator (0.0.1)
     hashery (2.1.0)
     highline (1.6.16)
@@ -159,7 +158,6 @@ DEPENDENCIES
   acts_as_reportable
   capistrano
   coffee-rails (~> 3.2)
-  ftools
   generator
   i18n
   jquery-rails
