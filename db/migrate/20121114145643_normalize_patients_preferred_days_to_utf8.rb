@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class NormalizePatientsPreferredDaysToUtf8 < ActiveRecord::Migration
 
   PREFIXES_FOR_DAYS = [ 'luned', 'marted', 'mercoled', 'gioved', 'venerd' ]
