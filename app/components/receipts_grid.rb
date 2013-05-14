@@ -151,7 +151,7 @@ class ReceiptsGrid < EntityGrid
       # [Steve, 20120914] It seems that the LIMIT parameter used during column sort can't be toggled off, so we put an arbitrary 10Tera row count limit per page to get all the rows: 
 #      :rows_per_page => 1000000000000,
       :min_width => 750,
-      :strong_default_attrs => { :is_payed => false }.merge( super[:strong_default_attrs] || {} ),
+      :strong_default_attrs => super[:strong_default_attrs],
       :columns => [
 #          { :name => :created_on, :label => I18n.t(:created_on), :width => 80,   :read_only => true,
 #            :format => 'Y-m-d' },
@@ -220,19 +220,20 @@ class ReceiptsGrid < EntityGrid
           this.actions.managePatient.setDisabled( selModel.getCount() < 1 );
 
           var canFreeEdit = ( "#{ Netzke::Core.current_user && Netzke::Core.current_user.can_do(:receipts, :free_edit) }" != 'false' );
-          var canEditPatient = ( selModel.getCount() > 0) &&
-                               ( ! selModel.selected.first().get('is_receipt_delivered') ) &&
-                               ( ! selModel.selected.first().get('is_payed') );
-          canEditPatient = ( canFreeEdit || canEditPatient );
+          var canEditRow = ( selModel.getCount() > 0 );
                                                     // Toggle on-off actions according to selected context:
-          this.actions.add.setDisabled( !canEditPatient );
-          this.actions.edit.setDisabled( !canEditPatient );
-          this.actions.editInForm.setDisabled( !canEditPatient );
+          this.actions.add.setDisabled( !canFreeEdit );
+          this.actions.edit.setDisabled( !canEditRow );
+          this.actions.editInForm.setDisabled( !canEditRow );
           // [20130211] Note: add_in_form action must be always available, while the add on grid not
           // (it cannot work for normal users, since it has read_only_sensible_fields set on date_receipt needed for the data-post)
         },
         this
       );
+
+/* [Steve, 20130514] For the moment, we won't do the following check since is too restrictive
+                     and it doesn't work as expected by the user. The code is kept here just
+                     as reference for future questions.
                                                     // Skip edit events if the invoice has been already given to the patient:
       this.getPlugin('celleditor').on( 'beforeedit',
         function( editEvent, eOpts ) {
@@ -248,6 +249,7 @@ class ReceiptsGrid < EntityGrid
         },
         this
       );
+*/
                                                     // --- Update cells on Patient combo edit:
       this.getPlugin('celleditor').on( 'validateedit',
         function( editor, editEvent, eOpts ) {      // Do the update of the grid only when the user changes the correct field AND we can proceed:

@@ -4,7 +4,7 @@
 
 == ReceiptLayout
 
-- version:  3.03.03.20130409
+- version:  3.04.01.20130514
 - author:   Steve A.
 
 =end
