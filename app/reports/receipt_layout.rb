@@ -4,7 +4,7 @@
 
 == ReceiptLayout
 
-- version:  3.04.01.20130514
+- version:  3.04.05.20130603
 - author:   Steve A.
 
 =end
@@ -145,7 +145,7 @@ class ReceiptLayout
     pdf.move_down(3)
     pdf.stroke_horizontal_rule()
                                                     # Title:
-    pdf.move_up(70)
+    pdf.move_up(80)
     pdf.indent( 300 ) do
       pdf.fill_color "000080"
       pdf.text( "<b>#{header_hash[:title]}</b>", :size => 20, :color => "000080", :align => :left, :inline_format => true )
