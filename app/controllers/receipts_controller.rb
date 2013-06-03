@@ -190,6 +190,7 @@ class ReceiptsController < ApplicationController
                              "\r\n\"L.J.U.\" San Diego (U.S.A.)</i>" <<
                              "\r\nReggio Emilia: via G. Deledda, 1 42020, ALBINEA" <<
                              "\r\nParma: via Mazza, 2 - Tel. RE/PR: 0522.597370" <<
+                             "\r\nPEC: leonardo.alloro@cgn.legalmail.it" <<
                              "\r\nNum. Albo Ordine dei Medici: 1095" <<
                              "\r\nC.F. LLR LRD 39L02 E922Y - P.IVA 00297970352",
       :footer_stamp       => I18n.t( :legal_stamp ),

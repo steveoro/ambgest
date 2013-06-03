@@ -16,7 +16,7 @@ require File.join( Rails.root.to_s, 'config/environment' )
 
 
 # Script revision number
-SCRIPT_VERSION = '3.03.15.20130422'
+SCRIPT_VERSION = '3.04.04.20130603'
 
 # Default Text prefix to be searched during SQL script scanning inside the DB scripts directory
 DEFAULT_SEARCH_TXT = '*update*'
@@ -29,18 +29,13 @@ DB_BACKUP_DIR = File.join( "#{Rails.root}.docs", 'backup.db' )
 TAR_BACKUP_DIR = File.join( "#{Rails.root}.docs", 'backup.src' )
 LOG_BACKUP_DIR = File.join( "#{Rails.root}.docs", 'backup.log' )
 
+# The following is used only for clearing temp file
+ODT_OUTPUT_DIR = File.join( Rails.root, 'public/output' )
+
 NEEDED_DIRS = [DB_BACKUP_DIR, TAR_BACKUP_DIR, LOG_BACKUP_DIR]
 
-puts "\r\n*** Using additional local-build/deploy helper tasks ***"
+puts "\r\nAdditional local-build/deploy helper tasks loaded."
 puts "- Script version  : #{SCRIPT_VERSION}"
-puts "- Local dir name  : #{APP_NAME}"
-puts "- Framework app.  : #{AGEX_APP}"
-puts "- Framework vers. : #{AGEX_FRAMEWORK_VERSION}"
-puts "- MAX_BACKUP_KEPT : #{MAX_BACKUP_KEPT}"
-puts "- DB_BACKUP_DIR   : #{DB_BACKUP_DIR}"
-puts "- TAR_BACKUP_DIR  : #{TAR_BACKUP_DIR}"
-puts "- LOG_BACKUP_DIR  : #{LOG_BACKUP_DIR}"
-puts ""
 
 
 
@@ -142,7 +137,8 @@ namespace :build do
 
 
 desc <<-DESC
-Creates a new (bzipped) backup of each log file, truncating then the current ones.
+Creates a new (bzipped) backup of each log file, truncating then the current ones
+and clearing also the temp output dir.
 
     Options: [output_dir=#{LOG_BACKUP_DIR}] [max_backup_kept=#{MAX_BACKUP_KEPT}]
 DESC
@@ -156,13 +152,14 @@ DESC
     Dir.chdir( get_full_path('log') ) do |curr_path|
       for log_filename in Dir.glob(File.join("#{curr_path}",'*.log'), File::FNM_PATHNAME)
         puts "Processing #{log_filename}..."
-	Dir.chdir( backup_folder )
+	      Dir.chdir( backup_folder )
         sh "tar --bzip2 -cf #{File.basename(log_filename, '.log') + time_signature + '.log.tar.bz2'} #{log_filename}"
       end
     end
     Dir.chdir( Rails.root.to_s )
     puts "Truncating all current log files..."
     Rake::Task['log:clear'].invoke
+    Rake::Task['utils:clear_output'].invoke
                                                     # Rotate the backups leaving only the newest ones: (log files are 3-times normal backups)
     rotate_backups( backup_folder, max_backups * 3 )
     puts "Done.\r\n\r\n"
@@ -278,6 +275,14 @@ namespace :utils do
     puts 'Application: ' + APP_NAME if defined? APP_NAME
     puts 'Evironment:  ' + Rails.env
     puts 'Working in:  ' + Dir.pwd
+    puts "\r\n- Framework app.  : #{AGEX_APP}"
+    puts "- Framework vers. : #{AGEX_FRAMEWORK_VERSION}"
+    puts "- MAX_BACKUP_KEPT : #{MAX_BACKUP_KEPT}"
+    puts "- DB_BACKUP_DIR   : #{DB_BACKUP_DIR}"
+    puts "- TAR_BACKUP_DIR  : #{TAR_BACKUP_DIR}"
+    puts "- LOG_BACKUP_DIR  : #{LOG_BACKUP_DIR}"
+    puts "- ODT_OUTPUT_DIR  : #{ODT_OUTPUT_DIR}"
+    puts ""
   end
   # ----------------------------------------------------------------------------
 
@@ -289,6 +294,19 @@ namespace :utils do
       FileUtils.mkdir_p(folder)
     end
     puts "\r\n"
+  end
+  # ----------------------------------------------------------------------------
+
+
+  desc "Clears the app 'output' directory (if existing) contained inside /public."
+  task(:clear_output) do
+    if File.directory?(ODT_OUTPUT_DIR)              # Output Directory found existing?
+      puts "Clearing temp output directory..."
+      FileUtils.rm( Dir.glob("#{ODT_OUTPUT_DIR}/*") )
+    else                                              # Processing a file?
+      puts "Temp output directory not found, nothing to do."
+    end
+    puts 'Done.'
   end
   # ----------------------------------------------------------------------------
 end
