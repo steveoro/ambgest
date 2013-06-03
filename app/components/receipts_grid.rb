@@ -2,7 +2,7 @@
 # Specialized Receipt rows list/grid component implementation
 #
 # - author: Steve A.
-# - vers. : 3.03.02.20130322
+# - vers. : 3.04.06.20130603
 #
 class ReceiptsGrid < EntityGrid
 
@@ -197,10 +197,10 @@ class ReceiptsGrid < EntityGrid
             :width => 250 },
 
           { :name => :is_receipt_delivered,   :label => I18n.t(:is_receipt_delivered, {:scope=>[:receipt]}),
-            :width => 80, :unchecked_value => 'false'
+            :width => 80, :default_value => false, :unchecked_value => 'false'
           },
           { :name => :is_payed,               :label => I18n.t(:is_payed, {:scope=>[:receipt]}),
-            :width => 60, :unchecked_value => 'false'
+            :width => 60, :default_value => false, :unchecked_value => 'false'
           },
           { :name => :notes,                  :label => I18n.t(:notes), :flex => 1 }
       ]

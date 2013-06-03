@@ -2,7 +2,7 @@
 # Specialized Appointment rows list/grid component implementation
 #
 # - author: Steve A.
-# - vers. : 3.03.02.20130322
+# - vers. : 3.04.06.20130603
 #
 class AppointmentsGrid < EntityGrid
 
@@ -185,7 +185,7 @@ class AppointmentsGrid < EntityGrid
             :renderer => 'renderTickedFlag',  :width => 80, :sorting_scope => :sort_appointment_by_is_receipt_delivered
           },
           { :name => :is_payed,               :label => I18n.t(:is_payed, {:scope=>[:appointment]}),
-            :unchecked_value => 'false'
+            :default_value => false, :unchecked_value => 'false'
           },
           { :name => :notes,                  :label => I18n.t(:notes), :flex => 1 }
       ]

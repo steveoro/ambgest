@@ -2,7 +2,7 @@
 # Specialized Schedule rows list/grid component implementation
 #
 # - author: Steve A.
-# - vers. : 0.34.20130215
+# - vers. : 3.04.06.20130603
 #
 class SchedulesGrid < EntityGrid
 
@@ -102,16 +102,16 @@ class SchedulesGrid < EntityGrid
           :format => 'Y-m-d', :default_value => DateTime.now, :width => 160, :summary_type => :count
         },
         { :name => :must_insert,            :label => I18n.t(:must_insert, {:scope=>[:schedule]}),
-          :width => 60, :unchecked_value => 'false'
+          :width => 60, :default_value => false, :unchecked_value => 'false'
         },
         { :name => :must_move,              :label => I18n.t(:must_move, {:scope=>[:schedule]}),
-          :width => 60, :unchecked_value => 'false'
+          :width => 60, :default_value => false, :unchecked_value => 'false'
         },
         { :name => :must_call,              :label => I18n.t(:must_call, {:scope=>[:schedule]}),
-          :width => 60, :unchecked_value => 'false'
+          :width => 60, :default_value => false, :unchecked_value => 'false'
         },
         { :name => :is_done,                :label => I18n.t(:is_done, {:scope=>[:schedule]}),
-          :unchecked_value => 'false'
+          :default_value => false, :unchecked_value => 'false'
         },
 
         { :name => :patient__get_full_name, :label => I18n.t(:patient, {:scope=>[:patient]}), :width => 150,

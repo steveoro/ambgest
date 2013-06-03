@@ -2,7 +2,7 @@
 # Specialized Patient list/grid component implementation
 #
 # - author: Steve A.
-# - vers. : 3.03.03.20130326
+# - vers. : 3.04.06.20130603
 #
 class PatientsList < MacroEntityGrid
 
@@ -105,7 +105,7 @@ class PatientsList < MacroEntityGrid
           { :name => :surname,                  :label => I18n.t(:surname) },
 
           { :name => :is_suspended,             :label => I18n.t(:is_suspended, {:scope=>[:patient]}),
-            :unchecked_value => 'false'
+            :default_value => false, :unchecked_value => 'false'
           },
 
           { :name => :address,                  :label => I18n.t(:address) },
@@ -124,16 +124,16 @@ class PatientsList < MacroEntityGrid
           { :name => :default_invoice_text,     :label => I18n.t(:default_invoice_text, {:scope=>[:patient]}) },
 
           { :name => :specify_neurologic_checkup,:label => I18n.t(:specify_neurologic_checkup, {:scope=>[:patient]}),
-            :unchecked_value => 'false'
+            :default_value => false, :unchecked_value => 'false'
           },
           { :name => :appointment_freq,         :label => I18n.t(:appointment_freq, {:scope=>[:patient]}) },
           { :name => :preferred_days,           :label => I18n.t(:preferred_days, {:scope=>[:patient]}) },
           { :name => :preferred_times,          :label => I18n.t(:preferred_times, {:scope=>[:patient]}) },
           { :name => :is_a_firm,                :label => I18n.t(:is_a_firm, {:scope=>[:patient]}),
-            :unchecked_value => 'false'
+            :default_value => false, :unchecked_value => 'false'
           },
           { :name => :is_fiscal,                :label => I18n.t(:is_fiscal, {:scope=>[:patient]}),
-            :unchecked_value => 'false'
+            :default_value => false, :unchecked_value => 'false'
           },
 
           { :name => :notes,                    :label => I18n.t(:notes), :flex => 1 }
