@@ -6,20 +6,23 @@
 
 	<%= stylesheet_link_tag    "application" %>
 	<%= javascript_include_tag "application" %>
+  	<%= stylesheet_link_tag    "bootstrap.min" %>
 	<%= csrf_meta_tags %>
 </head>
 
 <body id="container">
-    <!-- Banner section: -->
-    <div id="banner">
-		<%= image_tag( AGEX_APP_LOGO, { :align => 'top', :alt => AGEX_APP_NAME } ) %>
-		<%= t( :agex_management_module_desc ) %>
-    </div>
+	<!-- Main menu section: -->
+	<%= render( :partial => AGEX_APP + '/main_menu' ) %>
 
     <!-- Central section: -->
-    <div id="container_main">
-        <%= yield  %>
-	</div>
+    <div id="container_main" class="container-fluid">
+	    <div class="row-fluid">
+		    <div class="span12">
+			    <!--Body content-->
+				<%= yield %>
+		    </div>
+	    </div>
+    </div>
 
     <!-- Footer section: -->
     <%= render( :partial => AGEX_APP + '/footer_section') %>

@@ -13,6 +13,7 @@ class WelcomeController < ApplicationController
       :order => "is_sticky DESC, updated_on DESC",
       :limit => AppParameter.get_default_pagination_rows_for( :articles )
     )
+    @context_title = I18n.t(:welcome)
   end
   # ----------------------------------------------------------------------------
   #++
@@ -25,15 +26,18 @@ class WelcomeController < ApplicationController
     %x{gem list -l --no-details}.split("\n").each{ |row|
       @gem_info << row if row =~ / \([0-9]/
     }
+    @context_title = I18n.t(:about)
   end
 
 
   def contact_us
+    @context_title = I18n.t(:contact_us)
   end
 
 
   # Action used to allow the current user to edit its profile 
   def edit_current_user
+    @context_title = "#{I18n.t(:user)} '#{Netzke::Core.current_user.name}'"
   end
 
 
@@ -41,11 +45,13 @@ class WelcomeController < ApplicationController
   #
   def whos_online
     @online_users = Info::UsersInfo.retrieve_online_users( true ) # (retrieve also full description)
+    @context_title = I18n.t(:whos_online, :scope => [:agex_action])
   end
 
 
   # "Work In Progress" indicator
   def wip
+    @context_title = 'WIP'
   end
   # ----------------------------------------------------------------------------
   #++

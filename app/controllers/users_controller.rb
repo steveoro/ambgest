@@ -6,6 +6,7 @@ class UsersController < ApplicationController
 
   # Default action
   def index
+    @context_title = I18n.t(:users)
   end
 
 

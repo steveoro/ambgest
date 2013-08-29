@@ -1,10 +1,26 @@
+<!-- Contextualized Banner section: -->
+<div id="banner">
+	<%= image_tag( AGEX_APP_LOGO, { :align => 'top', :alt => AGEX_APP_NAME } ) %>
+	<%= t( :agex_management_module_desc ) %>&nbsp;
+	<span class="label label-info"><%= @context_title %></span>
+</div>
+
 <!-- Main Menu section: -->
 <div id="main_menu_section">
-	<%= netzke :main_command_panel, { :class_name => "CommandPanel", :border => false } %>
+	<div class="navbar">
+		<div class="navbar-inner">
+			<%= render_navigation( :expand_all => true, :renderer => :bootstrap ) %>
+		</div>
+	</div>
 </div>
 
 <% if flash[:notice] %>
     <div id="notice">
       <p style="color: green"><%= flash[:notice] %></p>
+    </div>
+<% end %>
+<% if flash[:alert] %>
+    <div id="alert">
+      <p style="color: red"><%= flash[:alert] %></p>
     </div>
 <% end %>

@@ -8,6 +8,7 @@ class SetupController < ApplicationController
   def index
     ap = AppParameter.get_parameter_row_for( :welcome )
     @max_view_height = ap.get_view_height()
+    @context_title = I18n.t(:sub_entities_management)
   end
   # ---------------------------------------------------------------------------
 end

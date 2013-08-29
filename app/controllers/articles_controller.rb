@@ -8,6 +8,7 @@ class ArticlesController < ApplicationController
   def index
     ap = AppParameter.get_parameter_row_for( :articles )
     @max_view_height = ap.get_view_height()
+    @context_title = I18n.t(:articles_list)
   end
   # ---------------------------------------------------------------------------
 

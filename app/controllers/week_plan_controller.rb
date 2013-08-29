@@ -42,6 +42,7 @@ class WeekPlanController < ApplicationController
 # DEBUG
     logger.debug( "@filtering_date_start: #{@filtering_date_start.inspect()}" )
     logger.debug( "@filtering_date_end:   #{@filtering_date_end.inspect()}" )
+    @context_title = I18n.t(:weekly_planner, {:scope=>[:week_plan]})
   end
   # ---------------------------------------------------------------------------
 
@@ -68,6 +69,7 @@ class WeekPlanController < ApplicationController
     # Setting this to true will write the current filtering parameters to the filtering
     # panel of the view, instead of restoring the (previously) session-cached values.
     @override_filtering = true
+    @context_title = I18n.t(:income_analysis, {:scope=>[:week_plan]})
   end
   # ---------------------------------------------------------------------------
 

@@ -93,6 +93,18 @@ class LeUser < ActiveRecord::Base
     return accessible_ctrl_names.include?( ctrl_name.to_s )
   end
 
+  # Same as +can_access+ mathod, but returns a string name of the CSS class to
+  # enable or disable a rendered item according to the currrent user access grants.
+  # (Usually, 'disabled' for no access, and +nil+ otherwise)
+  #
+  def get_css_class_to_access( ctrl_name )
+    if can_access( ctrl_name )
+      nil
+    else
+      'disabled'
+    end
+  end
+
 
   # Checks if this LeUser instance can perform the specified controller, action combination
   # according to its authorization level.
@@ -132,6 +144,19 @@ class LeUser < ActiveRecord::Base
 # DEBUG
 #      puts "-- access denied!"
       false
+    end
+  end
+
+
+  # Same as +can_do+ mathod, but returns a string name of the CSS class to
+  # enable or disable a rendered item according to the currrent user access grants.
+  # (Usually, 'disabled' for no access/don't perform, and +nil+ otherwise)
+  #
+  def get_css_class_to_do( ctrl_name, action_name = 'index' )
+    if can_do( ctrl_name, action_name )
+      nil
+    else
+      'disabled'
     end
   end
 

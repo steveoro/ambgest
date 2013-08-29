@@ -18,6 +18,7 @@ class ReceiptsController < ApplicationController
                                                     # Set the (default) parameters for the scope configuration: (actual used value will be stored inside component_session[])
     @filtering_date_start  = ( Date.parse( start_date ) - ap.get_filtering_radius ).strftime( AGEX_FILTER_DATE_FORMAT_SQL )
     @filtering_date_end    = ( Date.parse( start_date ) + ap.get_filtering_radius ).strftime( AGEX_FILTER_DATE_FORMAT_SQL )
+    @context_title = I18n.t(:receipts_list, {:scope=>[:receipt]})
   end
   # ---------------------------------------------------------------------------
 

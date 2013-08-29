@@ -8,6 +8,7 @@ class PatientsController < ApplicationController
   def index
     ap = AppParameter.get_parameter_row_for( :patients )
     @max_view_height = ap.get_view_height()
+    @context_title = I18n.t(:patients_list, {:scope=>[:patient]})
   end
   # ---------------------------------------------------------------------------
 
@@ -29,6 +30,7 @@ class PatientsController < ApplicationController
                                                     # Set the (default) parameters for the scope configuration: (actual used value will be stored inside component_session[])
     @filtering_date_start  = ( Date.parse( start_date ) - ap.get_filtering_radius ).strftime( AGEX_FILTER_DATE_FORMAT_SQL )
     @filtering_date_end    = ( Date.parse( start_date ) + ap.get_filtering_radius ).strftime( AGEX_FILTER_DATE_FORMAT_SQL )
+    @context_title = "#{I18n.t(:manage_patient, {:scope=>[:patient]})} '#{@patient_name}'"
   end
   # ---------------------------------------------------------------------------
 

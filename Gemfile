@@ -55,6 +55,9 @@ gem 'acts_as_reportable'
 gem 'prawn'
 
 gem 'generator'
+                                                    # [Steve, 20130801] Navigation gems for rendering menus & breadcrumbs:
+gem "simple-navigation"
+gem 'simple-navigation-bootstrap'
 
 # To use uploads:
 #gem 'carrierwave'

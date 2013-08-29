@@ -46,6 +46,7 @@ class AppointmentsController < ApplicationController
 # DEBUG
 #    logger.debug( "@filtering_date_start: #{@filtering_date_start.inspect()}" )
 #    logger.debug( "@filtering_date_end:   #{@filtering_date_end.inspect()}" )
+    @context_title = I18n.t(:appointments_list, {:scope=>[:patient]})
   end
   # ---------------------------------------------------------------------------
 
