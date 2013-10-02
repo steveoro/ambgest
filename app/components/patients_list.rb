@@ -2,7 +2,7 @@
 # Specialized Patient list/grid component implementation
 #
 # - author: Steve A.
-# - vers. : 3.04.06.20130603
+# - vers. : 3.05.05.20131002
 #
 class PatientsList < MacroEntityGrid
 
@@ -90,6 +90,10 @@ class PatientsList < MacroEntityGrid
     # ASSERT: assuming current_user is always set for this grid component:
     super.merge(
       :persistence => true,
+      :enable_pagination => ( toggle_pagination = AppParameter.get_default_pagination_enable_for( :patients ) ),
+      # [Steve, 20120914] It seems that the LIMIT parameter used during column sort can't be toggled off even when pagination is false, so we put an arbitrary 10Tera row count limit per page to get all the rows: 
+      :rows_per_page => ( toggle_pagination ? AppParameter.get_default_pagination_rows_for( :patients ) : 1000000000000 ),
+
       :columns => [
           { :name => :created_on, :label => I18n.t(:created_on), :width => 80,  :read_only => true,
             :format => 'Y-m-d', :summary_type => :count },
@@ -99,10 +103,10 @@ class PatientsList < MacroEntityGrid
             # a lambda statement must be used. Using a pre-computed scope from the Model class prevents Netzke
             # (as of this version) to append the correct WHERE clause to the scope itself (with an inline lambda, instead, it works).
           { :name => :le_title__get_full_name,  :label => I18n.t(:le_title, {:scope=>[:activerecord, :models]}),
-            :scope => lambda { |rel| rel.order("name ASC") }
+            :scope => lambda { |rel| rel.order("name ASC") }, :width => 70
           },
-          { :name => :name,                     :label => I18n.t(:name) },
           { :name => :surname,                  :label => I18n.t(:surname) },
+          { :name => :name,                     :label => I18n.t(:name) },
 
           { :name => :is_suspended,             :label => I18n.t(:is_suspended, {:scope=>[:patient]}),
             :default_value => false, :unchecked_value => 'false'

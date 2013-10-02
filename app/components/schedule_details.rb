@@ -2,7 +2,7 @@
 # Custom Receipt details Form component implementation
 #
 # - author: Steve A.
-# - vers. : 0.32.20130213
+# - vers. : 3.05.05.20131002
 #
 class ScheduleDetails < Netzke::Basepack::FormPanel
 
@@ -31,16 +31,16 @@ class ScheduleDetails < Netzke::Basepack::FormPanel
           :format => 'Y-m-d', :default_value => DateTime.now, :width => 350
         },
         { :name => :must_insert,            :field_label => I18n.t(:must_insert, {:scope=>[:schedule]}),
-          :unchecked_value => 'false' 
+          :field_style => 'min-height: 13px; padding-left: 13px;', :unchecked_value => 'false' 
         },
         { :name => :must_move,              :field_label => I18n.t(:must_move, {:scope=>[:schedule]}),
-          :unchecked_value => 'false'
+          :field_style => 'min-height: 13px; padding-left: 13px;', :unchecked_value => 'false'
         },
         { :name => :must_call,              :field_label => I18n.t(:must_call, {:scope=>[:schedule]}),
-          :unchecked_value => 'false'
+          :field_style => 'min-height: 13px; padding-left: 13px;', :unchecked_value => 'false'
         },
         { :name => :is_done,                :field_label => I18n.t(:is_done, {:scope=>[:schedule]}),
-          :unchecked_value => 'false'
+          :field_style => 'min-height: 13px; padding-left: 13px;', :unchecked_value => 'false'
         },
 
         { :name => :patient__get_full_name, :field_label => I18n.t(:patient, {:scope=>[:patient]}),

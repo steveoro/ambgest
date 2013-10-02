@@ -2,7 +2,7 @@
 # Specialized Patient details form component implementation
 #
 # - author: Steve A.
-# - vers. : 3.03.03.20130326
+# - vers. : 3.05.05.20131002
 #
 class PatientDetails < Netzke::Basepack::FormPanel
 
@@ -18,7 +18,8 @@ class PatientDetails < Netzke::Basepack::FormPanel
   def configuration
    super.merge(
       :persistence => true,
-      :min_width => 900
+      :min_width => 900,
+      :width => 1024
    )
   end
 
@@ -50,34 +51,43 @@ class PatientDetails < Netzke::Basepack::FormPanel
                 },
                 {
                   :column_width => 0.55, :border => false, :defaults => { :label_width => 90 },
-                  :items => []
+                  :items => [
+                    
+                  ]
                 }
               ]
             },
 
             {
-              :xtype => :fieldcontainer, :field_label => I18n.t(:name_and_surname, {:scope=>[:patient]}),
-              :layout => :column, :width => 900,
+              :xtype => :fieldcontainer, :layout => :column, :width => 900,
               :items => [
                 {
-                  :column_width => 0.33, :border => false, :defaults => { :label_width => 90 },
+                  :column_width => 0.40, :border => false, :defaults => { :label_width => 120 },
                   :items => [
                       # [20121121] For the combo-boxes to have a working query after the 4th char is entered in the edit widget,
                       # a lambda statement must be used. Using a pre-computed scope from the Model class prevents Netzke
                       # (as of this version) to append the correct WHERE clause to the scope itself (with an inline lambda, instead, it works).
-                      { :name => :le_title__get_full_name, :hide_label => true, :width => 80,
-                        :scope => lambda { |rel| rel.order("name ASC") }
+                      { :name => :le_title__get_full_name, :width => 200, :field_label => I18n.t(:title), 
+                        :min_width => 150, :scope => lambda { |rel| rel.order("name ASC") }
                       },
-                      { :xtype => :displayfield,        :value => ' ',        :margin => '0 2 0 2' },
-                      { :name => :name,                 :hide_label => true, :width => 200,
-                        :field_style => 'font-size: 110%; font-weight: bold;' },
-                      { :xtype => :displayfield,        :value => ' ',        :margin => '0 2 0 2' },
-                      { :name => :surname,              :hide_label => true, :width => 200,
-                        :field_style => 'font-size: 110%; font-weight: bold;' }
+                      { :xtype => :displayfield,        :value => ' ', :margin => '0 2 0 2' }, # vertical spacer
+                      { :name => :surname,              :width => 380,
+                        :field_style => 'font-size: 110%; font-weight: bold;'
+                      },
+                      { :xtype => :displayfield,        :value => ' ', :margin => '0 2 0 2' }, # vertical spacer
+                      { :name => :name,                 :width => 380,
+                        :field_style => 'font-size: 110%; font-weight: bold;'
+                      },
                   ]
                 },
                 {
-                  :column_width => 0.67, :border => false, :defaults => { :label_width => 90 },
+                  :column_width => 0.02, :border => false, :defaults => { :label_width => 90 },
+                  :items => [
+                      { :xtype => :displayfield,        :value => ' ', :margin => '0 2 0 2' }, # vertical spacer
+                  ] # column spacer
+                },
+                {
+                  :column_width => 0.58, :border => false, :defaults => { :label_width => 90 },
                   :items => [
                     { :name => :address,                  :field_label => I18n.t(:address), :width => 400,
                       :label_style => 'text-align: right;' },
@@ -95,21 +105,24 @@ class PatientDetails < Netzke::Basepack::FormPanel
                     },
 
                     {
-                      :xtype => :fieldset, :title => I18n.t(:status, {:scope=>[:patient]}),
-                      :layout => :hbox, :width => 300, :defaults => {:margin => '0 10 2 0'},
+                      :xtype => 'checkboxgroup', :fieldLabel => I18n.t(:status, {:scope=>[:patient]}),
+                      :cls => 'x-check-group-alt', :width => 700,
+                      :defaults => { :hide_label => true, :field_style => 'min-height: 13px; padding-left: 13px;' },
                       :items => [
-                        { :name => :is_suspended,         :hide_label => true, :box_label => I18n.t(:is_suspended, {:scope=>[:patient]}),
-                          :unchecked_value => 'false'
-                        },
-                        { :name => :is_a_firm,            :hide_label => true, :box_label => I18n.t(:is_a_firm, {:scope=>[:patient]}),
-                          :unchecked_value => 'false'
-                        },
-                        { :name => :is_fiscal,            :hide_label => true, :box_label => I18n.t(:is_fiscal, {:scope=>[:patient]}),
-                          :unchecked_value => 'false'
-                        }
+                          { :boxLabel => I18n.t(:is_a_firm, {:scope=>[:patient]}),
+                            :name => :is_a_firm,
+                            :unchecked_value => 'false'
+                          },
+                          { :boxLabel => I18n.t(:is_suspended, {:scope=>[:patient]}),
+                            :name => :is_suspended,
+                            :unchecked_value => 'false'
+                          },
+                          { :boxLabel => I18n.t(:is_fiscal, {:scope=>[:patient]}),
+                            :name => :is_fiscal,
+                            :unchecked_value => 'false'
+                          }
                       ]
                     }
-                    
                   ]
                 }
               ]
@@ -163,7 +176,8 @@ class PatientDetails < Netzke::Basepack::FormPanel
                       :width => 500, :label_style => 'text-align: right;', :resizable => true
                     },
                     { :name => :specify_neurologic_checkup,:field_label => I18n.t(:specify_neurologic_checkup, {:scope=>[:patient]}),
-                      :label_style => 'text-align: right;', :unchecked_value => 'false'
+                      :label_style => 'text-align: right;', :field_style => 'min-height: 13px; padding-left: 13px;',
+                      :unchecked_value => 'false'
                     },
                   ]
                 }

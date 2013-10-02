@@ -2,7 +2,7 @@
 # Custom Receipt details Form component implementation
 #
 # - author: Steve A.
-# - vers. : 0.32.20130212
+# - vers. : 3.05.05.20131002
 #
 class ReceiptDetails < Netzke::Basepack::FormPanel
 
@@ -88,10 +88,12 @@ class ReceiptDetails < Netzke::Basepack::FormPanel
           :width => 400, :xtype => :textareafield
         },
         { :name => :is_receipt_delivered,   :field_label => I18n.t(:is_receipt_delivered, {:scope=>[:receipt]}),
-          :id => DELIVERED_FIELD_CMP_ID, :width => 120, :unchecked_value => 'false'
+          :id => DELIVERED_FIELD_CMP_ID, :width => 120, :field_style => 'min-height: 13px; padding-left: 13px;',
+          :unchecked_value => 'false'
         },
         { :name => :is_payed,               :field_label => I18n.t(:is_payed, {:scope=>[:receipt]}),
-          :id => PAYED_FIELD_CMP_ID, :width => 120, :unchecked_value => 'false'
+          :id => PAYED_FIELD_CMP_ID, :width => 120, :field_style => 'min-height: 13px; padding-left: 13px;',
+          :unchecked_value => 'false'
         },
         { :name => :notes,                  :field_label => I18n.t(:notes), :width => 400,
           :xtype => :textareafield }

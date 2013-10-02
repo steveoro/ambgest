@@ -2,7 +2,7 @@
 # Specialized Article list/grid component implementation
 #
 # - author: Steve A.
-# - vers. : 3.03.15.20130422
+# - vers. : 3.05.05.20131002
 #
 class ArticlesList < EntityGrid
 
@@ -13,6 +13,9 @@ class ArticlesList < EntityGrid
   def configuration
     super.merge(
       :prevent_header => true,
+      :enable_pagination => ( toggle_pagination = AppParameter.get_default_pagination_enable_for( :articles ) ),
+      # [Steve, 20120914] It seems that the LIMIT parameter used during column sort can't be toggled off even when pagination is false, so we put an arbitrary 10Tera row count limit per page to get all the rows: 
+      :rows_per_page => ( toggle_pagination ? AppParameter.get_default_pagination_rows_for( :articles ) : 1000000000000 ),
 
       :add_form_window_config => { :width => 650, :title => "#{I18n.t(:add)} #{I18n.t(:article, {:scope=>[:activerecord, :models]})}" },
       :edit_form_window_config => { :width => 650, :title => "#{I18n.t(:edit)} #{I18n.t(:article, {:scope=>[:activerecord, :models]})}" },

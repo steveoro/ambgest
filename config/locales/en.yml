@@ -603,6 +603,7 @@ en:
   disconnected: Disconnected
   welcome: "Welcome!"
   hi: Hi
+
   user_created: User successfully created.
   user_deleted: User successfully deleted.
   req_functionality_under_development: "The requested functionality is not currently available due to revisions or maintenance."
@@ -614,6 +615,8 @@ en:
   default_receipt_description: 'Specialistic medical examination'
   alternate_receipt_description: 'Neurological medical examination'
   firm_receipt_description: "Freelance medical examinations for your patients during the month of %s"
+  vat_withholding: "VAT withholding"
+
 
   no_new_articles: No new articles
   select_file: "Select a file"

@@ -13,6 +13,7 @@ class Patient < ActiveRecord::Base
   validates_associated :le_city
 
   validates_presence_of :name, :message => :can_t_be_blank
+  validates_presence_of :surname, :message => :can_t_be_blank
 
   validates_length_of :name, :within => 1..40
   validates_length_of :surname, :within => 1..80
@@ -104,7 +105,8 @@ class Patient < ActiveRecord::Base
     if ( is_a_firm? )
       sprintf(
           I18n.t(:firm_receipt_description),
-          Date.today.strftime("%B").t + ' ' + Date.today.strftime("%Y")
+          I18n.t('date.month_names')[ Date.today.month ] + ' ' +
+          Date.today.strftime("%Y")
       )
     else
       if ( specify_neurologic_checkup? )

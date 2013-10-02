@@ -283,12 +283,14 @@ class Receipt < ActiveRecord::Base
       end
     end
                                                     # If patient is set and price not, get the default price:
-    if (self.patient_id.to_i > 0) && (p = Patient.find(self.patient_id))
-      self.price = p.default_invoice_price unless (self.price.to_f > 0.0)
-      self.receipt_description = p.default_invoice_text  if self.receipt_description.blank? && (! p.default_invoice_text.blank?)
-    end
+    unless self.receipt_description
+      if (self.patient_id.to_i > 0) && (p = Patient.find(self.patient_id))
+        self.price = p.default_invoice_price unless (self.price.to_f > 0.0)
+        self.receipt_description = p.default_invoice_text if self.receipt_description.blank? && (! p.default_invoice_text.blank?)
+      end
                                                     # Set the default description if not yet set:
-    self.receipt_description = Receipt.get_default_receipt_description(self) if self.receipt_description.blank?
+      self.receipt_description = Receipt.get_default_receipt_description(self) unless self.receipt_description
+    end
 
     unless self.date_receipt                        # A default date_receipt must be set anyhow:
       begin                   
@@ -401,11 +403,11 @@ class Receipt < ActiveRecord::Base
     Ruport::Data::Table.new( :column_names => self.class.report_detail_symbols() ) { |t|
     t << self.to_a_s( self.class.report_detail_symbols(), CONVERTED_FLOAT2STRING_FIXED_PRECISION, 8 )
       percentage_amount = 0.0
-      if self.patient && self.patient.is_a_firm?
-        account_percent = AppParameter.get_receipt_account_percent()
+      if self.patient && self.patient.is_a_firm? && self.patient.is_fiscal?
+        account_percent = AppParameterCustomizations.get_receipt_account_percent()
         percentage_amount = self.account_percentage_amount( account_percent )
         t << ['',
-              I18n.t('VAT account withholding'),
+              I18n.t(:vat_withholding),
               "#{Format.float_value( account_percent, 0, CONVERTED_PERCENT2STRING_FIXED_LENGTH )} %",
               Format.float_value( percentage_amount, 2, CONVERTED_FLOAT2STRING_FIXED_LENGTH )
         ]

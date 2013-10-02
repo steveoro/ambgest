@@ -910,7 +910,8 @@ it:
   comment: Commento
 
   welcome: 'Benvenuti !'
-  
+  hi: Ciao
+
   privacy_statement: "<b>Informativa sintetica sulla Privacy</b> - Nel rispetto delle ultime versioni della normativa sulla tutela dei dati personali, vi informiamo che gli eventuali dati in nostro possesso, acquisiti durante il corso dei rapporti di collaborazione o consulenza appena compiuti, saranno conservati e utilizzati esclusivamente a fine amministrativo e fiscale. In qualsiasi momento potete richiederne l'eliminazione o la rettifica rivolgendovi direttamente al titolare del nostro studio."
   footer_comments: "La ricevuta rilasciata per prestazioni sanitarie e' esente da IVA ai sensi\ndell'art. 10, comma 1, n.18 del D.P.R. 633/1972 e successive modificazioni,\ne soggetta alla vigente imposta di bollo; la ricevuta rilasciata in caso di\nprestazione di altro genere o di cessione di beni e' soggetta ad IVA."
   footer_smallprint: "In caso di prestazioni ad imprese il sostituto d'imposta e' obbligato ad operare il prelievo \ned il relativo versamento della ritenuta di acconto sul lavoro autonomo."
@@ -918,6 +919,7 @@ it:
   default_receipt_description: 'Visita specialistica'
   alternate_receipt_description: 'Visita medica neurologica'
   firm_receipt_description: "Prestazioni libero-professionali per visite effettuate a Vs. pazienti nel mese di %s"
+  vat_withholding: "Ritenuta d'acconto"
 
 
   netzke:
@@ -1138,21 +1140,21 @@ it:
             name:
               too_long: "troppo lungo (max. 20 caratteri)"
               too_short: troppo corto
-              blank: "non puo' essere vuoto (minimo 1 carattere)"
+              can_t_be_blank: "non puo' essere vuoto (minimo 1 carattere)"
             description:
               too_long: "troppo lunga (max. 80 caratteri)"
             firm_id:
-              blank: "non puo' essere vuoto (va scelta dall'elenco)"
+              can_t_be_blank: "non puo' essere vuoto (va scelta dall'elenco)"
         account_row:
           attributes:
             description:
               too_long: "troppo lunga (max. 255 caratteri)"
               too_short: troppo corta
-              blank: "non puo' essere vuota (minimo 1 carattere)"
+              can_t_be_blank: "non puo' essere vuota (minimo 1 carattere)"
             date_entry:
-              blank: "non puo' essere vuota (minimo 1 carattere)"
+              can_t_be_blank: "non puo' essere vuota (minimo 1 carattere)"
             entry_value:
-              blank: "non puo' essere vuoto (minimo 1 carattere)"
+              can_t_be_blank: "non puo' essere vuoto (minimo 1 carattere)"
               not_a_number: "deve essere un numero"
             check_number:
               too_long: "troppo lungo (max. 80 caratteri)"
@@ -1160,18 +1162,18 @@ it:
           attributes:
             le_user:
               invalid: "non valido"
-              blank: "non puo' essere vuoto (va scelto dall'elenco)"
+              can_t_be_blank: "non puo' essere vuoto (va scelto dall'elenco)"
             title:
               too_long: "troppo lungo (max. 80 caratteri)"
               too_short: troppo corto
-              blank: "non puo' essere vuoto (minimo 1 carattere)"
+              can_t_be_blank: "non puo' essere vuoto (minimo 1 carattere)"
             entry_text:
-              blank: "non puo' essere vuoto (minimo 1 carattere)"
+              can_t_be_blank: "non puo' essere vuoto (minimo 1 carattere)"
         invoice:
           attributes:
             name:
               too_short: troppo corto
-              blank: "non puo' essere vuoto (minimo 1 carattere)"
+              can_t_be_blank: "non puo' essere vuoto (minimo 1 carattere)"
               too_long: "troppo lungo (max. 40 caratteri)"
             invoice_number:
               not_a_number: "deve essere un numero"
@@ -1180,11 +1182,11 @@ it:
             header_object:
               too_short: troppo corto
               too_long: "troppo lungo (max. 255 caratteri)"
-              blank: "non puo' essere vuoto (minimo 1 carattere)"
+              can_t_be_blank: "non puo' essere vuoto (minimo 1 carattere)"
             firm_id:
-              blank: "non puo' essere vuoto (va scelta dall'elenco)"
+              can_t_be_blank: "non puo' essere vuoto (va scelta dall'elenco)"
             recipient_firm_id:
-              blank: "non puo' essere vuoto (va scelto dall'elenco)"
+              can_t_be_blank: "non puo' essere vuoto (va scelto dall'elenco)"
             social_security_cost:
               not_a_number: "deve essere un numero"
             vat_tax:
@@ -1198,36 +1200,38 @@ it:
             codename:
               too_long: "troppo lungo (max. 20 caratteri)"
               too_short: troppo corto
-              blank: "non puo' essere vuoto (minimo 1 carattere)"
+              can_t_be_blank: "non puo' essere vuoto (minimo 1 carattere)"
             name:
               too_long: "troppo lungo (max. 40 caratteri)"
               too_short: troppo corto
-              blank: "non puo' essere vuoto (minimo 1 carattere)"
+              can_t_be_blank: "non puo' essere vuoto (minimo 1 carattere)"
             esteemed_price:
               not_a_number: "deve essere un numero"
             date_start:
-              blank: "non puo' essere vuota (minimo 1 carattere)"
+              can_t_be_blank: "non puo' essere vuota (minimo 1 carattere)"
 
         patient:
           attributes:
             name:
-              blank: "non puo' essere vuoto (minimo 1 carattere)"
+              can_t_be_blank: "non puo' essere vuoto (minimo 1 carattere)"
+              too_short: troppo corto
             surname:
-              blank: "non puo' essere vuoto (minimo 1 carattere)"
+              can_t_be_blank: "non puo' essere vuoto (minimo 1 carattere)"
+              too_short: troppo corto
         appointment:
           attributes:
             date_schedule:
-              blank: "non e' stata impostata"
+              can_t_be_blank: "non e' stata impostata"
             patient_id:
-              blank: "non e' stato impostato"
+              can_t_be_blank: "non e' stato impostato"
             price:
               not_a_number: "non e' un numero"
         receipt:
           attributes:
             date_receipt:
-              blank: "non e' stata impostata"
+              can_t_be_blank: "non e' stata impostata"
             patient_id:
-              blank: "non e' stato impostato"
+              can_t_be_blank: "non e' stato impostato"
             receipt_num:
               greater_than: "deve essere maggiore di 0"
             price:
@@ -1235,4 +1239,4 @@ it:
         schedule:
           attributes:
             date_schedule:
-              blank: "non e' stata impostata"
+              can_t_be_blank: "non e' stata impostata"

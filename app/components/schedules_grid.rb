@@ -2,7 +2,7 @@
 # Specialized Schedule rows list/grid component implementation
 #
 # - author: Steve A.
-# - vers. : 3.04.06.20130603
+# - vers. : 3.05.05.20131002
 #
 class SchedulesGrid < EntityGrid
 
@@ -87,9 +87,9 @@ class SchedulesGrid < EntityGrid
       # [Steve, 20120131]
       # FIXME The Netzke endpoint, once configured, ignores any subsequent request to turn off or resize the pagination
       # TODO Either wait for a new Netzke release that changes this behavior, or rewrite from scratch the endpoint implementation for the service of grid data retrieval
-#      :enable_pagination => false,
-      # [Steve, 20120914] It seems that the LIMIT parameter used during column sort can't be toggled off, so we put an arbitrary 10Tera row count limit per page to get all the rows: 
-#      :rows_per_page => 1000000000000,
+      :enable_pagination => ( toggle_pagination = AppParameter.get_default_pagination_enable_for( :schedules ) ),
+      # [Steve, 20120914] It seems that the LIMIT parameter used during column sort can't be toggled off even when pagination is false, so we put an arbitrary 10Tera row count limit per page to get all the rows: 
+      :rows_per_page => ( toggle_pagination ? AppParameter.get_default_pagination_rows_for( :schedules ) : 1000000000000 ),
       :min_width => 750,
 
       :columns => [
