@@ -67,7 +67,8 @@ class ArticlesList < EntityGrid
       { :name => :le_user__name, :field_label => I18n.t(:user), :width => 70, :sorting_scope => :sort_article_by_user,
         :default_value => Netzke::Core.current_user.id },
       { :name => :is_sticky, :field_label => I18n.t(:is_sticky),
-        :default_value => false, :unchecked_value => 'false'
+        :default_value => false, :unchecked_value => 'false',
+        :field_style => 'min-height: 13px; padding-left: 13px;'
       }
     ]
   end

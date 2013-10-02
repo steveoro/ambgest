@@ -71,11 +71,11 @@ class PatientDetails < Netzke::Basepack::FormPanel
                         :min_width => 150, :scope => lambda { |rel| rel.order("name ASC") }
                       },
                       { :xtype => :displayfield,        :value => ' ', :margin => '0 2 0 2' }, # vertical spacer
-                      { :name => :surname,              :width => 380,
+                      { :name => :surname,              :width => 300,
                         :field_style => 'font-size: 110%; font-weight: bold;'
                       },
                       { :xtype => :displayfield,        :value => ' ', :margin => '0 2 0 2' }, # vertical spacer
-                      { :name => :name,                 :width => 380,
+                      { :name => :name,                 :width => 300,
                         :field_style => 'font-size: 110%; font-weight: bold;'
                       },
                   ]
@@ -106,21 +106,15 @@ class PatientDetails < Netzke::Basepack::FormPanel
 
                     {
                       :xtype => 'checkboxgroup', :fieldLabel => I18n.t(:status, {:scope=>[:patient]}),
-                      :cls => 'x-check-group-alt', :width => 700,
-                      :defaults => { :hide_label => true, :field_style => 'min-height: 13px; padding-left: 13px;' },
+                      :cls => 'x-check-group-alt', :width => 600,
+                      :defaults => {
+                        :hide_label => true, :default_value => false, :unchecked_value => 'false',
+                        :field_style => 'min-height: 13px; padding-left: 13px;'
+                      },
                       :items => [
-                          { :boxLabel => I18n.t(:is_a_firm, {:scope=>[:patient]}),
-                            :name => :is_a_firm,
-                            :unchecked_value => 'false'
-                          },
-                          { :boxLabel => I18n.t(:is_suspended, {:scope=>[:patient]}),
-                            :name => :is_suspended,
-                            :unchecked_value => 'false'
-                          },
-                          { :boxLabel => I18n.t(:is_fiscal, {:scope=>[:patient]}),
-                            :name => :is_fiscal,
-                            :unchecked_value => 'false'
-                          }
+                        { :name => :is_a_firm, :boxLabel => I18n.t(:is_a_firm, {:scope=>[:patient]}) },
+                        { :name => :is_suspended, :boxLabel => I18n.t(:is_suspended, {:scope=>[:patient]}) },
+                        { :name => :is_fiscal, :boxLabel => I18n.t(:is_fiscal, {:scope=>[:patient]}) }
                       ]
                     }
                   ]

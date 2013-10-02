@@ -218,8 +218,8 @@ class AppParameter < ActiveRecord::Base
   end
 
 
-  # Retrieves default pagination for the specified controller [<underscore>+action+, if not "index"].
-  # Will return a default value of 10 if the expected PAGINATION_ROWS_FIELD column is not set
+  # Retrieves default pagination enable flag for the specified controller.
+  # Will return the value of the PAGINATION_ENABLE_FIELD column.
   #
   # == Parameters:
   # - +ctrl_sym+: name of the controller as symbol
@@ -231,7 +231,7 @@ class AppParameter < ActiveRecord::Base
   end
 
 
-  # Retrieves default pagination for the specified controller [<underscore>+action+, if not "index"].
+  # Retrieves default pagination for the specified controller.
   # Will return a default value of 10 if the expected PAGINATION_ROWS_FIELD column is not set
   #
   # == Parameters:
@@ -244,7 +244,7 @@ class AppParameter < ActiveRecord::Base
   end
 
 
-  # Retrieves default view height for the specified controller [<underscore>+action+, if not "index"].
+  # Retrieves default view height for the specified controller.
   # Will return a default value of 500 if the expected VIEW_HEIGHT_FIELD column is not set
   #
   # == Parameters:
