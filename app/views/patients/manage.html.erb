@@ -32,3 +32,10 @@
 		:force_fit => true
 	}
 } %>
+
+
+<div id="divIssueReceiptDataContainer" hidden="true">
+	<%= form_tag( issue_receipt_appointments_path(), :id => 'frmPostIssueReceipt' ) do -%>
+		<%= hidden_field_tag( :data ) %>
+	<% end %>
+</div>

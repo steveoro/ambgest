@@ -1,3 +1,4 @@
+require 'date'
 require 'common/format'
 
 
@@ -103,7 +104,7 @@ class Patient < ActiveRecord::Base
     if ( is_a_firm? )
       sprintf(
           I18n.t(:firm_receipt_description),
-          date_receipt.strftime("%B").t + ' ' + date_receipt.strftime("%Y")
+          Date.today.strftime("%B").t + ' ' + Date.today.strftime("%Y")
       )
     else
       if ( specify_neurologic_checkup? )

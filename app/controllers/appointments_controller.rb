@@ -99,8 +99,12 @@ class AppointmentsController < ApplicationController
     logger.debug "AppointmentsController::issue_receipt(): id list: #{id_list.inspect}"
 
     if is_ok && (appointments.size > 0)             # Any valid row instances found and ready to be processed? Prepare data for the creation of a new receipt:
-      receipt = Receipt.new( params[:receipt] )
-      receipt.patient_id = appointments[0].patient_id unless (receipt.patient_id.to_i > 0)
+      params_hash = {
+        :patient_id => appointments[0].patient_id,
+        :date_receipt => appointments[0].date_receipt,
+        :receipt_description => appointments[0].receipt_description
+      }
+      receipt = Receipt.new( params_hash )
       receipt.additional_notes = ""
                                                     # Init collected values:
       receipt.price = 0
@@ -120,7 +124,7 @@ class AppointmentsController < ApplicationController
       receipt.additional_notes = receipt.additional_notes +
                                  "\r\n#{I18n.t(:invoiced_appointments, {:scope=>[:receipt]})}: #{appointments_list.join(", ")}" if appointments_list.size > 1
                                                     # Preset additional values
-      receipt.preset_default_values( :date_receipt => receipt.date_receipt, :patient_id => receipt.patient_id )
+      receipt.preset_default_values()
 # DEBUG
       logger.debug "AppointmentsController::issue_receipt(): receipt: #{receipt.inspect}"
 
