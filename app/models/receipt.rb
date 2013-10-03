@@ -234,7 +234,7 @@ class Receipt < ActiveRecord::Base
   def account_percentage_amount( acc_percent = nil )
     tot_cost = 0.0              # init result
     if self.patient.is_a_firm?
-      acc_percent ||= AppParameter.get_receipt_account_percent()
+      acc_percent ||= AppParameterCustomizations.get_receipt_account_percent()
       tot_cost += self.price * acc_percent.to_f / 100.0
     end
     return tot_cost
