@@ -2,13 +2,18 @@
 # Specialized Appointment rows list/grid component implementation
 #
 # - author: Steve A.
-# - vers. : 3.05.05.20131002
+# - vers. : 3.05.08.20131218
 #
 class AppointmentsGrid < EntityGrid
 
   action :issue_receipt,  :text => I18n.t(:issue_receipt, :scope =>[:appointment]),
                           :tooltip => I18n.t(:issue_multi_receipt_tooltip, :scope =>[:appointment]),
                           :icon =>"/images/icons/email.png",
+                          :disabled => true
+
+  action :export_csv,  :text => I18n.t(:export_csv_full, :scope =>[:appointment]),
+                          :tooltip => I18n.t(:export_csv_full_tooltip, :scope =>[:appointment]),
+                          :icon =>"/images/icons/page_white_excel.png",
                           :disabled => true
 
   action :void_appointment,
@@ -72,6 +77,8 @@ class AppointmentsGrid < EntityGrid
       :issue_receipt.action,
       :void_appointment.action,
       "-",                                          # Adds a separator
+      :export_csv.action,
+      "-",                                          # Adds a separator
       :show_details.action,
       :manage_patient.action,
       :search.action,
@@ -109,6 +116,8 @@ class AppointmentsGrid < EntityGrid
       "-",                                          # Adds a separator
       :issue_receipt.action,
       :void_appointment.action,
+      "-",                                          # Adds a separator
+      :export_csv.action,
       "-",                                          # Adds a separator
       :show_details.action,
       :manage_patient.action,
@@ -157,13 +166,11 @@ class AppointmentsGrid < EntityGrid
             :format => 'Y-m-d, H:i', :default_value => DateTime.now, :summary_type => :count
           },
 
-          { :name => :patient__get_full_name, :label => I18n.t(:patient, {:scope=>[:patient]}), :width => 150,
-            :width => 180,
-            # [20121121] For the combo-boxes to have a working query after the 4th char is entered in the edit widget,
-            # a lambda statement must be used. Using a pre-computed scope from the Model class prevents Netzke
-            # (as of this version) to append the correct WHERE clause to the scope itself (with an inline lambda, instead, it works).
-            :scope => lambda { |rel| rel.where(:is_suspended => false).order("surname ASC, name ASC") },
-            :sorting_scope => :sort_appointment_by_patient
+          { :name => :patient__surname, :label => I18n.t(:surname, {:scope=>[:patient]}),
+            :width => 90
+          },
+          { :name => :patient__get_name, :label => I18n.t(:name, {:scope=>[:patient]}),
+            :width => 90
           },
 
           { :name => :price,                  :label => I18n.t(:price, {:scope=>[:appointment]}), :width => 60,
@@ -231,7 +238,8 @@ class AppointmentsGrid < EntityGrid
                                                     // Disable Issue Receipt if there are no uninvoiced rows selected:
           this.actions.issueReceipt.setDisabled( iReceiptsFound >= selItems.length );
                                                     // Disable Void Appointment if there is already a Receipt or it has been already payed
-          this.actions.voidAppointment.setDisabled( ( selModel.getCount() > 0)  && !canEditPatient );
+          this.actions.voidAppointment.setDisabled( !canEditPatient || (iReceiptsFound >= selItems.length) );
+          this.actions.exportCsv.setDisabled( selModel.getCount() < 1 );
 
                                                     // Toggle on-off actions according to selected context:
           this.actions.edit.setDisabled( !canEditPatient );
@@ -544,6 +552,45 @@ class AppointmentsGrid < EntityGrid
         this.netzkeFeedback( "#{I18n.t(:warning_no_data_to_send)}" );
     }
   JS
+  # ---------------------------------------------------------------------------
+
+
+  # Front-end JS event handler for the action 'export_csv'
+  #
+  js_method :on_export_csv, <<-JS
+    function() {
+      this.collectDisplayedRowIds( "#{ Netzke::Core.controller.report_detail_appointments_path( :type=>'csv' ) }" );
+    }
+  JS
+
+
+  # Scans selection model and collects all selected rows' IDs
+  #
+  js_method :collect_displayed_row_ids, <<-JS
+    function( controllerPath ) {
+      var selModel = this.getSelectionModel();
+      var processableRows = new Array();
+
+      if ( selModel.hasSelection() ) {
+        var selItems = selModel.selected.items;
+        for ( i = 0; i < selItems.length; i++ ) {
+          if ( selItems[i].data != null ) {
+            processableRows.push( selItems[i].data.id );
+          }
+        }
+                                                    // Found any processable rows?
+        if ( processableRows.length > 0 ) {
+          this.invokeFilteredCtrlMethod( controllerPath, processableRows );
+        }
+        else
+          this.netzkeFeedback( "#{I18n.t(:warning_no_data_to_send)}" );
+      }
+      else
+        this.netzkeFeedback( "#{I18n.t(:please_select_data_to_send)}" );
+    }
+  JS
+  # ---------------------------------------------------------------------------
+  # ---------------------------------------------------------------------------
 
 
   # Invokes a controller path sending in all the (encoded) IDs selected inside rowDataArray.
@@ -577,7 +624,7 @@ class AppointmentsGrid < EntityGrid
   js_method :on_manage_patient, <<-JS
     function() {
       var fld = this.getSelectionModel().selected.first().data;
-      var managePath = this.targetForPatientManage.replace( '-1', fld[ 'patient__get_full_name' ] );
+      var managePath = this.targetForPatientManage.replace( '-1', fld[ 'patient__surname' ] );
       this.setDisabled( true );
       location.href = managePath;
     }

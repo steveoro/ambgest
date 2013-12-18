@@ -64,12 +64,16 @@ class Patient < ActiveRecord::Base
   #----------------------------------------------------------------------------
   #++
 
+  # Safe getter for the name, since it can be empty or nil
+  def get_name
+    (name.empty? || name.nil?) ? '' : name
+  end
 
   # Computes a shorter description for the name associated with this data
   def get_full_name
     [
-      (surname.empty? ? nil : surname),
-      (name.empty? ? nil : name)
+      (surname.empty? || surname.nil? ? '' : surname),
+      (name.empty? || name.nil? ? nil : name)
     ].compact.join(" ")
   end
 

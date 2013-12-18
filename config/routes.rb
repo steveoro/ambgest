@@ -32,6 +32,7 @@ Ambgest3::Application.routes.draw do
         # The following (issue_receipt_appointments) will recognize routes such as "POST /ambgest(/:locale)/appointments/issue_receipt(.:format)"      
         collection do
           post 'issue_receipt'
+          get 'report_detail'
         end
       end
 

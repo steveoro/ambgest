@@ -1,7 +1,14 @@
+# encoding: utf-8
+
+require 'ruport'
+require 'ruport/data/table'
+
 require 'common/format'
+require 'framework/interface_data_export'
 
 
 class Appointment <  ActiveRecord::Base
+  include InterfaceDataExport
 
   belongs_to :patient
   belongs_to :receipt
@@ -65,11 +72,12 @@ class Appointment <  ActiveRecord::Base
 
   # Computes a displayable string representing the required date_schedule field.
   def get_date_schedule
-    unless date_schedule.blank?
-      Format.a_short_datetime( date_schedule )
-    else
-      ''
-    end
+    (date_schedule.blank? || date_schedule.nil?) ? '' : Format.a_short_datetime( date_schedule )
+  end
+
+  # Computes a shortened string version of the date_schedule field.
+  def get_compacted_date_schedule
+    (date_schedule.blank? || date_schedule.nil?) ? '' : date_schedule.strftime("%Y%m%d")
   end
 
   # Virtual field getter.
@@ -187,13 +195,73 @@ class Appointment <  ActiveRecord::Base
     ]
   end
   # ---------------------------------------------------------------------------
-  #--
+  # ---------------------------------------------------------------------------
+
+
+  # ---------------------------------------------------------------------------
+  # Reporting / Exporting
+  # ---------------------------------------------------------------------------
+
+
+  # Returns the list of "header" +Hash+ keys (the +Array+ of +Symbols+) that will be used to create the result
+  # of <tt>prepare_report_header_hash()</tt> and that will also be added to the list of all possible (localized)
+  # "labels" returned by <tt>self.get_label_hash()</tt>.
+  #
+  # The returned symbols are supposed to be all the keys of <tt>prepare_report_header_hash()</tt>
+  #
+  def self.report_header_symbols()
+    [
+      :date_schedule, :get_full_name, :price, :notes,
+      :is_payed, :date_receipt, :receipt_num, :additional_notes
+    ]
+  end
+
+  # Returns the list of the "detail" key +Symbols+ that will be used to create the result
+  # of <tt>prepare_report_detail()</tt> and that will also be added to the list of all possible (localized)
+  # "labels" returned by <tt>self.get_label_hash()</tt>.
+  #
+  def self.report_detail_symbols()
+    report_header_symbols()
+  end
+
+  # Alias for detail symbols list
+  def self.data_symbols()
+    report_detail_symbols()
+  end
+
+  # Prepares and returns the result hash containing the header data fields specified
+  # in the <tt>report_header_symbols()</tt> list.
+  #
+  def prepare_report_header_hash()
+    {
+      :date_schedule    => Format.a_short_datetime( self.date_schedule ),
+      :get_full_name    => self.get_full_name,
+      :price            => self.price,
+      :notes            => self.notes,
+      :is_payed         => self.is_payed ? 'OK' : '',
+      :date_receipt     => self.date_receipt,
+      :receipt_num      => self.receipt_num,
+      :additional_notes => self.additional_notes,
+    }
+  end
+
+  # Returns a single Ruport::Data::Table containing a summarized report detail for the current instance
+  # data.
+  #
+  # ([Steve, 20131218]: Not used as of this version)
+  #
+  def prepare_report_detail()
+    Ruport::Data::Table.new( :column_names => self.class.report_detail_symbols() ) { |t|
+      t << self.to_a_s( self.class.report_detail_symbols(), CONVERTED_FLOAT2STRING_FIXED_PRECISION, 8 )
+    }
+  end
+  # ----------------------------------------------------------------------------
+  # ----------------------------------------------------------------------------
 
 
   # ----------------------------------------------------------------------------
   # Custom finders
   # ----------------------------------------------------------------------------
-  #++
 
 
   # Retrieves an appointment instance for a given date-time coordinate.
@@ -241,13 +309,12 @@ class Appointment <  ActiveRecord::Base
     )
   end
   #----------------------------------------------------------------------------
-  #--
+  #----------------------------------------------------------------------------
 
 
   # ---------------------------------------------------------------------------
   # ActiveScaffold custom action authorization overrides:
   # ---------------------------------------------------------------------------
-  #++
 
 
   # Returns true if a new Receipt can be issued and linked to the current appointment

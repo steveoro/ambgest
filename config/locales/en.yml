@@ -55,6 +55,9 @@ en:
     appointment: "Appointment"
     appointments: "Appointments"
     patient__get_full_name: "Patient"
+    get_full_name: "Patient"
+    receipt_num: "Receipt Num."
+    date_receipt: "Receipt Date"
     add_appointment: "Add Appointment"
     edit_appointment: "Edit Appointment"
     void_appointment: "Void Appoint."
@@ -83,9 +86,9 @@ en:
     printable_multi_pdf_tooltip: "Creates a single printable PDF file for all the Receipts found for the selected Appointments"
     printable_multi_pdf_copy: "Receipt (copy)"
     printable_multi_pdf_copy_tooltip: "Creates a single printable PDF file for all the Receipts found for the selected Appointments, printing also the 'Administrative Copy' watermark on each page"
-    export_txt: "Export TXT"
+    export_txt: "Export to TXT file"
     export_txt_tooltip: "Creates a single text file containing all the Receipts values and amounts found for the selected Appointments"
-    export_csv_full: "Export CSV"
+    export_csv_full: "Export to CSV file"
     export_csv_full_tooltip: "Creates a single CSV-formatted text file containing all the Receipts values and amounts found for the selected Appointments"
     invalid_appointment_found_at: "There's an out-of-schedule Appointment in this week at "
 
@@ -662,6 +665,8 @@ en:
   in_conflict: "In conflict"
 
   warning_no_data_to_send: "There aren't any data rows to process!"
+  please_select_data_to_send: "Please, select some rows for processing!"
+  unsupported_output_format: "Unsupported output format."
   drag_to_resize: "Drag to resize the area"
   show_details_tooltip: "Show the row details in a small pop-up window"
   add: Add

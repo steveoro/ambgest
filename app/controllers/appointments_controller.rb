@@ -180,4 +180,72 @@ class AppointmentsController < ApplicationController
   end
   # ---------------------------------------------------------------------------
 
+
+  # Outputs a detailed report using the selected rows IDs specified as parameter.
+  #
+  # == Params:
+  # - <tt>:type</tt> => the extension of the file to be created; one among: 'pdf', 'odt', 'txt', 'full.csv', 'simple.csv'
+  #   (default: 'pdf')
+  # - <tt>:data</tt> (*required*) => a JSON-encoded array of Appointment IDs to be retrieved and processed
+  #
+  def report_detail
+#    logger.debug "\r\n!! ----- report_detail -----"
+#    logger.debug "report_detail: params #{params.inspect}"
+                                                    # Parse params:
+    id_list = ActiveSupport::JSON.decode( params[:data] ) if params[:data]
+    unless id_list.kind_of?(Array)
+      raise ArgumentError, "report_detail(): invalid or missing data parameter!", caller
+    end
+    return if id_list.size < 1
+# DEBUG
+#    logger.debug "report_detail(): id list: #{id_list.inspect}"
+                                                    # Retrieve the receipt rows from the ID list:
+    records = nil
+    begin
+      records = Appointment.where( :id => id_list )
+    rescue
+      raise ArgumentError, "report_detail(): no valid ID(s) found inside data parameter!", caller
+    end
+    return if records.nil?
+# DEBUG
+#    logger.debug "report_detail(): records class: #{records.class}"
+#    logger.debug "report_detail(): records found: #{records.size}"
+
+    filetype    = params[:type] || 'csv'
+    separator   = params[:separator] || ';'         # (This plus the following params are used only during data exports)
+
+    report_title = "#{I18n.t( :appointments, {:scope=>[:appointment]} )} #{records.first.get_date_schedule} ... #{records.last.get_date_schedule}"
+    report_base_name = "#{I18n.t( :appointments, {:scope=>[:appointment]} )}-#{records.first.get_compacted_date_schedule}_#{records.last.get_compacted_date_schedule}"
+                                                    # == DATA Collection ==
+    detail_data  = []
+    records.each { |row|
+      detail_data << row.to_a_s(
+        Appointment.report_detail_symbols(),
+        Appointment::CONVERTED_FLOAT2STRING_FIXED_PRECISION,
+        8
+      )
+    }
+    ruport_table = Ruport::Data::Table.new(
+      :column_names => Appointment.report_detail_symbols(),
+      :data => detail_data
+    )
+    localize_ruport_table_column_names( ruport_table, :appointment )
+                                                    # == OPTIONS setup + RENDERING phase ==
+    filename = create_unique_filename( report_base_name ) + ".#{filetype}"
+
+    if ( filetype == 'csv' )                        # --- CSV ---
+      data = ''
+      data << ruport_table.as( :csv, :format_options => {:col_sep => separator}, :ignore_table_width => true )
+      data << "\r\n"
+# DEBUG
+#        puts data
+      send_data( data, :type => "text/#{filetype}", :filename => filename )
+      # -------------------------------------------
+    else
+      flash[:error] = I18n.t( :unsupported_output_format )
+      redirect_to_index
+    end
+  end
+  # ---------------------------------------------------------------------------
+
 end

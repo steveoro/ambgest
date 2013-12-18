@@ -376,6 +376,11 @@ class Receipt < ActiveRecord::Base
     [ :qty, :description, :percent, :amount ]
   end
 
+  # Alias for detail symbols list
+  def self.data_symbols()
+    report_detail_symbols()
+  end
+
   # Prepares and returns the result hash containing the header data fields specified
   # in the <tt>report_header_symbols()</tt> list.
   #

@@ -55,6 +55,9 @@ it:
     appointment: "Appuntamento"
     appointments: "Appuntamenti"
     patient__get_full_name: "Paziente"
+    get_full_name: "Paziente"
+    receipt_num: "Num. Ricevuta"
+    date_receipt: "Data Ricevuta"
     add_appointment: "Aggiungi Appuntamento"
     edit_appointment: "Modifica Appuntamento"
     void_appointment: "Annulla Appunt."
@@ -83,9 +86,9 @@ it:
     printable_multi_pdf_tooltip: "Crea un singolo file PDF stampabile per tutte le Ricevute selezionate e presenti nell'elenco"
     printable_multi_pdf_copy: "PDF Copia Ric."
     printable_multi_pdf_copy_tooltip: "Crea un singolo file PDF stampabile per tutte le Ricevute selezionate e presenti nell'elenco con la dicitura 'COPIA ad uso Amministrativo'"
-    export_txt: "File di testo"
+    export_txt: "Esporta su file di testo"
     export_txt_tooltip: "Crea un un singolo file di testo contentente gli importi e il testo delle Ricevute selezionate in lista"
-    export_csv_full: "File CSV"
+    export_csv_full: "Esporta su file CSV"
     export_csv_full_tooltip: "Crea un un singolo file di testo in formato CSV, contentente gli importi e il testo delle Ricevute selezionate in lista"
     invalid_appointment_found_at: "C'e' un appuntamento fuori orario in questa settimana in data "
 
@@ -652,6 +655,8 @@ it:
   in_conflict: "In conflitto"
 
   warning_no_data_to_send: "Non ci sono righe dati da elaborare!"
+  please_select_data_to_send: "Prima seleziona le righe che vuoi trattare!"
+  unsupported_output_format: "Formato di output non supportato."
   drag_to_resize: "Trascina per ridimensionare le aree"
   show_details_tooltip: "Mostra i dettagli della riga selezionata in una finestra pop-up"
   add: Aggiungi
