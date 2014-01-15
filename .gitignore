@@ -9,12 +9,15 @@
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
-# Ignore the database seeds (containing default users).
-/db/seeds.rb
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
+/log/*.ok
+/log/*.sql
 /tmp
+
+# Ignore downloaded gems and packages:
+/vendor/cache/*
 
 # Ignore ExtJS library and other directories:
 /public/extjs/*
