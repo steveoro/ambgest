@@ -11,12 +11,12 @@ require File.join( Rails.root.to_s, 'config/environment' )
 # ## Local Deployment helper tasks ##
 # ###################################
 #
-# FASAR Software 2007-2013
+# FASAR Software 2007-2014
 # ==> TO BE RakeD inside app root <==
 
 
 # Script revision number
-SCRIPT_VERSION = '4.08.20131121'
+SCRIPT_VERSION = '4.09.20140331'
 
 # Gives current application name
 APP_NAME = Rails.root.to_s.split( File::SEPARATOR ).reverse[0]
@@ -88,6 +88,7 @@ namespace :db do
       # rewrite the task to not do anything you don't want
     end
   end
+  # ---------------------------------------------------------------------------
 
 
   desc <<-DESC
@@ -100,16 +101,20 @@ It actually DROPS the Database, recreates it using a mysql shell command.
     db_name       = rails_config.database_configuration[Rails.env]['database']
     db_user       = rails_config.database_configuration[Rails.env]['username']
     db_pwd        = rails_config.database_configuration[Rails.env]['password']
+    db_host       = rails_config.database_configuration[Rails.env]['host']
                                                     # Display some info:
     puts "DB name:      #{db_name}"
     puts "DB user:      #{db_user}"
     puts "\r\nDropping DB..."
-    sh "mysql --user=#{db_user} --password=#{db_pwd} --execute=\"drop database if exists #{db_name}\""
+    sh "mysql --host=#{db_host} --user=#{db_user} --password=#{db_pwd} --execute=\"drop database if exists #{db_name}\""
     puts "\r\nRecreating DB..."
-    sh "mysql --user=#{db_user} --password=#{db_pwd} --execute=\"create database #{db_name}\""
+    sh "mysql --host=#{db_host} --user=#{db_user} --password=#{db_pwd} --execute=\"create database #{db_name}\""
   end
+  # ---------------------------------------------------------------------------
 
-  desc 'Recreates the DB from scratch. Invokes db:reset + db:migrate + sql:exec in one shot.'
+
+  desc 'Recreates the DB(s) from scratch. Invokes db:reset + db:migrate + sql:exec + db:clone_to_test in one shot.'
+  
   task :rebuild_from_scratch do
     puts "*** Task: Compound DB RESET + MIGRATE + SQL:EXEC ***"
     Rake::Task['db:reset'].invoke
@@ -118,6 +123,50 @@ It actually DROPS the Database, recreates it using a mysql shell command.
     puts "Done."
   end
   # ---------------------------------------------------------------------------
+
+
+  desc <<-DESC
+  Clones the development or production database to the test database (according to
+  Rails environment; default is obviously 'development').
+  Assumes development db name ends in '_development' and production db name doesn't
+  have any suffix.
+
+  Options: [Rails.env=#{Rails.env}]
+
+  DESC
+  task :clone_to_test => ['utils:script_status', 'utils:chk_needed_dirs'] do
+    puts "*** Task: Clone DB on TEST DB ***"
+    if (Rails.env == 'test')
+      puts "You must specify either 'development' or 'production'!"
+      exit
+    end
+                                                    # Prepare & check configuration:
+    rails_config  = Rails.configuration
+    db_name       = rails_config.database_configuration[Rails.env]['database']
+    db_user       = rails_config.database_configuration[Rails.env]['username']
+    db_pwd        = rails_config.database_configuration[Rails.env]['password']
+    db_host       = rails_config.database_configuration[Rails.env]['host']
+    output_folder = ENV.include?("output_dir") ? ENV["output_dir"] : DB_BACKUP_DIR
+                                                    # Display some info:
+    puts "DB name: #{db_name}"
+    puts "DB user: #{db_user}"
+    file_name = File.join( output_folder, "#{db_name}-clone.sql" )
+    puts "\r\nDumping #{db_name} on #{file_name} ...\r\n"
+    sh "mysqldump --host=#{db_host} -u #{db_user} -p#{db_pwd} --triggers --routines -i -e --no-autocommit --single-transaction #{db_name} > #{file_name}"
+    base_db_name = db_name.split('_development')[0]
+    puts "\r\nDropping Test DB '#{base_db_name}_test'..."
+    sh "mysql --host=#{db_host} --user=#{db_user} --password=#{db_pwd} --execute=\"drop database if exists #{base_db_name}_test\""
+    puts "\r\nRecreating DB..."
+    sh "mysql --host=#{db_host} --user=#{db_user} --password=#{db_pwd} --execute=\"create database #{base_db_name}_test\""
+    puts "\r\nExecuting '#{file_name}' on #{base_db_name}_test..."
+    sh "mysql --host=#{db_host} --user=#{db_user} --password=#{db_pwd} --database=#{base_db_name}_test --execute=\"\\. #{file_name}\""
+    puts "Deleting dump file '#{file_name}'..."
+    FileUtils.rm( file_name )
+
+    puts "Clone on Test DB done.\r\n\r\n"
+  end
+  # ---------------------------------------------------------------------------
+
 end
 # =============================================================================
 # =============================================================================
@@ -139,6 +188,7 @@ Options: [db_version=<db_struct_version>] [bzip2=<1>|0]
     db_name       = rails_config.database_configuration[Rails.env]['database']
     db_user       = rails_config.database_configuration[Rails.env]['username']
     db_pwd        = rails_config.database_configuration[Rails.env]['password']
+    db_host       = rails_config.database_configuration[Rails.env]['host']
 
 # TODO [FUTUREDEV] get current version from app_parameter table
     db_version    = ENV.include?("db_version") ? ENV['db_version'] + '.' + DateTime.now.strftime("%Y%m%d.%H%M") : 'backup' + '.' + DateTime.now.strftime("%Y%m%d.%H%M%S")
@@ -159,7 +209,7 @@ Options: [db_version=<db_struct_version>] [bzip2=<1>|0]
     puts "extracted tables: " + ( ENV.include?("tables") ? tables : "(entire DB)" )
     file_name = File.join( backup_folder, ( ENV.include?("tables") ? "#{db_name}-update-tables#{file_ext}" : "#{db_name}-#{db_version}#{file_ext}" ) )
     puts "Creating #{file_name} ...\r\n"
-    sh "mysqldump -u #{db_user} -p#{db_pwd} --add-drop-database --add-drop-table --extended-insert --triggers --routines --comments -c -i --no-autocommit --single-transaction -B #{db_name} #{zip_pipe} > #{file_name}"
+    sh "mysqldump --host=#{db_host} -u #{db_user} -p#{db_pwd} --add-drop-database --add-drop-table --extended-insert --triggers --routines --comments -c -i --no-autocommit --single-transaction -B #{db_name} #{zip_pipe} > #{file_name}"
 
                                                     # Rotate the backups leaving only the newest ones:
     rotate_backups( backup_folder, max_backups )
@@ -185,6 +235,7 @@ Options: [exec_dir=#{DB_SEED_DIR}] [delete=1|<0>]
     db_name       = rails_config.database_configuration[Rails.env]['database']
     db_user       = rails_config.database_configuration[Rails.env]['username']
     db_pwd        = rails_config.database_configuration[Rails.env]['password']
+    db_host       = rails_config.database_configuration[Rails.env]['host']
     exec_folder = ENV.include?("exec_dir") ? ENV["exec_dir"] : DB_SEED_DIR
                                                     # Display some info:
     puts "DB name:      #{db_name}"
@@ -195,7 +246,7 @@ Options: [exec_dir=#{DB_SEED_DIR}] [delete=1|<0>]
                                                     # For each file match in pathname recursively do "process file":
       Dir.glob( File.join(exec_folder, '*.sql'), File::FNM_PATHNAME ).sort.each do |subpathname|
         puts "executing '#{subpathname}'..."
-        sh "mysql --user=#{db_user} --password=#{db_pwd} --database=#{db_name} --execute=\"\\. #{subpathname}\""
+        sh "mysql --host=#{db_host} --user=#{db_user} --password=#{db_pwd} --database=#{db_name} --execute=\"\\. #{subpathname}\""
         # TODO Eventually, capture output to a log file somewhere
                                                     # Kill the file if asked to do so:
         if ( ENV.include?("delete") && ENV.include?("delete") == '1' )
