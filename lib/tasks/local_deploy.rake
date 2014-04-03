@@ -16,7 +16,7 @@ require File.join( Rails.root.to_s, 'config/environment' )
 
 
 # Script revision number
-SCRIPT_VERSION = '4.09.20140331'
+SCRIPT_VERSION = '4.10.20140403'
 
 # Gives current application name
 APP_NAME = Rails.root.to_s.split( File::SEPARATOR ).reverse[0]
@@ -446,8 +446,8 @@ namespace :utils do
   desc "Check and creates missing needed directories"
   task(:chk_needed_dirs) do                         # Check the needed folders & create if missing:
     for folder in NEEDED_DIRS
-      puts "Checking existance of #{folder}..."
-      FileUtils.mkdir_p(folder)
+      puts "Checking existance of #{folder} (and creating it if missing)..."
+      FileUtils.mkdir_p(folder) if !File.directory?(folder)
     end
     puts "\r\n"
   end
