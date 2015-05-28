@@ -6,6 +6,14 @@
 
 # Ignore bundler config
 /.bundle
+/.project
+/.coveralls.yml
+/.git
+/.git/*
+/.settings
+/.settings/*
+custom_plan.rb
+zeus.json
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
@@ -23,8 +31,26 @@
 /public/extjs/*
 /public/output/*
 /public/uploads/*
+/public/dev-assets/*
+
+# Include or exclude precompiled assets into repository (to avoid precompiling on production/staging)
+#/public/assets/*
 
 # Ignore password-containing files and sensitive directories:
-/config/database.yml
+/config/*.yml
 /config/deploy.rb
 /config/deploy/*
+
+# Ignore auto-generated files:
+/db/schema.rb
+db/schema.rb
+db/schema.*
+/coverage/*
+coverage/*
+coverage/assets/*
+coverage/index.html
+/api_docs/*
+api_docs/*
+api_docs
+api_docs/sessions.txt
+bin
