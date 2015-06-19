@@ -1,0 +1,219 @@
+# encoding: utf-8
+
+# == Capistrano helper tasks ==
+#
+# - author: Steve A.
+# - vers. : 4.00.809
+#
+# This requires Capistrano v. >= 3.4
+require "erb"
+
+
+namespace :app do
+  namespace :setup do
+    desc <<-DESC
+      Creates a custom production environment file in shared path.
+
+      This task searches and uses a template called 'production.rb.erb' that must
+      be found inside the /config/deploy folder.
+
+      If the template is found, the current /config/environments/production.rb is
+      replaced with the result from the template (which is filled according to the
+      internal parameters).
+
+      Mail delivery method for current stage: #{fetch(:mail_delivery_method)}
+    DESC
+    task :prod_env do
+      puts "      > Setup remote config/environments/production.rb..."
+      on roles(:app) do |host|
+        use_sendfile_header_for_apache = true
+        serve_static_assets  = false
+        debug_assets         = false
+        mail_delivery_method = fetch(:mail_delivery_method)
+        perform_deliveries   = true
+        application          = fetch(:application)
+        mailer_default_host  = fetch(:mailer_default_host)
+        web_server_port      = fetch(:web_server_port)
+        agex_development_email = fetch( :agex_development_email )
+        if ( mail_delivery_method == 'smtp' )
+          smtp_setting_tls       = fetch( :smtp_setting_tls )
+          smtp_setting_address   = fetch( :smtp_setting_address )
+          smtp_setting_port      = fetch( :smtp_setting_port )
+          smtp_setting_domain    = fetch( :smtp_setting_domain )
+          smtp_setting_auth      = fetch( :smtp_setting_auth )
+          smtp_setting_user      = fetch( :smtp_setting_user )
+          smtp_setting_pwd       = fetch( :smtp_setting_pwd )
+          smtp_setting_starttls  = fetch( :smtp_setting_starttls )
+        end
+
+        puts "\r\nprod_env -- current internal parameters:"
+        puts "========================================"
+        puts "- perform_deliveries             = #{perform_deliveries}"
+        puts "- delivery_method                = #{mail_delivery_method}"
+        puts "- serve_static_assets            = #{serve_static_assets}"
+        puts "- debug_assets                   = #{debug_assets}"
+        puts "- use_sendfile_header_for_apache = #{use_sendfile_header_for_apache}"
+        puts ""
+        puts "- agex_development_email         = #{agex_development_email}"
+        if ( mail_delivery_method == 'smtp' )
+          puts "- smtp_setting_tls               = #{smtp_setting_tls}"
+          puts "- smtp_setting_address           = #{smtp_setting_address}"
+          puts "- smtp_setting_port              = #{smtp_setting_port}"
+          puts "- smtp_setting_domain            = #{smtp_setting_domain}"
+          puts "- smtp_setting_auth              = #{smtp_setting_auth}"
+          puts "- smtp_setting_user              = #{smtp_setting_user}"
+          puts "- smtp_setting_starttls          = #{smtp_setting_starttls}"
+        end
+        puts ""
+
+        location = 'config/deploy/production.rb.erb'
+        if ( File.file?(location) )                 # Do nothing unless the template file is found
+          template = File.read(location)
+          config = ERB.new(template)
+          run_locally do                            # Render the template to a temp file:
+            File.open('/tmp/production.rb', 'w') do |file|
+              file.puts config.result(binding)
+            end
+          end
+
+          within shared_path do
+            as( user: :root ) do
+              execute :mkdir, "-p config; mkdir -p config/environments"
+            end
+          end
+          upload! '/tmp/production.rb', "#{shared_path}/config/environments/production.rb"
+
+          run_locally do                            # Remove the local temp file:
+            puts "      > Removing local temp file..."
+            execute :rm, "/tmp/production.rb"
+          end
+        else
+          info "Environment template file not found locally: skipping ':setup_prod_env'."
+        end
+      end
+    end
+    # --------------------------------------------------------------------------
+
+
+    desc "Checks if the directory shared/public/extjs exists on the app server."
+    task :check_extjs do
+      on roles(:app) do |host|
+        lib_dir = File.join(shared_path, "public/extjs")
+        puts "      > Checking existance of #{lib_dir}..."
+        if test("[ ! -z \"$(ls #{lib_dir})\" ]")
+          info "Directory #{lib_dir} found with files."
+        else
+          warn "Directory #{lib_dir} NOT found or found empty."
+        end
+      end
+    end
+    # --------------------------------------------------------------------------
+
+
+    desc <<-DESC
+      Checks and adds shared ExtJS lib files to the deployment tree
+      (only when these are not found).
+
+      It is safe to run this task on servers that have already been set up; it
+      will not destroy any deployed revisions or data.
+    DESC
+    task :shared_extjs do
+      on roles(:app) do |host|
+        lib_dir = File.join(shared_path, "public/extjs")
+        puts "      > Checking '#{lib_dir}' existance..."
+
+        if test("[ ! -z \"$(ls #{lib_dir})\" ]")
+          info "Directory #{lib_dir} found with files."
+        else
+          warn "Directory #{lib_dir} NOT found or found empty on #{host}."
+          info "Safely (re)creating directory before adding missing contents..."
+          as( user: :root ) do
+            execute :mkdir, "-p #{lib_dir}"
+          end
+          info "Uploading directory contents..."
+          ssh_keys = fetch(:ssh_keys)
+          use_pem_certificate = (ssh_keys.first =~ /\.pem$/)
+
+          run_locally do
+            puts "      > Copying local extjs dir..."
+            if use_pem_certificate
+              execute :scp, "-i #{ssh_keys.first} -Cpr public/extjs/* #{fetch(:ssh_user)}@#{host}:#{lib_dir}"
+            else
+              execute :scp, "-Cpr public/extjs/* #{fetch(:ssh_user)}@#{host}:#{lib_dir}"
+            end
+          end
+        end
+        puts "      app:setup:shared_extjs done."
+      end
+    end
+    # --------------------------------------------------------------------------
+
+
+    desc <<-DESC
+      Checks and adds other shared directories to the deployment tree
+      (only when these are not found).
+
+      It is safe to run this task on servers that have already been set up; it
+      will not destroy any deployed revisions or data.
+    DESC
+    task :common_output do
+      on roles(:app) do |host|
+        puts "      > Updating output & cache dirs permissions..."
+        # mkdir -p is making sure that the directories are there for some SCM's that don't
+        # save empty folders:
+        within File.join(shared_path, "public") do
+          as( user: :root ) do
+            execute :mkdir, "-p output"
+            execute :chmod, "-R 0777 output"
+            execute :chown, "-R #{fetch(:runner_user)}:#{fetch(:runner_group)} output"
+            execute :mkdir, "-p uploads"
+            execute :chmod, "-R 0777 uploads"
+            execute :chown, "-R #{fetch(:runner_user)}:#{fetch(:runner_group)} uploads"
+          end
+        end
+        # [Steve, 20140928] Allow custom log file to be written by nobody:nobody.
+        # (Inside the log dir, make sure to "chmod 0665" anything else).
+        within shared_path do
+          as( user: :root ) do
+            execute :chown, "-R #{fetch(:runner_user)}:#{fetch(:runner_group)} log"
+            execute :chmod, "777 log"
+            execute :chown, "-R #{fetch(:runner_user)}:#{fetch(:runner_group)} tmp"
+          end
+        end
+        within File.join(shared_path, "tmp") do
+          as( user: :root ) do
+            execute :chown, "-R #{fetch(:runner_user)}:#{fetch(:runner_group)} cache"
+            execute :chmod, "777 cache"
+          end
+        end
+      end
+    end
+    # --------------------------------------------------------------------------
+  end
+  # ============================================================================
+end
+
+
+# Custom hooks:
+before 'deploy:check:linked_files', 'app:setup:prod_env'
+before 'deploy:check:linked_files', 'app:setup:shared_extjs'
+before 'deploy:check:linked_files', 'app:setup:common_output'
+
+# Clear the cache before restart:
+#
+before 'deploy:restart', 'remote:tmp_clear'
+
+# [Steve, 20141201] Warning: this may lead to errors on "cold" deploys, where the creation of the DB has been somehow skipped volontarily:
+# Commented-out since we now clear the DB directly on the backup dump and we rebuild
+# the whole DB with the solution below.
+#
+# before 'deploy:restart', 'remote:db_sessions_clear'
+
+# [Steve, 20150521] ALL-IN-ONE DEPLOY SOLUTION (valid for DigitalOcean hosting):
+# This will rebuild each time the production DB using the current dump stored
+# in the currently deployed app version.
+# Remember to clear the sessions in the production backup dump before deploying.
+#
+# >>> THE FOLLOWING LINE CAN WORK ONLY IF THE BACKUP DB DUMP IS HOSTED ON THE REPO! <<<
+#
+# before 'deploy:restart', 'remote:db_rebuild_from_dump'

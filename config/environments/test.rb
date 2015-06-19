@@ -31,6 +31,15 @@ Ambgest3::Application.configure do
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
 
+#  config.action_mailer.perform_deliveries = false
+  # Use this to disable delivery errors, and bad email addresses will be ignored:
+  config.action_mailer.raise_delivery_errors = false
+
+  # [Steve, 20130716] mailer options used by Devise
+  config.action_mailer.default_url_options = {
+    :host => 'localhost:3000'
+  }
+
   # Use SQL instead of Active Record's schema dumper when creating the test database.
   # This is necessary if your schema can't be completely dumped by the schema dumper,
   # like if you have constraints or database-specific column types

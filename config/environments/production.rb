@@ -55,9 +55,14 @@ Ambgest3::Application.configure do
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
   # config.assets.precompile += %w( search.js )
 
-  config.action_mailer.perform_deliveries = false
+  config.action_mailer.perform_deliveries = true
   # Use this to disable delivery errors, and bad email addresses will be ignored:
   config.action_mailer.raise_delivery_errors = false
+
+  # [Steve, 20130716] mailer options used by Devise
+  config.action_mailer.default_url_options = {
+    :host => 'localhost:3000'
+  }
 
   # Enable threaded mode
   # config.threadsafe!

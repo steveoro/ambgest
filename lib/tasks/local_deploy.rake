@@ -1,22 +1,29 @@
+# encoding: utf-8
+
 require 'date'
 require 'rubygems'
 require 'find'
 require 'fileutils'
 
-require 'rails/all'
-require File.join( Rails.root.to_s, 'config/environment' )
+require 'framework/version'
+require 'common/format'
+require 'framework/application_constants'
 
 
-# ###################################
-# ## Local Deployment helper tasks ##
-# ###################################
-#
-# FASAR Software 2007-2014
-# ==> TO BE RakeD inside app root <==
+=begin
 
+= Local Deployment helper tasks
+
+  - (p) FASAR Software 2007-2015
+  - Goggles framework vers.:  4.00.785
+  - author: Steve A.
+
+  (ASSUMES TO BE rakeD inside Rails.root)
+
+=end
 
 # Script revision number
-SCRIPT_VERSION = '4.10.20140403'
+SCRIPT_VERSION = '4.00.785 (agex)'
 
 # Gives current application name
 APP_NAME = Rails.root.to_s.split( File::SEPARATOR ).reverse[0]
@@ -47,8 +54,8 @@ puts "- Script version  : #{SCRIPT_VERSION}"
 def get_full_path( sub_path )
   File.join( Rails.root, sub_path )
 end
-# ---------------------------------------------------------------------------
-# ===========================================================================
+#-- ---------------------------------------------------------------------------
+#++
 
 
 # Rotate backups inside a specific 'backup_folder' allowing only a maximum number of 'max_backups'
@@ -64,9 +71,8 @@ def rotate_backups( backup_folder, max_backups )
     end
     puts "Removed #{unwanted_backups.length} backups, #{all_backups.length - unwanted_backups.length} backups available."
 end
-# ---------------------------------------------------------------------------
-# ===========================================================================
-# ===========================================================================
+#-- ===========================================================================
+#++
 
 
 # [Steve, 20130808] The following will remove the task db:test:prepare
@@ -83,12 +89,13 @@ Rake.application.remove_task 'db:test:prepare'
 
 namespace :db do
 
-  namespace :test do 
+  namespace :test do
     task :prepare do |t|
       # rewrite the task to not do anything you don't want
     end
   end
-  # ---------------------------------------------------------------------------
+  #-- -------------------------------------------------------------------------
+  #++
 
 
   desc <<-DESC
@@ -106,32 +113,164 @@ It actually DROPS the Database, recreates it using a mysql shell command.
     puts "DB name:      #{db_name}"
     puts "DB user:      #{db_user}"
     puts "\r\nDropping DB..."
-    sh "mysql --host=#{db_host} --user=#{db_user} --password=#{db_pwd} --execute=\"drop database if exists #{db_name}\""
+    sh "mysql --host=#{db_host} --user=#{db_user} --password=\"#{db_pwd}\" --execute=\"drop database if exists #{db_name}\""
     puts "\r\nRecreating DB..."
-    sh "mysql --host=#{db_host} --user=#{db_user} --password=#{db_pwd} --execute=\"create database #{db_name}\""
+    sh "mysql --host=#{db_host} --user=#{db_user} --password=\"#{db_pwd}\" --execute=\"create database #{db_name}\""
   end
-  # ---------------------------------------------------------------------------
+  #-- -------------------------------------------------------------------------
+  #++
 
 
-  desc 'Recreates the DB(s) from scratch. Invokes db:reset + db:migrate + sql:exec + db:clone_to_test in one shot.'
-  
+  desc <<-DESC
+  Recreates the current DB from scratch.
+Invokes the following tasks in in one shot:
+
+  - db:reset           ...to clear the current DB (default: development);
+  - db:migrate         ...to run migrations;
+  - sql:exec           ...to import the base seed files (/db/seed/*.sql);
+  - db:update_records  ...to pre-compute & fill the individual_records table;
+
+Keep in mind that, when not in production, the test DB must then be updated
+using the db:clone_to_test dedicated task.
+
+Options: [Rails.env=#{Rails.env}]
+
+  DESC
   task :rebuild_from_scratch do
-    puts "*** Task: Compound DB RESET + MIGRATE + SQL:EXEC ***"
+    puts "*** Task: Compound DB RESET + MIGRATE + SQL:EXEC + DB:SEED + UPDATE_RECORDS ***"
     Rake::Task['db:reset'].invoke
     Rake::Task['db:migrate'].invoke
     Rake::Task['sql:exec'].invoke
+    Rake::Task['db:seed'].invoke
     puts "Done."
   end
-  # ---------------------------------------------------------------------------
+  #-- -------------------------------------------------------------------------
+  #++
+
+
+  desc <<-DESC
+  Similarly to sql:dump, db:dump creates a bzipped MySQL dump of the whole DB for
+later restore.
+The resulting file does not contain any "create database" statement and it can be
+executed freely on any empty database with any name of choice.
+
+The file is stored as:
+
+  - 'db/dump/#{Rails.env}.sql.bz2'
+
+This is assumed to be kept under the source tree repository and used for a quick recovery
+of the any of the DB structures using the dedicated task "db:rebuild_from_dump".
+
+Options: [Rails.env=#{Rails.env}]
+
+  DESC
+  task :dump => [ 'utils:script_status' ] do
+    puts "*** Task: DB dump for quick recovery ***"
+                                                    # Prepare & check configuration:
+    rails_config  = Rails.configuration
+    db_name       = rails_config.database_configuration[Rails.env]['database']
+    db_user       = rails_config.database_configuration[Rails.env]['username']
+    db_pwd        = rails_config.database_configuration[Rails.env]['password']
+    db_host       = rails_config.database_configuration[Rails.env]['host']
+    db_dump( db_host, db_user, db_pwd, db_name, Rails.env )
+  end
+
+
+  # Performs the actual operations required for a DB dump update given the specified
+  # parameters.
+  #
+  # Note that the dump takes the name of the Environment configuration section.
+  #
+  def db_dump( db_host, db_user, db_pwd, db_name, dump_basename )
+    puts "\r\nUpdating recovery dump '#{ dump_basename }' (from #{db_name} DB)..."
+    zip_pipe = ' | bzip2 -c'
+    file_ext = '.sql.bz2'                           # Display some info:
+    puts "DB name: #{ db_name }"
+    puts "DB user: #{ db_user }"
+    file_name = File.join( File.join('db', 'dump'), "#{ dump_basename }#{ file_ext }" )
+    puts "\r\nProcessing #{ db_name } => #{ file_name } ...\r\n"
+    # To disable extended inserts, add this option: --skip-extended-insert
+    # (The Resulting SQL file will be much longer, though -- but the bzipped
+    #  version can result more compressed due to the replicated strings, and it is
+    #  indeed much more readable and editable...)
+    sh "mysqldump --host=#{ db_host } -u #{ db_user } --password=\"#{db_pwd}\" -l --triggers --routines -i --skip-extended-insert --no-autocommit --single-transaction #{ db_name } #{ zip_pipe } > #{ file_name }"
+    puts "\r\nRecovery dump created.\r\n\r\n"
+  end
+  #-- -------------------------------------------------------------------------
+  #++
+
+
+  desc <<-DESC
+  Recreates the current DB from a recovery dump created with db:dump.
+
+Options: [Rails.env=#{Rails.env}]
+         [from=dump_base_name|<#{Rails.env}>]
+         [to='production'|'development'|'test']
+
+  - from: when not specified, the source dump base name will be the same of the
+        current Rails.env
+
+  - to: when not specified, the destination database will be the same of the
+        current Rails.env
+
+  DESC
+  task :rebuild_from_dump => [ 'utils:script_status' ] do
+    puts "*** Task: DB rebuild from dump ***"
+                                                    # Prepare & check configuration:
+    rails_config  = Rails.configuration
+    db_name       = rails_config.database_configuration[Rails.env]['database']
+    db_user       = rails_config.database_configuration[Rails.env]['username']
+    db_pwd        = rails_config.database_configuration[Rails.env]['password']
+    db_host       = rails_config.database_configuration[Rails.env]['host']
+    dump_basename = ENV.include?("from") ? ENV["from"] : Rails.env
+    output_db     = ENV.include?("to")   ? rails_config.database_configuration[ENV["to"]]['database'] : db_name
+    file_ext      = '.sql.bz2'
+
+    rebuild_from_dump( dump_basename, output_db, db_host, db_user, db_pwd, file_ext )
+  end
+
+
+  # Performs the actual sequence of operations required by a single db:rebuild_from_dump
+  # task, given the specified parameters.
+  #
+  # The source_basename comes from the name of the file dump.
+  # Note that the dump takes the name of the Environment configuration section.
+  #
+  def rebuild_from_dump( source_basename, output_db, db_host, db_user, db_pwd, file_ext = '.sql.bz2' )
+    puts "\r\nRebuilding..."
+    puts "DB name: #{ source_basename } (dump) => #{ output_db } (DEST)"
+    puts "DB user: #{ db_user }"
+
+    file_name = File.join( File.join('db', 'dump'), "#{ source_basename }#{ file_ext }" )
+    sql_file_name = File.join( 'tmp', "#{ source_basename }.sql" )
+
+    puts "\r\nUncompressing dump file '#{ file_name }' => '#{ sql_file_name }'..."
+    sh "bunzip2 -ck #{ file_name } > #{ sql_file_name }"
+
+    puts "\r\nDropping destination DB '#{ output_db }'..."
+    sh "mysql --host=#{ db_host } --user=#{ db_user } --password=\"#{db_pwd}\" --execute=\"drop database if exists #{ output_db }\""
+    puts "\r\nRecreating destination DB..."
+    sh "mysql --host=#{ db_host } --user=#{ db_user } --password=\"#{db_pwd}\" --execute=\"create database #{ output_db }\""
+
+    puts "\r\nExecuting '#{ file_name }' on #{ output_db }..."
+    sh "mysql --host=#{ db_host } --user=#{ db_user } --password=\"#{db_pwd}\" --database=#{ output_db } --execute=\"\\. #{ sql_file_name }\""
+    puts "Deleting uncompressed file '#{ sql_file_name }'..."
+    FileUtils.rm( sql_file_name )
+
+    puts "Rebuild from dump for '#{ source_basename }', done.\r\n\r\n"
+  end
+  #-- -------------------------------------------------------------------------
+  #++
 
 
   desc <<-DESC
   Clones the development or production database to the test database (according to
-  Rails environment; default is obviously 'development').
-  Assumes development db name ends in '_development' and production db name doesn't
-  have any suffix.
+Rails environment; default is obviously 'development').
 
-  Options: [Rails.env=#{Rails.env}]
+Assumes development db name ends in '_development' and production db name doesn't
+have any suffix.
+
+Options: [Rails.env=#{Rails.env}]
 
   DESC
   task :clone_to_test => ['utils:script_status', 'utils:chk_needed_dirs'] do
@@ -152,23 +291,23 @@ It actually DROPS the Database, recreates it using a mysql shell command.
     puts "DB user: #{db_user}"
     file_name = File.join( output_folder, "#{db_name}-clone.sql" )
     puts "\r\nDumping #{db_name} on #{file_name} ...\r\n"
-    sh "mysqldump --host=#{db_host} -u #{db_user} -p#{db_pwd} --triggers --routines -i -e --no-autocommit --single-transaction #{db_name} > #{file_name}"
+    sh "mysqldump --host=#{db_host} -u #{db_user} --password=\"#{db_pwd}\" --triggers --routines -i -e --no-autocommit --single-transaction #{db_name} > #{file_name}"
     base_db_name = db_name.split('_development')[0]
     puts "\r\nDropping Test DB '#{base_db_name}_test'..."
-    sh "mysql --host=#{db_host} --user=#{db_user} --password=#{db_pwd} --execute=\"drop database if exists #{base_db_name}_test\""
+    sh "mysql --host=#{db_host} --user=#{db_user} --password=\"#{db_pwd}\" --execute=\"drop database if exists #{base_db_name}_test\""
     puts "\r\nRecreating DB..."
-    sh "mysql --host=#{db_host} --user=#{db_user} --password=#{db_pwd} --execute=\"create database #{base_db_name}_test\""
+    sh "mysql --host=#{db_host} --user=#{db_user} --password=\"#{db_pwd}\" --execute=\"create database #{base_db_name}_test\""
     puts "\r\nExecuting '#{file_name}' on #{base_db_name}_test..."
-    sh "mysql --host=#{db_host} --user=#{db_user} --password=#{db_pwd} --database=#{base_db_name}_test --execute=\"\\. #{file_name}\""
+    sh "mysql --host=#{db_host} --user=#{db_user} --password=\"#{db_pwd}\" --database=#{base_db_name}_test --execute=\"\\. #{file_name}\""
     puts "Deleting dump file '#{file_name}'..."
     FileUtils.rm( file_name )
 
     puts "Clone on Test DB done.\r\n\r\n"
   end
-  # ---------------------------------------------------------------------------
+  #-- -------------------------------------------------------------------------
+  #++
 
 end
-# =============================================================================
 # =============================================================================
 
 
@@ -209,13 +348,14 @@ Options: [db_version=<db_struct_version>] [bzip2=<1>|0]
     puts "extracted tables: " + ( ENV.include?("tables") ? tables : "(entire DB)" )
     file_name = File.join( backup_folder, ( ENV.include?("tables") ? "#{db_name}-update-tables#{file_ext}" : "#{db_name}-#{db_version}#{file_ext}" ) )
     puts "Creating #{file_name} ...\r\n"
-    sh "mysqldump --host=#{db_host} -u #{db_user} -p#{db_pwd} --add-drop-database --add-drop-table --extended-insert --triggers --routines --comments -c -i --no-autocommit --single-transaction -B #{db_name} #{zip_pipe} > #{file_name}"
+    sh "mysqldump --host=#{db_host} -u #{db_user} --password=\"#{db_pwd}\" --add-drop-database --add-drop-table --extended-insert --triggers --routines --comments -c -i --no-autocommit --single-transaction -B #{db_name} #{zip_pipe} > #{file_name}"
 
                                                     # Rotate the backups leaving only the newest ones:
     rotate_backups( backup_folder, max_backups )
     puts "Dump done.\r\n\r\n"
   end
-  # ---------------------------------------------------------------------------
+  #-- -------------------------------------------------------------------------
+  #++
 
 
   desc <<-DESC
@@ -246,7 +386,7 @@ Options: [exec_dir=#{DB_SEED_DIR}] [delete=1|<0>]
                                                     # For each file match in pathname recursively do "process file":
       Dir.glob( File.join(exec_folder, '*.sql'), File::FNM_PATHNAME ).sort.each do |subpathname|
         puts "executing '#{subpathname}'..."
-        sh "mysql --host=#{db_host} --user=#{db_user} --password=#{db_pwd} --database=#{db_name} --execute=\"\\. #{subpathname}\""
+        sh "mysql --host=#{db_host} --user=#{db_user} --password=\"#{db_pwd}\" --database=#{db_name} --execute=\"\\. #{subpathname}\""
         # TODO Eventually, capture output to a log file somewhere
                                                     # Kill the file if asked to do so:
         if ( ENV.include?("delete") && ENV.include?("delete") == '1' )
@@ -260,7 +400,8 @@ Options: [exec_dir=#{DB_SEED_DIR}] [delete=1|<0>]
 
     puts "SQL script execute done.\r\n\r\n"
   end
-  # ---------------------------------------------------------------------------
+  #-- -------------------------------------------------------------------------
+  #++
 end
 # =============================================================================
 # =============================================================================
@@ -303,10 +444,20 @@ DESC
       for log_filename in Dir.glob(File.join("#{curr_path}",'*.log'), File::FNM_PATHNAME)
         puts "Processing #{log_filename}..."
         Dir.chdir( backup_folder )
-        sh "tar --bzip2 -cf #{File.basename(log_filename, '.log') + time_signature + '.log.tar.bz2'} #{log_filename}"
+        # Make first a copy on /tmp, so that we may archive it even if it's currently
+        # being modified:
+        temp_file = File.join('/tmp', "#{ File.basename(log_filename) }")
+        puts "Making a temp. copy on #{temp_file}..."
+        sh "cp #{log_filename} #{ temp_file }"
+        puts "Archiving contents..."
+        sh "tar --bzip2 -cf #{File.basename(log_filename, '.log') + time_signature + '.log.tar.bz2'} #{temp_file}"
+        puts "Removing temp. file..."
+        FileUtils.rm( temp_file )
+        # (We'll leave the tar file just created under the log dir, so that the #rotate_backups
+        #  will be able to treat it properly.)
       end
     end
-    Dir.chdir( Rails.root.to_s )
+    Dir.chdir( Dir.pwd.to_s )
     puts "Truncating all current log files..."
     Rake::Task['log:clear'].invoke
     Rake::Task['utils:clear_output'].invoke
@@ -314,7 +465,8 @@ DESC
     rotate_backups( backup_folder, max_backups * 3 )
     puts "Done.\r\n\r\n"
   end
-  # ---------------------------------------------------------------------------
+  #-- -------------------------------------------------------------------------
+  #++
 
 
 desc <<-DESC
@@ -344,7 +496,8 @@ DESC
 
     puts "Done.\r\n"
   end
-  # ---------------------------------------------------------------------------
+  #-- -------------------------------------------------------------------------
+  #++
 
 
 desc <<-DESC
@@ -370,8 +523,8 @@ DESC
     end
     puts "Base Versioning update: done."
   end
-  # ---------------------------------------------------------------------------
-
+  #-- -------------------------------------------------------------------------
+  #++
 
 desc <<-DESC
 Updates the News log table with an entry stating that the application has been updated.
@@ -385,18 +538,18 @@ DESC
     db_version    = ENV.include?("db_version") ? ENV['db_version'] + '.' + time_signature : nil
     app_version   = ENV.include?("app_version") ? ENV['app_version'] + '.' + time_signature : SHORT_AGEX_VERSION
 
-# TODO [FUTUREDEV] include LeUser default id search
     puts "Logging the update into the news blog..."
     Article.create({
-      :title => "Aggiornamento dell'applicazione",
+      title: "Aggiornamento dell'applicazione",
 # TODO [FUTUREDEV] Localize this
-      :entry_text => "L'applicazione e' stata aggiornata e portata alla versione " + app_version +
-                     (db_version.nil? ? "" : ". La struttura del DB e' stata portata alla versione " + db_version) + ".",
-      :user_id => 1                                 # default user id (must be not null)
+      entry_text:  "L'applicazione e' stata aggiornata e portata alla versione " + app_version +
+             (db_version.nil? ? "" : ". La struttura del DB e' stata portata alla versione " + db_version) + ".",
+      user_id: 1 # default user id (must be not null)
     })
     puts "NewsLog update: done."
   end
-  # ----------------------------------------------------------------------------
+  #-- -------------------------------------------------------------------------
+  #++
 
 
 desc <<-DESC
@@ -413,7 +566,8 @@ DESC
   task :local => ['build:news_log','build:tar','sql:dump'] do
     puts "BUILD: LOCAL: done."
   end
-  # ----------------------------------------------------------------------------
+  #-- -------------------------------------------------------------------------
+  #++
 end
 # ==============================================================================
 
@@ -437,7 +591,7 @@ namespace :utils do
     puts "- ODT_OUTPUT_DIR  : #{ODT_OUTPUT_DIR}"
     puts "- UPLOADS_DIR     : #{UPLOADS_DIR}"
     puts "- DB_SEED_DIR     : #{DB_SEED_DIR}"
-    
+
     puts ""
   end
   # ----------------------------------------------------------------------------

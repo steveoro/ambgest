@@ -14,10 +14,17 @@ Ambgest3::Application.configure do
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
+  # Use a different cache store in production:
+  #config.cache_store = :memory_store, { size: 64.megabytes }
 
   config.action_mailer.perform_deliveries = false
   # Use this to disable delivery errors, and bad email addresses will be ignored:
   config.action_mailer.raise_delivery_errors = false
+
+  # [Steve, 20130716] mailer options used by Devise
+  config.action_mailer.default_url_options = {
+    :host => 'localhost:3000'
+  }
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
@@ -30,4 +37,14 @@ Ambgest3::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  # Use a different path for precompiling development assets:
+  config.assets.prefix = "/dev-assets"
+
+  # Allow 'better_errors' gem to output stack-trace on TRUSTED_IP (beyond localhost),
+  # launching the Rails server as:
+  #
+  # > TRUSTED_IP=192.168.0.xyz rails s
+  #
+  BetterErrors::Middleware.allow_ip! ENV['TRUSTED_IP'] if ENV['TRUSTED_IP']
 end

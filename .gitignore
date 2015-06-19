@@ -15,8 +15,10 @@
 custom_plan.rb
 zeus.json
 
-# Ignore the default SQLite database.
+# Ignore the default SQLite database and various DB backup dumps
 /db/*.sqlite3
+/db/dump/*
+db/dump/*
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
@@ -54,3 +56,4 @@ api_docs/*
 api_docs
 api_docs/sessions.txt
 bin
+db/dump/development.sql.bz2

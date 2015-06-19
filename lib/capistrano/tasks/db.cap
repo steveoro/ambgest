@@ -1,0 +1,255 @@
+# encoding: utf-8
+
+# == Capistrano helper tasks ==
+#
+# - author: Steve A.
+# - vers. : 4.00.785
+#
+# This requires Capistrano v. >= 3.1
+require "erb"
+
+
+namespace :db do
+  namespace :setup do
+
+    # Allows creation of a custom database.yml file, specific for each deployment,
+    # asking the specific MySQL password before file creation.
+    #
+    # Based upon an original extension recipe by Simone Carletti.
+    # http://www.simonecarletti.com/blog/2009/06/capistrano-and-database-yml/
+    #
+    desc <<-DESC
+      Creates the database.yml configuration file in shared path.
+
+      By default, this task uses a template unless a template
+      called database.yml.erb is found either inside :template_dir
+      or /config/deploy folders. The default template matches
+      the template for config/database.yml file shipped with Rails.
+
+      This task is automatically invoked after a deploy:setup, unless the
+      :skip_db_setup variable is set to true.
+
+      The internal template used to build the database configuration file can be
+      overridden placing a 'database.yml.erb' file inside the 'config/deploy'
+      subfolder.
+
+      The user for the db connection can be configured accordingly by editing this
+      deploy recipe.
+    DESC
+    task :config do
+      puts "      > Setup remote database.yml..."
+      on roles(:app) do |host|
+        default_template = <<-EOF
+production:
+  database: #{fetch(:application)}
+  adapter: mysql2
+  encoding: utf8
+  host: #{fetch(:db_name_for_config)}
+  port: 3306
+  username: #{fetch(:db_user)}
+  password: #{fetch(:db_password)}
+#  pool: 5
+#  timeout: 5000
+#  socket: #{fetch(:socket_path)}/mysql/mysql.sock
+EOF
+        location = fetch(:template_dir, "config/deploy") + '/database.yml.erb'
+        template = File.file?(location) ? File.read(location) : default_template
+        config = ERB.new(template)
+        run_locally do                              # Render the template to a temp file:
+          File.open('/tmp/database.yml', 'w') do |file|
+            file.puts config.result(binding)
+          end
+        end
+                                                    # Make sure directory exists and upload the file
+        within shared_path do
+          execute :mkdir, "-p config"
+        end
+        upload! '/tmp/database.yml', "#{shared_path}/config/database.yml"
+
+        run_locally do                              # Remove the local temp file:
+          puts "      > Removing local temp file..."
+          execute :rm, "/tmp/database.yml"
+        end
+      end
+    end
+    #-- -----------------------------------------------------------------------
+    #++
+  end
+  #-- -------------------------------------------------------------------------
+  #++
+
+
+  namespace :remote do
+    set :ask_src_sql_file_path, ask( "\r\nEnter the local (source) full pathname to the SQL file to be uploaded and executed remotely: ", nil )
+    set :ask_dest_sql_path,     ask( "\r\nEnter the destination PATH (no filename) for the SQL dump file: ", File.join("#{Dir.pwd}.docs", 'backup.db', 'history.gold') )
+
+
+    # Remote Production DB data upload tool.
+    #
+    desc <<-DESC
+      Executes on the Database server a specified SQL file, using the production database.
+
+      Please note that this task will ASSUME PRODUCTION DATABASE ALREADY EXISTS! (The task
+      uses the --database parameter of the mysql shell.)
+
+      If the SQL statement has to be executed on a not-yet existent production database,
+      run the migrations or "rake db:schema:load" locally first, to create the table structure.
+      (This is possible on the remote app server only if the cofingured application's database
+      user has enough privileges to create a whole new database from scratch.)
+
+      If the script already contains a specific "create database" statement, use
+      the task :sql_exec instead, since the latter does not specify the target database.
+    DESC
+    task :sql_upload do
+      puts "      > Launching db:remote:sql_upload..."
+      on roles(:app) do
+        file_name = fetch(:ask_src_sql_file_path)
+        info "Uploading file..."
+        upload! file_name, '/tmp/db_upload.sql'
+        within release_path do
+          execute :mysql, "-h#{fetch(:db_name_for_config)} -u#{fetch(:db_user)} --password=\"#{fetch(:db_password)}\" --database=#{fetch(:application)} -e \"\\. /tmp/db_upload.sql\""
+        end
+        info "Removing remote temp file..."
+        execute :rm, '/tmp/db_upload.sql'           # After execution remove temp file on dest host
+      end
+      puts "      db:remote:sql_upload done."
+    end
+    #-- -----------------------------------------------------------------------
+    #++
+
+
+    # Remote *generic* DB plain SQL execution tool.
+    #
+    desc <<-DESC
+      Executes on the Database server the specified SQL file, assuming it contains the
+      'use <database_name>' statement to specify which target DB will be addressed.
+
+      To upload and execute a compressed dump file, use the dedicated task instead.
+    DESC
+    task :sql_exec do
+      puts "      > Launching db:remote:sql_exec..."
+      on roles(:app) do
+        file_name = fetch(:ask_src_sql_file_path)
+
+        info "Uploading file..."
+        upload! file_name, "/tmp/invitation.xhtml"
+        within release_path do
+          execute :mysql, "-h#{fetch(:db_name_for_config)} -u#{fetch(:db_user)} --password=\"#{fetch(:db_password)}\" -e \"\\. /tmp/db_upload.sql\""
+        end
+        info "Removing remote temp file..."
+        execute :rm, '/tmp/db_upload.sql'           # After execution remove temp file on dest host
+      end
+      puts "      db:remote:sql_exec done."
+    end
+    #-- -----------------------------------------------------------------------
+    #++
+
+
+    # Remote DB dump uloader & executor.
+    #
+    desc <<-DESC
+      Uploads the local production recovery dump to the server and executes it.
+      (The dump is assumed to be stored as 'db/dump/production.sql.bz2')
+
+      This will in turn:
+      - upload the local, compressed production dump;
+      - stop Apache
+      - expand the file
+      - drop the production DB
+      - recreate the empty DB
+      - execute the uncompressed dump file on the new, empty, production DB
+      - remove the temp. files
+      - finally, start Apache
+
+      This remote Capistrano task may prove useful each time a production dump has
+      been updated locally but a new release of the app has not been scheduled for
+      a while.
+
+      (The alternative method to upload a recovery dump is to commit it in the repo
+       and issue a cap deploy command + a separate remote db:rebuild_from_dump task
+       afterwards.)
+    DESC
+    task :dump_upload do
+      source_file = File.join( Dir.pwd, 'db', 'dump', 'production.sql.bz2' )
+      ssh_keys = fetch(:ssh_keys)
+      use_pem_certificate = (ssh_keys.first =~ /\.pem$/)
+
+      on roles(:app) do
+        # This may not work for binary files as it is:
+        info "Uploading file..."
+        upload! source_file, '/tmp/production.sql.bz2'
+
+        info "Shutting down Apache during the rebuild..."
+        execute '/etc/init.d/apache2 stop'
+
+        info "Unzipping remote temp file..."
+        execute :bunzip2, '-c /tmp/production.sql.bz2 > /tmp/production.sql'
+        info "Removing remote compressed file..."
+        execute :rm, '/tmp/production.sql.bz2'
+
+        info "Dropping production DB..."
+        execute :mysql, "-h#{fetch(:db_name_for_config)} -u#{fetch(:db_user)} --password=\"#{fetch(:db_password)}\" --execute=\"drop database if exists #{ fetch(:application) }\""
+        info "Recreating production DB..."
+        execute :mysql, "-h#{fetch(:db_name_for_config)} -u#{fetch(:db_user)} --password=\"#{fetch(:db_password)}\" --execute=\"create database #{ fetch(:application) }\""
+        info "Executing remote extracted file..."
+        execute :mysql, "-h#{fetch(:db_name_for_config)} -u#{fetch(:db_user)} --password=\"#{fetch(:db_password)}\" --database=#{ fetch(:application) } -e \"\\. /tmp/production.sql\""
+
+        info "Removing remote temp dump file..."
+        execute :rm, '/tmp/production.sql'          # After execution remove temp file on dest host
+
+        info "Restarting Apache..."
+        execute '/etc/init.d/apache2 start'
+      end
+      puts "\r\nDone."
+    end
+    #-- -----------------------------------------------------------------------
+    #++
+
+
+    # Remote DB dump & retrieval tool.
+    #
+    desc <<-DESC
+      Retrieves a full dump of the remote production Database.
+
+      The dump is executed remotely, archived temporarely as a bzipped SQL file,
+      retrieved and saved locally in a prompted directory.
+    DESC
+    task :sql_dump do
+      puts "      > Launching db:remote:sql_dump..."
+      zip_pipe = ' | bzip2 -c'
+      file_name = "#{fetch(:application)}-#{release_timestamp}.sql.bz2"
+      dest_path = fetch(:ask_dest_sql_path)
+
+      run_locally do
+        if test("[ -d #{dest_path} ]")
+          puts "      > Directory #{dest_path} found."
+        else
+          puts "      > Directory #{dest_path} is missing locally."
+          puts "      > Safely (re)creating directory before downloading dump file..."
+          execute :mkdir, "-p #{dest_path}"
+        end
+      end
+      on roles(:app) do
+        puts "      > Executing the SQL dump..."
+        # To disable extended inserts, add this option: --skip-extended-insert
+        # (The Resulting SQL file will be much longer, though -- but the bzipped
+        #  version can result more compressed due to the replicated strings, and it is
+        #  indeed much more readable and editable...)
+        execute :mysqldump, "-h#{fetch(:db_name_for_config)} -u#{fetch(:db_user)} --password=\"#{fetch(:db_password)}\" -l -f --triggers --routines -i --skip-extended-insert --no-autocommit --single-transaction #{fetch(:application)} #{zip_pipe} > /tmp/#{file_name}"
+        info "Retrieving the file..."
+        download! "/tmp/#{file_name}", File.join(dest_path, file_name)
+        info "Removing remote temp file..."
+        execute :rm, "/tmp/#{file_name}"
+      end
+      puts "      db:remote:sql_dump done."
+    end
+    #-- -----------------------------------------------------------------------
+    #++
+  end
+  #-- -------------------------------------------------------------------------
+  #++
+end
+
+
+# Custom hooks:
+before 'deploy:check:linked_files', 'db:setup:config'

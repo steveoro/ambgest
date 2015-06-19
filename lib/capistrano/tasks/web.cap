@@ -1,0 +1,123 @@
+# encoding: utf-8
+
+# == Capistrano helper tasks ==
+#
+# - author: Steve A.
+# - vers. : 4.00.785
+#
+# This requires Capistrano v. >= 3.2
+require "erb"
+
+
+namespace :web do
+  namespace :setup do
+    desc <<-DESC
+      Appends a new Virtual Host definition to the Apache2 configuration for this app.
+
+      This should be executed just once, upon setup of the web server.
+      Apache2 must be already installed and configured, otherwise the task will fail.
+
+      This task is automatically invoked after a deploy:setup, unless the
+      :skip_vhost_setup variable is set to true.
+
+      The internal template used to build the vhost configuration file can be
+      overridden placing a 'vhost.erb' file inside the 'config/deploy' subfolder.
+
+      Remember to enable mod_rewrite in Apache2 configuration file for the
+      'cap <servername> deploy:web:[enable|disable]' commands.
+    DESC
+    task :vhost_add do
+      puts "      > Setup remote #{fetch(:web_vhost_conf)}..."
+      on roles(:web) do |host|
+        default_template = <<-EOF
+
+  ### #{fetch(:application)} ###
+  #
+  <VirtualHost *:#{fetch(:web_server_port)}>
+    ServerName      #{host}
+    ServerAdmin     #{fetch(:deploy_user)}@#{host}
+    DocumentRoot    #{current_path}/public
+    ErrorLog        #{current_path}/log/error.log
+    CustomLog       #{current_path}/log/access.log combined
+    RewriteEngine   On
+    RewriteCond     %{DOCUMENT_ROOT}/system/maintenance.html -f
+    RewriteCond     %{SCRIPT_FILENAME} !maintenance.html
+    RewriteRule     ^.*$ /system/maintenance.html [R]
+
+    # This hides the release root folder from being readable:
+    <Directory #{deploy_path}>
+      AllowOverride None
+      Options FollowSymLinks
+      Order deny,allow
+      Deny from all
+    </Directory>
+
+    # -- To use the following as a speed-up, mod_x_sendfile must be precompiled and added manually --
+    # Enable mod_x_sendfile for downloading output files from rails app:
+    RequestHeader Set X-Sendfile-Type X-Sendfile
+    XSendFile on
+    XSendFilePath /
+
+    # The actual web app. public root folder:
+    <Directory #{current_path}/public>
+      PassengerEnabled on
+      PassengerResolveSymlinksInDocumentRoot on
+      Allow from all
+      Options -MultiViews
+      Options FollowSymLinks
+      Order allow,deny
+    </Directory>
+
+    # Pre-compiled assets with far-future headers for caching:
+    <LocationMatch "^/assets/.*$">
+      Header unset ETag
+      FileETag None
+      # RFC says only cache for 1 year
+      ExpiresActive On
+      ExpiresDefault "access plus 1 year"
+    </LocationMatch>
+  </VirtualHost>
+
+
+EOF
+        # FIXME To allow actual ADD of a new vhost: (since there's no more 'put append' in Cap3)
+        # TODO - test existance of remote ip-based_vhosts.config
+        # TODO - if existing, copy to local temp file and append rendered template to it
+        # TODO (then proceed as below)
+
+        run_locally do                              # Render the template to a temp file:
+          location = fetch(:template_dir, "config/deploy") + '/vhost.erb'
+          template = File.file?(location) ? File.read(location) : default_template
+          config = ERB.new(template)
+          File.open('/tmp/temp_vhosts.conf', 'w') do |file|
+            file.puts config.result(binding)
+          end
+        end
+
+        upload! '/tmp/temp_vhosts.conf', fetch(:web_vhost_conf)
+
+        run_locally do                              # Remove the local temp file:
+          execute :rm, "/tmp/temp_vhosts.conf"
+        end
+
+        # [Steve, 20150507] This is required only for Ubuntu's Apache2 setup:
+        if test("[ /usr/sbin/a2ensite ]")
+          execute :a2ensite, fetch(:application)
+        end
+      end
+    end
+    # -------------------------------------------------------------------------
+
+
+    # Erases the remote Apache2 vhost configuration file
+    #
+    desc "Erases the remote Apache2 vhost configuration file."
+    task :vhost_erase do
+      on roles(:web) do
+        execute :rm, fetch(:web_vhost_conf)
+      end
+    end
+    # -------------------------------------------------------------------------
+  end
+
+end
