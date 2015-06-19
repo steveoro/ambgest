@@ -3,13 +3,14 @@
 # == Capistrano helper tasks ==
 #
 # - author: Steve A.
-# - vers. : 4.00.809
+# - vers. : 4.00.810
 #
 # This requires Capistrano v. >= 3.4
 require "erb"
 
 
 namespace :app do
+
   namespace :setup do
     desc <<-DESC
       Creates a custom production environment file in shared path.
@@ -191,10 +192,27 @@ namespace :app do
     # --------------------------------------------------------------------------
   end
   # ============================================================================
+
+
+  desc "Handles PGP key installation for RVM updates"
+  task :update_rvm_key do
+    sh "gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3"
+  end
 end
 
 
+# RVM: (rvm-capistrano gem hooks)
+#
+#before 'rvm1:install:rvm', 'app:update_rvm_key'       # Handle PGP keys for RVM update
+
+# Uncommenting this will run an update of RVM for *each* deploy time:
+# before 'deploy', 'rvm1:install:rvm'                   # Install/update RVM
+# before 'deploy', 'rvm1:install:ruby'                  # Install/update Ruby
+# before 'deploy', 'rvm1:install:gems'                  # Install/update gems from Gemfile into gemset
+
+
 # Custom hooks:
+#
 before 'deploy:check:linked_files', 'app:setup:prod_env'
 before 'deploy:check:linked_files', 'app:setup:shared_extjs'
 before 'deploy:check:linked_files', 'app:setup:common_output'

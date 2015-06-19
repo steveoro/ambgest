@@ -70,6 +70,8 @@ group :development do
   gem 'capistrano-bundler' #, '~> 1.1.2'
   gem 'capistrano-rails' #, '~> 1.1'
   gem 'capistrano-passenger'
+
+#  gem 'rvm1-capistrano3', require: false            # RVM's plugin for Capistrano 3
   gem 'net-ssh', '~> 2.9.2'
 end
 

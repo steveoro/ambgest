@@ -2,7 +2,7 @@ module Version
   # [Steve, 20080414]
   # ** DO NOT CHANGE THE FOLLOWING UNLESS YOU KNOW WHAT YOU'RE DOING!! **
   MAJOR   = '3.10'
-  MINOR   = '01'
+  MINOR   = '02'
   BUILD   = '20150619'
 
   # Internal constant used to discriminate between all the existing and

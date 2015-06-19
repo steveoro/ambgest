@@ -19,5 +19,7 @@ require 'capistrano/console'
 # require 'capistrano/rbenv'
 # require 'capistrano/chruby'
 
+#require 'rvm1/capistrano3'                          # Plugin for Capistrano 3 from RVM
+
 # Loads custom tasks from `lib/capistrano/tasks' if you have any defined.
 Dir.glob('lib/capistrano/tasks/*.cap').each { |r| import r }
