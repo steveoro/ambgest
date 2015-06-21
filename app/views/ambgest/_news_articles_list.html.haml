@@ -1,0 +1,15 @@
+- if @articles
+  - for article in @articles
+    %div{'class'=>"alert alert-success", 'id'=>"feed#{article.id}"}
+      = button_tag( type:'button', id: "bntClose#{article.id}", 'data-dismiss'=>'alert', class: 'close' ) do
+        &times;
+      = content_tag( :h4, article.title, class:( article.is_sticky ? 'text-warning' : 'text-info') )
+      %br
+      %p= article.entry_text.html_safe
+      %small= "#{article.user_name}, #{Format.a_datetime( article.updated_on )}"
+- if @articles.nil? || (@articles && @articles.length == 0)
+  %p{style: "text-align: center"}
+    %i= t(:no_new_articles)
+
+%p
+  %hr
