@@ -178,6 +178,7 @@ class ReceiptsController < ApplicationController
       header_data << row.prepare_report_header_hash( options[:use_alt_receipt_title] ? :alt_receipt_title : nil )
       detail_data << row.prepare_report_detail()
     }
+    versioning = AppParameter.find_by_code( AppParameter::PARAM_VERSIONING_CODE )
 
     result_hash = {                                 # Prepare result hash:
       :report_title       => report_title,
