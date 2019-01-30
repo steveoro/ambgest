@@ -39,7 +39,7 @@ class ReceiptsController < ApplicationController
   #
   # - <tt>:use_alt_receipt_title</tt> => when not nil, the localized symbol <tt>:alt_receipt_title</tt> will be used instead of <tt>:receipt</tt>.
   #
-  # - <tt>:date_from_lookup</tt> / <tt>:date_to_lookup</tt> => 
+  # - <tt>:date_from_lookup</tt> / <tt>:date_to_lookup</tt> =>
   #   String dates representing the starting and ending filter range for this collection of rows.
   #   Both are not required (none, one or both can be supplied as options).
   #
@@ -158,7 +158,7 @@ class ReceiptsController < ApplicationController
       raise ArgumentError, "receipts_controller.prepare_report_data_hash(): invalid header_record parameter!", caller
     end
                                                     # == CURRENCY == Store currency name for later usage:
-    currency_name  = 
+    currency_name  =
     currency_short = header_record.get_currency_symbol
 
                                                     # Compute the report title and the base name for the file:
@@ -195,8 +195,8 @@ class ReceiptsController < ApplicationController
                              "\r\nNum. Albo Ordine dei Medici: 1095" <<
                              "\r\nC.F. LLR LRD 39L02 E922Y - P.IVA 00297970352",
       :footer_stamp       => I18n.t( :legal_stamp ),
-      :footer_comments    => I18n.t( :footer_comments ),
-      :footer_smallprint  => I18n.t( :footer_smallprint ),
+      :footer_comments    => versioning.free_text_1, # [Steve, 20190130] Was: I18n.t( :footer_comments )
+      :footer_smallprint  => versioning.free_text_2, # [Steve, 20190130] Was: I18n.t( :footer_smallprint )
 
       :label_hash         => label_hash,              # (This should be already translated and containing all the required label symbols)
       :header_data        => header_data,
@@ -218,7 +218,7 @@ class ReceiptsController < ApplicationController
   # == Parameters:
   # - <tt>report_data_hash</tt> => the output hash returned by <tt>prepare_report_data_hash()</tt>
   # - +filetype+ => the format of the output text ('txt', 'simple.csv', ...)
-  # - +separator+ 
+  # - +separator+
   # - <tt>use_layout</tt> => the symbol of the data export layout to be used (either <tt>:flat</tt> or <tt>:tab</tt> [default])
   #   (both usable for CSV and TXT output files)
   # - <tt>skip_header</tt> => when +true+, the header of the output will be skipped.
